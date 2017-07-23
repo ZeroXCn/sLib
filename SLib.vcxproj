@@ -1,0 +1,123 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C9185495-1E74-4766-BD1A-13C7374373C1}</ProjectGuid>
+    <RootNamespace>SLib</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="sCore\SAbstractClock.h" />
+    <ClInclude Include="sCore\SARGB.hpp" />
+    <ClInclude Include="sCore\SAsyncTask.h" />
+    <ClInclude Include="sCore\SBoolean.h" />
+    <ClInclude Include="sCore\SCalendar.h" />
+    <ClInclude Include="sCore\SCharacter.h" />
+    <ClInclude Include="sCore\SDebug.h" />
+    <ClInclude Include="sCore\SDelayClock.h" />
+    <ClInclude Include="sCore\SDouble.h" />
+    <ClInclude Include="sCore\SException.h" />
+    <ClInclude Include="sCore\SFloat.h" />
+    <ClInclude Include="sCore\SFrequencyClock.h" />
+    <ClInclude Include="sCore\SInteger.h" />
+    <ClInclude Include="sCore\SMediaClock.h" />
+    <ClInclude Include="sCore\SObject.h" />
+    <ClInclude Include="sCore\SRunnable.h" />
+    <ClInclude Include="sCore\SSharedPtr.h" />
+    <ClInclude Include="sCore\SString.h" />
+    <ClInclude Include="sCore\SStringList.h" />
+    <ClInclude Include="sCore\SThread.h" />
+    <ClInclude Include="sCore\STimer.h" />
+    <ClInclude Include="sUi\SAbstractInput.h" />
+    <ClInclude Include="sUi\SApplication.h" />
+    <ClInclude Include="sUi\SKeyBoardInput.h" />
+    <ClInclude Include="sUi\SLabel.h" />
+    <ClInclude Include="sUi\SMessageHandler.h" />
+    <ClInclude Include="sUi\SWidget.h" />
+    <ClInclude Include="sUi\SWindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sCore\SAsyncTask.cpp" />
+    <ClCompile Include="sCore\SDebug.cpp" />
+    <ClCompile Include="sCore\SDelayClock.cpp" />
+    <ClCompile Include="sCore\SException.cpp" />
+    <ClCompile Include="sCore\SFrequencyClock.cpp" />
+    <ClCompile Include="sCore\SMediaClock.cpp" />
+    <ClCompile Include="sCore\SObject.cpp" />
+    <ClCompile Include="sCore\SRunnable.cpp" />
+    <ClCompile Include="sCore\SSharedPtr.cpp" />
+    <ClCompile Include="sCore\SString.cpp" />
+    <ClCompile Include="sCore\SStringList.cpp" />
+    <ClCompile Include="sCore\SThread.cpp" />
+    <ClCompile Include="sCore\STimer.cpp" />
+    <ClCompile Include="sUi\SAbstractInput.cpp" />
+    <ClCompile Include="sUi\SApplication.cpp" />
+    <ClCompile Include="sUi\SLabel.cpp" />
+    <ClCompile Include="sUi\SMessageHandler.cpp" />
+    <ClCompile Include="sUi\SWidget.cpp" />
+    <ClCompile Include="sUi\SWindow.cpp" />
+    <ClCompile Include="test.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

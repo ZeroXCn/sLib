@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="sLib">
+      <UniqueIdentifier>{2cd9f8a2-ad82-405f-8841-e3a2b40f7860}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sLib\sCore">
+      <UniqueIdentifier>{8fa65b0c-a20d-4420-ad71-9df9b40baf23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sLib\sCore\head">
+      <UniqueIdentifier>{3ce13655-53e1-478e-8df7-475e7ee31061}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sLib\sCore\source">
+      <UniqueIdentifier>{2dd605de-c39b-4803-868b-1ce79d73246c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sLib\sUi">
+      <UniqueIdentifier>{c2107838-c932-4204-81e5-bfeb8aa2311f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sLib\sUi\head">
+      <UniqueIdentifier>{d8f18fbd-292e-4315-b3a5-7c0a2696cbae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sLib\sUi\source">
+      <UniqueIdentifier>{f8a46039-551c-4b3a-9698-c76ef131254e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="sUi\SAbstractInput.h">
+      <Filter>sLib\sUi\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SApplication.h">
+      <Filter>sLib\sUi\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SKeyBoardInput.h">
+      <Filter>sLib\sUi\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SLabel.h">
+      <Filter>sLib\sUi\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SWidget.h">
+      <Filter>sLib\sUi\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SWindow.h">
+      <Filter>sLib\sUi\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SAbstractClock.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SAsyncTask.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SBoolean.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SCalendar.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SCharacter.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SDebug.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SDelayClock.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SDouble.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SException.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SFloat.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SFrequencyClock.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SInteger.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SMediaClock.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SObject.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SRunnable.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SString.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SStringList.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SThread.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\STimer.h">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SARGB.hpp">
+      <Filter>sLib\sCore\head</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SMessageHandler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SSharedPtr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="sCore\SAsyncTask.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SDebug.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SDelayClock.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SFrequencyClock.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SMediaClock.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SRunnable.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SString.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SStringList.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SThread.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\STimer.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="test.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SAbstractInput.cpp">
+      <Filter>sLib\sUi\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SApplication.cpp">
+      <Filter>sLib\sUi\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SLabel.cpp">
+      <Filter>sLib\sUi\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SWidget.cpp">
+      <Filter>sLib\sUi\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SWindow.cpp">
+      <Filter>sLib\sUi\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SException.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SObject.cpp">
+      <Filter>sLib\sCore\source</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SMessageHandler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SSharedPtr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
