@@ -1,7 +1,7 @@
 /**
 *
-*	SObject类,所有S类的基类
-*	
+*	SObject类
+*	所有S类的基类
 *	@author ZeroX
 *	@version v1.0 22/07/2017(22/07/2017)
 *

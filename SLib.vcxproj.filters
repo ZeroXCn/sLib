@@ -36,13 +36,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sUi\SAbstractInput.h">
-      <Filter>sLib\sUi\head</Filter>
-    </ClInclude>
     <ClInclude Include="sUi\SApplication.h">
-      <Filter>sLib\sUi\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sUi\SKeyBoardInput.h">
       <Filter>sLib\sUi\head</Filter>
     </ClInclude>
     <ClInclude Include="sUi\SLabel.h">
@@ -111,14 +105,26 @@
     <ClInclude Include="sCore\STimer.h">
       <Filter>sLib\sCore\head</Filter>
     </ClInclude>
-    <ClInclude Include="sCore\SARGB.hpp">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
     <ClInclude Include="sUi\SMessageHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sCore\SSharedPtr.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SWindowInputEvent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SWindowActivityEvent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SGraphics.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SGraphics2D.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SARGB.hpp">
+      <Filter>sLib\sCore\head</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -155,9 +161,6 @@
     <ClCompile Include="test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="sUi\SAbstractInput.cpp">
-      <Filter>sLib\sUi\source</Filter>
-    </ClCompile>
     <ClCompile Include="sUi\SApplication.cpp">
       <Filter>sLib\sUi\source</Filter>
     </ClCompile>
@@ -180,6 +183,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sCore\SSharedPtr.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SWindowActivityEvent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SWindowInputEvent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SGraphics.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SGraphics2D.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

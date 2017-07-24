@@ -1,6 +1,5 @@
 #include "SLabel.h"
 
-
 void SLabel::SetText(LPTSTR szText)
 {
 	lstrcpy(m_text, szText);
@@ -62,7 +61,7 @@ int SLabel::GetMode()
 	return m_nMode;
 }
 ////
-BOOL SLabel::OnCreate()
+BOOL SLabel::Create()
 {
 	SetClassName(TEXT("Label"));
 	SetTitle(TEXT("Label"));
@@ -71,6 +70,6 @@ BOOL SLabel::OnCreate()
 	SetWidth(0);
 	SetHeight(0);
 
-	return SWidget::OnCreate();
+	return SWidget::Create();
 
 }

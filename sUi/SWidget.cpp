@@ -288,10 +288,10 @@ void SWidget::RePaint()
 	}
 	
 }
-///////////////////////////////////////////////////////////////////
 
 
-BOOL SWidget::OnCreate()
+//创建控件
+BOOL SWidget::Create()
 {
 	//IMPORTMENT:如果回调函数中没有对WM_NCCREATE消息进行处理会导致返回 NULL
 	//TODO:m_szClassName与m_szTitle如果与其他控件重名会产生冲突
@@ -304,11 +304,11 @@ BOOL SWidget::OnCreate()
 		m_nPosY,									//设置窗口左上角Y坐标	
 		m_nWidth,									//设置窗口宽度 + 10是为了与实际大小一致
 		m_nHeight,									//设置窗口高度 + 8原因同上
-		m_pParent ? m_pParent->GetWnd():NULL,		//父窗口句柄
+		m_pParent ? m_pParent->GetWnd() : NULL,		//父窗口句柄
 		m_hMenu,									//菜单的句柄
 		m_hInstance,								//程序实例句柄
 		m_lpParam);									//传递给消息函数的指针
-		
+
 	if (!m_hWnd){									//如果窗口建立失败则返回FALSE
 		return FALSE;
 	}
@@ -318,28 +318,7 @@ BOOL SWidget::OnCreate()
 	return TRUE;
 }
 
-
-//控件创建之后
-BOOL SWidget::OnCreated()
-{
-	return TRUE;
-}
-
-//控件销毁
-void SWidget::OnDestroy()
-{
-	//TODO:控件销毁操作
-}
-
-//创建控件
-BOOL SWidget::Create()
-{
-	if (m_hWnd)
-		return OnCreate();
-	return NULL;
-}
-
 //销毁控件
 void SWidget::Destroy(){
-	OnDestroy();
+	//TODO:容我想想该写写什么...
 }

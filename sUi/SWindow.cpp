@@ -21,6 +21,9 @@ void SWindow::Init()
 
 	m_bIsRunning = TRUE;
 
+	m_InputEvent = (SWindowInputEvent *) this;
+	m_ActivityEvent = (SWindowActivityEvent *) this;
+
 	SApplication::GetApp()->RegisterWindow(this);
 }
 
@@ -157,11 +160,15 @@ void SWindow::SetRunning(BOOL bRunning)
 	m_bIsRunning = bRunning;
 }
 
+BOOL SWindow::IsCreated()
+{
+	return m_hWnd?TRUE:FALSE;
+}
 
 /////
 void SWindow::DoModal()
 {
-	if (!m_hWnd){
+	if (!IsCreated()){
 		if (Create()){
 			Show();
 			OnRun();
@@ -177,7 +184,7 @@ void SWindow::Show()
 }
 void SWindow::Show(int nCmdShow)
 {
-	if (!m_hWnd){
+	if (!IsCreated()){
 		Start();	//开启线程
 	}
 	else SWidget::Show(nCmdShow);
@@ -199,62 +206,62 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	switch (message)
 	{
 	case WM_CREATE:					//窗口建立消息:CreateWindow函数请求创建窗口时发送此消息
-		OnCreated();
+		m_ActivityEvent->OnCreate();
 		break;
 
 	case WM_PAINT:					//窗口重绘消息
-		OnPaint();
+		m_ActivityEvent->OnPaint(hWnd);
 		break;
-
+		
 	case WM_KEYDOWN:				//按键消息  
-
+		m_InputEvent->OnKeyDown(hWnd, wParam);
 		break;
 	case WM_KEYUP:					//按键消息  
-
+		m_InputEvent->OnKeyUp(hWnd, wParam);
 		break;
 
 	case WM_LBUTTONDOWN:			//鼠标左键按下消息
-
+		m_InputEvent->OnMouseLButtonDown(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_LBUTTONUP:				//鼠标左键弹起消息
-
+		m_InputEvent->OnMouseLButtonUp(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_MOUSEWHEEL:				//鼠标滚轮事件
-
+		m_InputEvent->OnMouseWheel(hWnd, wParam);
 		break;
 
 	case WM_LBUTTONDBLCLK:			//鼠标左键双击消息
-
+		m_InputEvent->OnMouseDoubleClick(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_RBUTTONDOWN:			//鼠标右键按下消息
-
+		m_InputEvent->OnMouseRButtonDown(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 	case WM_RBUTTONUP:				//鼠标右键弹起消息
-
+		m_InputEvent->OnMouseLButtonUp(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_MOUSEMOVE:				//鼠标移动消息
-
+		m_InputEvent->OnMouseMove(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_SETFOCUS:				//游戏窗口得到焦点消息
-		OnGetFocus();
+		m_ActivityEvent->OnGetFocus();
 		break;
 
 	case WM_KILLFOCUS:				//游戏窗口失去焦点消息
-		OnLostFocus();
+		m_ActivityEvent->OnLostFocus();
 		break;
 
 	case WM_CLOSE:					//窗口关闭消息
-		if (OnClose())				//窗口关闭前的处理
+		if (m_ActivityEvent->OnClose(hWnd))				//窗口关闭前的处理
 			DestroyWindow(hWnd);	//发出销毁窗口消息
 		break;
 
 	case WM_DESTROY:				//程序销毁消息
-		OnDestory();
+		m_ActivityEvent->OnDestory();
 		PostQuitMessage(0);			//DOUBT:不靠谱,并不是退出自身的,会造成接收不到WM_QUIT消息
 		break;
 		//case	WM_SYSCOMMAND //系统菜单命令：最大化按钮，最小化按，复原按钮，关闭按钮;与用户菜单命令WM_COMMAND有区别哦
@@ -267,8 +274,43 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	return 0;
 }
 
-BOOL SWindow::OnCreate()
+
+void SWindow::OnRun()
 {
+	MSG msg;											//定义消息结构
+
+	/* 消息循环 */
+	while (m_bIsRunning)
+	{
+		//NOTE:如果第二参数为m_hWnd会导致无法接收WM_QUIT消息
+		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))	//接收消息
+		{
+			if (msg.message == WM_QUIT)					//如果是退出消息，则退出循环
+				break;
+				
+			TranslateMessage(&msg);						//将虚拟键消息转换为字符消息
+			DispatchMessage(&msg);						//处理消息
+		}
+		else
+		{
+			OnEvent();//窗口事件循环
+
+		}
+	}
+	//销毁窗口
+	Unsubclass(m_hWnd);									//解除绑定消息函数
+	SApplication::GetApp()->QuitWindow(this);			//通知主线程,线程结束
+}
+
+void SWindow::OnEvent()
+{
+	//TODO:主要循环的事件:逻辑事件
+}
+
+
+//创建控件
+BOOL SWindow::Create(){
+
 	WNDCLASSEX wcApp;							//声明窗口类
 	wcApp.cbSize = sizeof(wcApp);
 
@@ -279,12 +321,12 @@ BOOL SWindow::OnCreate()
 	wcApp.hInstance = m_hInstance;								//指定义窗口应用程序的句柄
 	wcApp.cbWndExtra = 0;										//指向窗口过程函数的指针. 可以使用 CallWindowProc函数调用窗口过程.
 	wcApp.cbClsExtra = 0;										//指定紧跟在类之后的附加内存空间的字节数. 系统初始化为0.
-	wcApp.hIconSm = m_wIcon?LoadIcon(m_hInstance, MAKEINTRESOURCE(m_wIcon)):NULL;			//加载程序图标（大）
-	wcApp.hIcon = m_wSmallIcon?LoadIcon(m_hInstance, MAKEINTRESOURCE(m_wSmallIcon)):NULL;	//加载程序图标（小）
+	wcApp.hIconSm = m_wIcon ? LoadIcon(m_hInstance, MAKEINTRESOURCE(m_wIcon)) : NULL;			//加载程序图标（大）
+	wcApp.hIcon = m_wSmallIcon ? LoadIcon(m_hInstance, MAKEINTRESOURCE(m_wSmallIcon)) : NULL;	//加载程序图标（小）
 	wcApp.hCursor = LoadCursor(NULL, IDC_ARROW);				//加载鼠标样式
 	wcApp.hbrBackground = (HBRUSH)(COLOR_WINDOW);				//设置窗口背景色
 	wcApp.lpszMenuName = NULL;									//设置窗口没有菜单
-	
+
 	//注册窗口类
 	//DOUBT:没Create之前已经开始消息的发送,此时m_hWnd仍为空,所以必须找方法在RegisterClassEx()之前设置m_hWnd
 	if (!RegisterClassEx(&wcApp))
@@ -361,100 +403,19 @@ BOOL SWindow::OnCreate()
 	m_nWidth += 10;
 	m_nHeight += 8;
 
-	BOOL lresult=SWidget::OnCreate();
-	if (lresult)Subclass(m_hWnd);		//绑定消息函数
-	return lresult;
-}
+	SetParam((SMessageHandler *)this);	//设置参数,让消息顺序能正确执行到对象消息,必须带上类型
 
-//控件创建之后
-BOOL SWindow::OnCreated()
-{
-	return FALSE;
-}
-
-
-void SWindow::OnRun()
-{
-	MSG msg;					//定义消息结构
-
-	/* 消息循环 */
-	while (m_bIsRunning)
+	if (SWidget::Create())
 	{
-		//NOTE:这里不能填句柄,应该以线程为基准,否则服务获取不到消息
-		if (PeekMessage(&msg, m_hWnd, 0, 0, PM_REMOVE))	//接收消息
-		{
-			if (msg.message == WM_QUIT)		//如果是退出消息，则退出循环
-				break;
-
-			TranslateMessage(&msg);			//将虚拟键消息转换为字符消息
-			DispatchMessage(&msg);			//处理消息
-		}
-		else
-		{
-			//DOUBT:这里没执行到,怎么回事???????
-			//DOUBT:如果上面为PeekMessage(&msg, m_hWnd, 0, 0, PM_REMOVE)则只有窗口关闭时才执行这里,但不在
-			//窗口事件循环
-			OnEvent();
-
-		}
-	}
-	//销毁窗口
-	Unsubclass(m_hWnd);									//解除绑定消息函数
-	SApplication::GetApp()->QuitWindow(this);			//通知主线程,线程结束
-}
-
-void SWindow::OnEvent()
-{
-	//TODO:主要循环的事件:逻辑事件
-}
-
-void SWindow::OnPaint()
-{
-	//TODO:负责窗口绘制工作,并且绘制其下子控件
-
-}
-
-//关闭窗口
-BOOL SWindow::OnClose()
-{
-	//DOUBT:这里的MessageBox无法正常显示,待解决
-	/*
-	if (MessageBox(NULL, TEXT("你确定要退出吗？"), TEXT("退出程序"), MB_YESNO | MB_DEFBUTTON2 | MB_ICONASTERISK) == IDYES)
+		Subclass(m_hWnd);		//绑定消息函数
 		return TRUE;
-	else
-		return FALSE;
-	*/
-	return TRUE;
-}
-
-//销毁窗口
-void SWindow::OnDestory()
-{
-	//TODO:做销毁前最后的操作
-	
-}
-
-//取得窗口焦点
-void SWindow::OnGetFocus()
-{
-
-}
-
-//失去焦点
-void SWindow::OnLostFocus()
-{
-
-}
-
-
-//创建控件
-BOOL SWindow::Create(){
-	if (!m_hWnd){
-		if (!OnCreate()){
-			MessageBox(NULL, TEXT("注册窗口失败"), TEXT("error"), 0);
-			return FALSE;
-		}
 	}
+	else
+	{
+		MessageBox(NULL, TEXT("注册窗口失败"), TEXT("error"), 0);
+		return FALSE;
+	}
+
 	return TRUE;
 	
 }
@@ -467,9 +428,8 @@ void SWindow::Run(){
 
 }
 
-//销毁控件
+
 void  SWindow::Destroy(){
 	
-	
-	return OnDestroy();
+	SWidget::Destroy();
 }

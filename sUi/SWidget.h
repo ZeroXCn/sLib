@@ -115,15 +115,7 @@ public:
 
 	//重绘控件
 	void RePaint();
-protected:
-		//控件创建之前
-	virtual BOOL OnCreate();
 
-	//控件创建之后
-	virtual BOOL OnCreated();
-
-	//控件销毁
-	virtual void OnDestroy();
 public:
 	//创建控件
 	virtual BOOL Create() ;

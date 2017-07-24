@@ -9,6 +9,8 @@
 #include "SApplication.h"
 #include "SMessageHandler.h"
 #include "SWidget.h"
+#include "SWindowActivityEvent.h"
+#include "SWindowInputEvent.h"
 
 #ifndef _SWINDOWS_H_
 #define _SWINDOWS_H_
@@ -20,12 +22,13 @@
 class SWindow:
 	public SThread,
 	public SWidget,
-	public SMessageHandler
-	
+	public SMessageHandler,
+	public SWindowActivityEvent,
+	public SWindowInputEvent
 {
 	friend class SApplication;
 protected:
-	static int s_winnum;						//设置一个用于记录窗口自增的参数
+	static int s_winnum;					//设置一个用于记录窗口自增的参数
 protected:
 
 	WORD		m_wIcon;					//程序图标（大）
@@ -35,6 +38,9 @@ protected:
 	int			m_nColorbit;				//色彩模式（32位、24位或16位）
 
 	BOOL		m_bIsRunning;				//循环标记
+
+	SWindowInputEvent *m_InputEvent;		//输入事件
+	SWindowActivityEvent *m_ActivityEvent;	//活动事件
 protected:
 	void Init();
 
@@ -99,6 +105,9 @@ public:
 	/* 设置消息处理函数 */
 	void SetWndProc(WNDPROC pWndProc);
 
+	/* 窗口是否创建*/
+	BOOL IsCreated();
+
 protected:
 	//退出消息循环-相当于结束线程
 	void SetRunning(BOOL bRunning);
@@ -117,32 +126,13 @@ protected:
 	//消息回调函数
 	virtual LRESULT CALLBACK OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	//控件创建之前
-	virtual BOOL OnCreate();
-
-	//控件创建之后
-	virtual BOOL OnCreated();
-
 	//控件入口
 	virtual void OnRun();
 
 	//控件循环事件
 	virtual void OnEvent();
 
-	//绘制绘制事件
-	virtual void OnPaint();
 
-	//关闭窗口
-	virtual BOOL OnClose();
-
-	//销毁窗口
-	virtual void OnDestory();
-
-	//取得窗口焦点
-	virtual void OnGetFocus();
-
-	//失去焦点
-	virtual void OnLostFocus();
 public:
 
 	//创建控件

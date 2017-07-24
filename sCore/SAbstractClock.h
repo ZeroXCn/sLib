@@ -1,6 +1,6 @@
 /**
 *
-*	SException类
+*	SAbstractClock类
 *	抽象计时器,定时器
 *	@author ZeroX
 *	@version v1.0 22/07/2017(03/02/2017)
@@ -20,8 +20,8 @@ protected:
 
 	bool	m_bEnable;				//是否启用计时器
 public:
-	virtual double GetTick() = 0;		//时间Tick
-	virtual double GetElpased() = 0;	//取得流逝的时间
+	virtual double GetTick() = 0;	//时间Tick
+	virtual double GetElpased() = 0;//取得流逝的时间
 	virtual void Pause() = 0;        // 暂停
 	virtual void Resume() = 0;       // 继续
 	virtual void Reset() = 0;        // 归零

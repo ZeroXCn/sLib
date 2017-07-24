@@ -7,11 +7,11 @@
 *
 */
 
-#include "SObject.h"
+#include "../sCore/SObject.h"
 
 #ifndef _SARGB_H_
 #define _SARGB_H_
-class SARGB
+class SARGB:public SObject
 {
 	unsigned char alpha,red,green,blue;
 public:

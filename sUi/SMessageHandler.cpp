@@ -67,7 +67,7 @@ void SMessageHandler::Unsubclass(HWND hwnd)
 
 LRESULT CALLBACK SMessageHandler::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	return DefWindowProc(hWnd, message, wParam, lParam);
+	return ::DefWindowProc(hWnd, message, wParam, lParam);
 }
 
 LRESULT CALLBACK SMessageHandler::MessageHandlerProc(HWND hWnd,		//窗口句柄
@@ -76,20 +76,25 @@ LRESULT CALLBACK SMessageHandler::MessageHandlerProc(HWND hWnd,		//窗口句柄
 	LPARAM lParam)		//消息参数
 {
 	//NOTD:这里如果没有找到必须返回DefWindowProc(),否则可能无法成功创建窗体
-	
+
+	SMessageHandler* handler = NULL;
 	WndHandlerMap::const_iterator itr = s_WndHandlerMap.find(hWnd);
-	if (itr == s_WndHandlerMap.end())
-		return DefWindowProc(hWnd, message, wParam, lParam);
+	if (itr == s_WndHandlerMap.end()){
+		//NOTE:窗体未返回hWnd时的消息顺序WM_GETMINMAXINFO,WM_NCCREATE,WM_NCCALCSIZE,WM_CREATE
+		if (message == WM_NCCREATE || message == WM_CREATE) {
+			LPCREATESTRUCT lpcs = reinterpret_cast<LPCREATESTRUCT>(lParam);
+			handler = static_cast<SMessageHandler*>(lpcs->lpCreateParams);
+			//TODO:应该判断以下指针属于那个对象的static_cast或dynamic_cast
 
-	SMessageHandler* handler = itr->second;
-	LRESULT done = handler->OnProc(hWnd, message, wParam, lParam);
-	/*
-	if (done)
-		return done;
-	else
-		return CallWindowProc(DefWindowProc, hWnd, message, wParam, lParam);	//适用于子窗口
-		//NOTE:以下这句话会引起未知异常,单步走也救不了你(个人猜测是引起了死循环)
-		return CallWindowProc(handler->GetMessageProc(), hWnd, message, wParam, lParam);	//适用于子窗口
+			if (handler != NULL)
+				return handler->OnProc(hWnd, message, wParam, lParam);
+		}
+		return ::DefWindowProc(hWnd, message, wParam, lParam);
 
-	*/
+	}
+	else{
+		handler = itr->second;
+		return handler->OnProc(hWnd, message, wParam, lParam);
+	}
+	
 }

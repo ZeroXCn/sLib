@@ -65,7 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="sCore\SAbstractClock.h" />
-    <ClInclude Include="sCore\SARGB.hpp" />
+    <ClInclude Include="sGraphic\SARGB.hpp" />
     <ClInclude Include="sCore\SAsyncTask.h" />
     <ClInclude Include="sCore\SBoolean.h" />
     <ClInclude Include="sCore\SCalendar.h" />
@@ -85,13 +85,15 @@
     <ClInclude Include="sCore\SStringList.h" />
     <ClInclude Include="sCore\SThread.h" />
     <ClInclude Include="sCore\STimer.h" />
-    <ClInclude Include="sUi\SAbstractInput.h" />
+    <ClInclude Include="sGraphic\SGraphics.h" />
+    <ClInclude Include="sGraphic\SGraphics2D.h" />
     <ClInclude Include="sUi\SApplication.h" />
-    <ClInclude Include="sUi\SKeyBoardInput.h" />
     <ClInclude Include="sUi\SLabel.h" />
     <ClInclude Include="sUi\SMessageHandler.h" />
     <ClInclude Include="sUi\SWidget.h" />
     <ClInclude Include="sUi\SWindow.h" />
+    <ClInclude Include="sUi\SWindowActivityEvent.h" />
+    <ClInclude Include="sUi\SWindowInputEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp" />
@@ -107,12 +109,15 @@
     <ClCompile Include="sCore\SStringList.cpp" />
     <ClCompile Include="sCore\SThread.cpp" />
     <ClCompile Include="sCore\STimer.cpp" />
-    <ClCompile Include="sUi\SAbstractInput.cpp" />
+    <ClCompile Include="sGraphic\SGraphics.cpp" />
+    <ClCompile Include="sGraphic\SGraphics2D.cpp" />
     <ClCompile Include="sUi\SApplication.cpp" />
     <ClCompile Include="sUi\SLabel.cpp" />
     <ClCompile Include="sUi\SMessageHandler.cpp" />
     <ClCompile Include="sUi\SWidget.cpp" />
     <ClCompile Include="sUi\SWindow.cpp" />
+    <ClCompile Include="sUi\SWindowActivityEvent.cpp" />
+    <ClCompile Include="sUi\SWindowInputEvent.cpp" />
     <ClCompile Include="test.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>

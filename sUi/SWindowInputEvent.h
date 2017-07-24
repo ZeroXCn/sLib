@@ -1,11 +1,21 @@
+/**
+* SWindowInputEvent类
+* 窗体输入事件
+* @author ZeroX
+* @version v1.0 24/07/2017
+*/
 /*************************************
 窗口类输入抽象类
 主要负责外设的输入
 *************************************/
-#pragma once
+#include "../sCore/SObject.h"
+
+#ifndef _SWINDOWINPUTEVENT_H_
+#define _SWINDOWINPUTEVENT_H_
+
 #include <Windows.h>
 
-class SAbstractInput
+class SWindowInputEvent:public SObject
 {
 public:
 	//活动控制
@@ -30,3 +40,5 @@ public:
 	virtual void OnMouseMove(HWND hWnd, int x, int y, WPARAM wParam);
 
 };
+
+#endif
