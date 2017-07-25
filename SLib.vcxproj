@@ -85,8 +85,19 @@
     <ClInclude Include="sCore\SStringList.h" />
     <ClInclude Include="sCore\SThread.h" />
     <ClInclude Include="sCore\STimer.h" />
-    <ClInclude Include="sGraphic\SGraphics.h" />
-    <ClInclude Include="sGraphic\SGraphics2D.h" />
+    <ClInclude Include="sGraphic\SBitmap.h" />
+    <ClInclude Include="sGraphic\SBrush.h" />
+    <ClInclude Include="sGraphic\SDc.h" />
+    <ClInclude Include="sGraphic\SFont.h" />
+    <ClInclude Include="sGraphic\SGdiObject.h" />
+    <ClInclude Include="sGraphic\SGraphics.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SGraphics2D.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SPalette.h" />
+    <ClInclude Include="sGraphic\SPen.h" />
     <ClInclude Include="sUi\SApplication.h" />
     <ClInclude Include="sUi\SLabel.h" />
     <ClInclude Include="sUi\SMessageHandler.h" />
@@ -94,6 +105,7 @@
     <ClInclude Include="sUi\SWindow.h" />
     <ClInclude Include="sUi\SWindowActivityEvent.h" />
     <ClInclude Include="sUi\SWindowInputEvent.h" />
+    <ClInclude Include="sUi\SWnd.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp" />
@@ -109,8 +121,15 @@
     <ClCompile Include="sCore\SStringList.cpp" />
     <ClCompile Include="sCore\SThread.cpp" />
     <ClCompile Include="sCore\STimer.cpp" />
-    <ClCompile Include="sGraphic\SGraphics.cpp" />
-    <ClCompile Include="sGraphic\SGraphics2D.cpp" />
+    <ClCompile Include="sGraphic\SDc.cpp" />
+    <ClCompile Include="sGraphic\SFont.cpp" />
+    <ClCompile Include="sGraphic\SGdiObject.cpp" />
+    <ClCompile Include="sGraphic\SGraphics.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SGraphics2D.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="sUi\SApplication.cpp" />
     <ClCompile Include="sUi\SLabel.cpp" />
     <ClCompile Include="sUi\SMessageHandler.cpp" />
@@ -118,6 +137,7 @@
     <ClCompile Include="sUi\SWindow.cpp" />
     <ClCompile Include="sUi\SWindowActivityEvent.cpp" />
     <ClCompile Include="sUi\SWindowInputEvent.cpp" />
+    <ClCompile Include="sUi\SWnd.cpp" />
     <ClCompile Include="test.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>

@@ -5,6 +5,8 @@
 * @version v1.0 21/07/2017
 */
 #include "../sCore/SObject.h"
+#include "../sGraphic/SDc.h"
+#include "SWnd.h"
 #ifndef _SWIDGET_H_
 #define _SWIDGET_H_
 
@@ -15,7 +17,8 @@ class SWidget:public SObject
 protected:
 	SWidget *m_pParent;				//父类控件
 
-	HWND m_hWnd;					//控件句柄
+	SWnd m_Wnd;						//控件句柄
+
 	HINSTANCE m_hInstance;			//当前控件实例句柄
 	HMENU m_hMenu;					//菜单实例句柄
 	LPVOID m_lpParam;				//传递给消息函数的参数指针
@@ -39,7 +42,7 @@ protected:
 	void SetInstance(HINSTANCE hInstance);
 
 	/* 设置控件句柄 */
-	void SetWnd(HWND hWnd);
+	void SetWnd(SWnd pWnd);
 
 	/* 设置菜单句柄-或者是控件ID */
 	void SetMenu(HMENU hMenu);
@@ -51,17 +54,17 @@ public:
 	HINSTANCE GetInstance();
 
 	//获取控件句柄
-	HWND GetWnd();
+	SWnd GetWnd();
 
 	//获取设备上下文
-	HDC GetDC();
+	SDc GetDC();
 
 	/* 设置参数 */
 	LPVOID GetParam();
 
 	/* 设置控件类型名称 */
 	void SetClassName(LPTSTR szClassName);
-	LPTSTR(GetClassName)();
+	LPTSTR GetClassName();
 
 	/* 设置控件标题 */
 	void SetTitle(LPTSTR szTitle);
@@ -100,6 +103,12 @@ public:
 	/* 获取设置控件提示 */
 	LPTSTR GetTip();
 	void SetTip(LPTSTR str);
+public:
+	/* 置顶窗口 */
+	BOOL SetForegroundWindow();
+
+	/* 取得焦点 */
+	HWND SetFocus();
 public:
 	//IMPORTMENT:对于从父类继承的同名函数,如果没有写重载方法,则不会从父类继承其他的重载方法,要么都不写
 	//显示控件

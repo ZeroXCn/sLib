@@ -5,21 +5,14 @@
 * @version v1.0 21/07/2017
 */
 #include "../sCore/SObject.h"
-#include "../sGraphic/SGraphics.h"
+#include "../sGraphic/SDc.h"
+#include "SWnd.h"
 #ifndef _SWINDOWACTIVITYEVENT_H_
 #define _SWINDOWACTIVITYEVENT_H_
 
 #include <Windows.h>
 class SWindowActivityEvent:public SObject
 {
-protected:
-	SGraphics *m_Graphics;
-public:
-	SWindowActivityEvent();
-	virtual ~SWindowActivityEvent();
-public:
-	SGraphics *GetGraphics();
-	void SetGraphics(SGraphics *g);
 public:
 
 	//以下消息必须给出默认的系统处理方法
@@ -28,7 +21,10 @@ public:
 	virtual BOOL OnCreate();
 
 	//绘制绘制事件
-	virtual void OnPaint(SGraphics *g);
+	virtual void OnPaint(SDc dc);
+
+	//窗口空闲事件
+	virtual void OnEvent();
 
 	//关闭窗口
 	virtual BOOL OnClose(HWND hWnd);

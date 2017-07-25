@@ -12,7 +12,10 @@
 
 class SGraphics2D :public SGraphics
 {
-
+public:
+	//Ðý×ª×ø±êÏµ
+	void Rotate(double theta);
+	void Rotate(double theta, double x, double y);
 };
 
 #endif

@@ -162,6 +162,7 @@ public:
 	int toInt();
 	double toDouble();
 	bool toBool();
+
 };
 
 typedef SString String;

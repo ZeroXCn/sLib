@@ -5,10 +5,12 @@
 * @version v1.0 21/07/2017 
 */
 #include "../sCore/SThread.h"
+#include "../sGraphic/SGraphics.h"
 
 #include "SApplication.h"
 #include "SMessageHandler.h"
 #include "SWidget.h"
+
 #include "SWindowActivityEvent.h"
 #include "SWindowInputEvent.h"
 
@@ -30,7 +32,6 @@ class SWindow:
 protected:
 	static int s_winnum;					//设置一个用于记录窗口自增的参数
 protected:
-
 	WORD		m_wIcon;					//程序图标（大）
 	WORD		m_wSmallIcon;				//程序图标（小）
 
@@ -39,8 +40,8 @@ protected:
 
 	BOOL		m_bIsRunning;				//循环标记
 
-	SWindowInputEvent *m_InputEvent;		//输入事件
-	SWindowActivityEvent *m_ActivityEvent;	//活动事件
+	SWindowInputEvent *m_pInputEvent;		//输入事件
+	SWindowActivityEvent *m_pActivityEvent;	//活动事件
 protected:
 	void Init();
 
@@ -107,10 +108,26 @@ public:
 
 	/* 窗口是否创建*/
 	BOOL IsCreated();
+public:
+
+	/* 显示鼠标 */
+	int ShowCursor(BOOL bShow);
 
 protected:
 	//退出消息循环-相当于结束线程
 	void SetRunning(BOOL bRunning);
+
+	//设置窗口活动
+	void SetWindowInputEvent(SWindowInputEvent *pEvent);
+
+	//设置窗口输入事件
+	void SetWindowActivityEvent(SWindowActivityEvent *pEvent);
+
+	//取得窗口活动
+	SWindowInputEvent *GetWindowInputEvent();
+
+	//取得窗口输入事件
+	SWindowActivityEvent *GetWindowActivityEvent();
 public:
 	virtual void DoModal();
 	//显示控件
@@ -130,7 +147,7 @@ protected:
 	virtual void OnRun();
 
 	//控件循环事件
-	virtual void OnEvent();
+	virtual void OnRunning();
 
 
 public:

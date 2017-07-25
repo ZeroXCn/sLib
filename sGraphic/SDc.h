@@ -1,15 +1,18 @@
 /**
-* SGraphic类
-* 图形渲染类,基于GDI的图形类
+* SDc类
+* HDC封装类
 * @author ZeroX
-* @version v1.0 21/07/2017
+* @version v1.0 25/07/2017
 */
 
 #include "../sCore/SObject.h"
 #include "../sCore/SString.h"
-#ifndef _SGRAPHIC_H_
-#define _SGRAPHIC_H_
+#include "SGdiObject.h"
+#ifndef _SDC_H_
+#define _SDC_H_
 #include <Windows.h>
+#include <wingdi.h>
+#pragma comment(lib,"gdi32.lib")		//引用库
 
 #define RED_COLOR RGB(255,0,0)
 #define GREEN_COLOR RGB(255,0,0)
@@ -17,24 +20,30 @@
 #define WHITE_COLOR RGB(255,255,255)
 #define BLACK_COLOR RGB(0,0,0)
 
-class SGraphics:public SObject
+class SDc:public SObject
 {
 protected:
 	HDC m_hDC;			//设备上下文
 public:
-	SGraphics();
-	SGraphics(HDC hDC);
+	SDc();
+	SDc(HDC hDC);
 
-	virtual ~SGraphics();
+	virtual ~SDc();
 public:
-	void SetDC(HDC hDC);
-	HDC GetDC();
+	//设置绘图上下文
+	void SetDc(HDC hDC);
+
+	//取得当前绘图上下文
+	HDC GetDc();
 public:
 	//选择一对象到指定的设备上下文环境中
 	HGDIOBJ SelectObject(HGDIOBJ hgdiobj);
+	SGdiObject SelectObject(SGdiObject pObj);
 
 	//删除，释放系统资源
 	BOOL DeleteObject(HGDIOBJ hObject);
+	BOOL DeleteObject(SGdiObject pObj);
+
 public:
 	//设置文本颜色
 	COLORREF SetTextColor(COLORREF crColor);
@@ -84,17 +93,20 @@ public:
 
 	//绘制多边形
 	BOOL DrawPolygon(POINT *apt, int cpt);
-	
+
 	//绘制同时绘制多个封闭的多边形。
 	BOOL DrawPolyPolygon(POINT *apt, int *asz, int csz);
 
 	//渐变填充
-	BOOL GradientFill(CONST PTRIVERTEX pVertex, DWORD dwNumVertex, CONST PVOID pMesh, DWORD dwNumMesh, DWORD dwMode);
+	//BOOL GradientFill(CONST PTRIVERTEX pVertex, DWORD dwNumVertex, CONST PVOID pMesh, DWORD dwNumMesh, DWORD dwMode);
 
 	//输出文字
 	BOOL DrawString(SString str, RECT rt, UINT format = DT_CALCRECT);
 
 	//输出位图
 	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc = 0, int ySrc = 0, DWORD dwRop = SRCCOPY);
+
+
 };
+
 #endif

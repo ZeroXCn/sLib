@@ -1,0 +1,80 @@
+/**
+* SWnd类
+* HWND封装类
+* @author ZeroX
+* @version v1.0 25/07/2017
+*/
+#include "../sCore/SObject.h"
+#ifndef _SWND_H_
+#define _SWND_H_
+#include <Windows.h>
+
+class SWnd:public SObject
+{
+protected:
+	HWND m_hWnd;
+public:
+	SWnd();
+	SWnd(HWND hWnd);
+
+	virtual ~SWnd();
+public:
+	//替换指定窗口所属类的WNDCLASSEX结构
+	DWORD SetClassLong(int nlndex, LONG dwNewLong);
+
+	//改变指定窗口的标题栏的文本内容
+	BOOL SetWindowText(LPCTSTR lpString);
+
+	//将指定窗口的标题条文本（如果存在）拷贝到一个缓存区内。
+	int GetWindowText(LPTSTR lpString, int nMaxCount);
+
+	//改变指定窗口的属性
+	LONG SetWindowLong(int nlndex,LONG dwNewLong);
+
+	//返回指定窗口的边框矩形的尺寸
+	BOOL GetWindowRect(LPRECT lpRect);
+
+	//屏幕坐标到客户区坐标的转换
+	BOOL ScreenToClient(LPPOINT lpPoint);
+
+	//改变子窗口、弹出窗口和顶层窗口的大小、位置和Z轴次序
+	BOOL SetWindowPos(HWND hWndInsertAfter, int X, int Y, int cx, int cy, UINT uFlags);
+
+	//改变指定窗口的位置和大小
+	BOOL MoveWindow(int X, int Y, int nWidth, int nHeight, BOOL bRepaint);
+
+	//将创建指定窗口的线程设置到前台，并且激活该窗口
+	BOOL SetForegroundWindow();
+
+	//对指定的窗口设置键盘焦点
+	HWND SetFocus();
+
+	//该函数设置指定窗口的显示状态
+	BOOL ShowWindow(int nCmdShow);
+
+	//向指定的窗体更新区域添加一个矩形，然后窗口客户区域的这一部分将被重新绘制
+	BOOL InvalidateRect(CONST RECT *lpRect,BOOL bErase );
+
+	//更新指定窗口的客户区
+	BOOL UpdateWindow();
+
+	//根据fuRedraw旗标的设置，重画全部或部分窗口。
+	BOOL RedrawWindow(CONST RECT* lprcUpdate, HRGN hrgnUpdate, UINT fuRedraw);
+
+	//获取设备上下文
+	HDC GetDC();
+
+	/* 设置控件句柄 */
+	void SetWnd(HWND hWnd);
+
+	//获取控件句柄
+	HWND GetWnd();
+
+	//为指定窗口进行绘图工作的准备
+	HDC BeginPaint(LPPAINTSTRUCT lpPaint);
+
+	//标记指定窗口的绘画过程结束
+	BOOL EndPaint(CONST PAINTSTRUCT *lpPaint);
+
+};
+#endif

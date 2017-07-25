@@ -1,62 +1,76 @@
-#include "SGraphics.h"
-
-SGraphics::SGraphics():
+#include "SDc.h"
+#include "../sCore/SDebug.h"
+SDc::SDc():
 	m_hDC(NULL)
 {
 
 }
-SGraphics::SGraphics(HDC hDC):
+SDc::SDc(HDC hDC):
 	m_hDC(hDC)
 {
-	
+
 }
 
-SGraphics::~SGraphics()
+
+SDc::~SDc()
 {
 
 }
-
-/////////////////
-void SGraphics::SetDC(HDC hDC)
+///////////////////
+//设置绘图上下文
+void SDc::SetDc(HDC hDC)
 {
 	m_hDC = hDC;
 }
-HDC SGraphics::GetDC()
+
+//取得当前绘图上下文
+HDC SDc::GetDc()
 {
 	return m_hDC;
 }
 ///////////////////
-HGDIOBJ SGraphics::SelectObject(HGDIOBJ hgdiobj)
+HGDIOBJ SDc::SelectObject(HGDIOBJ hgdiobj)
 {
 	return ::SelectObject(m_hDC, hgdiobj);
 }
 
-BOOL SGraphics::DeleteObject(HGDIOBJ hObject)
+SGdiObject SDc::SelectObject(SGdiObject Obj)
+{
+	return SGdiObject(::SelectObject(m_hDC, Obj.GetObject()));
+}
+
+
+BOOL SDc::DeleteObject(HGDIOBJ hObject)
 {
 	return ::DeleteObject(hObject);
 }
+
+BOOL SDc::DeleteObject(SGdiObject Obj)
+{
+	return ::DeleteObject(Obj.GetObject());
+}
 /////////////////
 //设置文本颜色
-COLORREF SGraphics::SetTextColor(COLORREF crColor)
+COLORREF SDc::SetTextColor(COLORREF crColor)
 {
 	return ::SetTextColor(m_hDC, crColor);
-	
+
 }
 
 
 //设置背景色
-COLORREF SGraphics::SetBkColor(COLORREF color)
+COLORREF SDc::SetBkColor(COLORREF color)
 {
 	return ::SetBkColor(m_hDC, color);
 }
 
 ///////////////
-BOOL SGraphics::DrawPoint(int x, int y, COLORREF color)
+BOOL SDc::DrawPoint(int x, int y, COLORREF color)
 {
 	return ::SetPixel(m_hDC, x, y, color);
 }
 
-void SGraphics::DrawLine(int x1, int y1, int x2, int y2)
+void SDc::DrawLine(int x1, int y1, int x2, int y2)
 {
 	/*
 	HDC hdc;
@@ -79,7 +93,7 @@ void SGraphics::DrawLine(int x1, int y1, int x2, int y2)
 
 }
 
-void SGraphics::DrawTringle(POINT a, POINT b, POINT c)
+void SDc::DrawTringle(POINT a, POINT b, POINT c)
 {
 	::MoveToEx(m_hDC, a.x, a.y, (LPPOINT)NULL);
 	::LineTo(m_hDC, b.x, b.y);
@@ -87,13 +101,13 @@ void SGraphics::DrawTringle(POINT a, POINT b, POINT c)
 	::LineTo(m_hDC, a.x, a.y);
 }
 
-BOOL SGraphics::DrawRect(int left, int top, int right, int bottom)
+BOOL SDc::DrawRect(int left, int top, int right, int bottom)
 {
 
 	return ::Rectangle(m_hDC, left, top, right, bottom);
 }
 
-BOOL SGraphics::FrameRect(int left, int top, int right, int bottom, HBRUSH hbr)
+BOOL SDc::FrameRect(int left, int top, int right, int bottom, HBRUSH hbr)
 {
 	RECT temp;
 	temp.left = left;
@@ -102,11 +116,11 @@ BOOL SGraphics::FrameRect(int left, int top, int right, int bottom, HBRUSH hbr)
 	temp.bottom = bottom;
 
 	return ::FrameRect(m_hDC, &temp, (hbr ? hbr : ::CreateSolidBrush(BLACK_COLOR)));
-	
+
 }
 
 //填充矩形
-BOOL SGraphics::FillRect(int left, int top, int right, int bottom, HBRUSH hbr)
+BOOL SDc::FillRect(int left, int top, int right, int bottom, HBRUSH hbr)
 {
 	RECT temp;
 	temp.left = left;
@@ -117,12 +131,12 @@ BOOL SGraphics::FillRect(int left, int top, int right, int bottom, HBRUSH hbr)
 	return ::FillRect(m_hDC, &temp, (hbr ? hbr : ::CreateSolidBrush(BLACK_COLOR)));
 }
 
-BOOL SGraphics::RoundRect(int left, int top, int right, int bottom, int width, int height)
+BOOL SDc::RoundRect(int left, int top, int right, int bottom, int width, int height)
 {
 	return ::RoundRect(m_hDC, left, top, right, bottom, width, height);
 }
 
-BOOL SGraphics::InvertRect(int left, int top, int right, int bottom)
+BOOL SDc::InvertRect(int left, int top, int right, int bottom)
 {
 	RECT temp;
 	temp.left = left;
@@ -132,50 +146,52 @@ BOOL SGraphics::InvertRect(int left, int top, int right, int bottom)
 	return ::InvertRect(m_hDC, &temp);
 }
 
-BOOL SGraphics::DrawRadius(int x, int y, int radius)
+BOOL SDc::DrawRadius(int x, int y, int radius)
 {
 	return Ellipse(m_hDC, x - radius, y - radius, x + radius, y + radius);
 }
 
-BOOL SGraphics::DrawEllipse(int left, int top, int right, int bottom)
+BOOL SDc::DrawEllipse(int left, int top, int right, int bottom)
 {
 	return Ellipse(m_hDC, left, top, right, bottom);
 }
 
 
 //画圆饼扇区
-BOOL SGraphics::DrawPie(int left, int top, int right, int bottom, int xr1, int yr1, int xr2, int yr2)
+BOOL SDc::DrawPie(int left, int top, int right, int bottom, int xr1, int yr1, int xr2, int yr2)
 {
 	return ::Pie(m_hDC, left, top, right, bottom, xr1, yr1, xr2, yr2);
 }
 
 //
-BOOL SGraphics::DrawChord(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
+BOOL SDc::DrawChord(int x1, int y1, int x2, int y2, int x3, int y3, int x4, int y4)
 {
 	return ::Chord(m_hDC, x1, y1, x2, y2, x3, y3, x4, y4);
 }
 
-BOOL SGraphics::DrawPolygon(POINT *apt, int cpt)
+BOOL SDc::DrawPolygon(POINT *apt, int cpt)
 {
 	return ::Polygon(m_hDC, apt, cpt);
 }
 
 //绘制同时绘制多个封闭的多边形。
-BOOL SGraphics::DrawPolyPolygon(POINT *apt, int *asz, int csz)
+BOOL SDc::DrawPolyPolygon(POINT *apt, int *asz, int csz)
 {
 	return ::PolyPolygon(m_hDC, apt, asz, csz);
 }
-BOOL SGraphics::GradientFill(CONST PTRIVERTEX pVertex, DWORD dwNumVertex, CONST PVOID pMesh, DWORD dwNumMesh, DWORD dwMode)
+/*
+BOOL SDc::GradientFill(CONST PTRIVERTEX pVertex, ULONG uVertex, CONST PVOID pMesh, ULONG nMesh, ULONG ulMode)
 {
-	return ::GradientFill(m_hDC, pVertex, dwNumVertex, pMesh, dwNumMesh, dwMode);
+	return ::GradientFill(m_hDC, pVertex, uVertex, pMesh, nMesh, ulMode);
 }
+*/
 
-BOOL SGraphics::DrawString(SString str, RECT rt, UINT format)
+BOOL SDc::DrawString(SString str, RECT rt, UINT format)
 {
 	return ::DrawText(m_hDC, str.c_str(), str.length(), &rt, format);
 }
 
-BOOL SGraphics::DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, DWORD dwRop)
+BOOL SDc::DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, DWORD dwRop)
 {
 	HDC hdcMem = ::CreateCompatibleDC(m_hDC);					//创建兼容设备
 	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, hbm);	//将位图选入兼容设备，并记录下旧的句柄
@@ -185,4 +201,6 @@ BOOL SGraphics::DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, in
 	::SelectObject(hdcMem, hOldBmp);
 	::DeleteObject(hOldBmp);
 	::DeleteDC(hdcMem);
+
+	return TRUE;
 }

@@ -126,6 +126,30 @@
     <ClInclude Include="sGraphic\SARGB.hpp">
       <Filter>sLib\sCore\head</Filter>
     </ClInclude>
+    <ClInclude Include="sGraphic\SFont.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SGdiObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SBitmap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SBrush.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SPalette.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SPen.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SWnd.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SDc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp">
@@ -195,6 +219,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sGraphic\SGraphics2D.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SFont.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SDc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SWnd.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SGdiObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

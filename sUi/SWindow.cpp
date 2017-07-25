@@ -9,6 +9,7 @@ int SWindow::s_winnum = 0;
 
 void SWindow::Init()
 {
+
 	//NOTE:这里的ClassName不允许出现重复
 	_stprintf_s(m_szClassName, TEXT("Win32%d"), s_winnum++);
 	_stprintf_s(m_szTitle, TEXT("Win32%d"), s_winnum++);
@@ -21,8 +22,8 @@ void SWindow::Init()
 
 	m_bIsRunning = TRUE;
 
-	m_InputEvent = (SWindowInputEvent *) this;
-	m_ActivityEvent = (SWindowActivityEvent *) this;
+	m_pInputEvent = (SWindowInputEvent *) this;
+	m_pActivityEvent = (SWindowActivityEvent *) this;
 
 	SApplication::GetApp()->RegisterWindow(this);
 }
@@ -48,6 +49,7 @@ SWindow::~SWindow()
 {
 	//TODO:只进行资源释放,不能反注册
 	//TODO:线程结束不代表对被释放,
+
 	SApplication::GetApp()->DestroyWindow(this);
 }
 
@@ -117,8 +119,8 @@ void SWindow::SetAttribute(LPTSTR szTitle, int nWidth, int nHeight)
 long SWindow::SetCursorIcon(WORD wIcon){
 	
 	long lCur = (long)LoadCursor(GetInstance(), MAKEINTRESOURCE(wIcon));
-	if (m_hWnd){
-		::SetClassLong(m_hWnd, GCL_HCURSOR, lCur);
+	if (m_Wnd.GetWnd()){
+		m_Wnd.SetClassLong(GCL_HCURSOR, lCur);
 		return lCur;
 	}
 	return 0;
@@ -150,9 +152,9 @@ void SWindow::SetColorbit(int nColorbit)
 
 void SWindow::SetWndProc(WNDPROC pWndProc)
 {
-	Subclass(m_hWnd);
+	Subclass(m_Wnd.GetWnd());
 	SetMessageProc(pWndProc);
-	::SetWindowLong(m_hWnd, GWL_WNDPROC, (long)pWndProc);
+	m_Wnd.SetWindowLong(GWL_WNDPROC, (long)pWndProc);
 }
 
 void SWindow::SetRunning(BOOL bRunning)
@@ -162,7 +164,40 @@ void SWindow::SetRunning(BOOL bRunning)
 
 BOOL SWindow::IsCreated()
 {
-	return m_hWnd?TRUE:FALSE;
+	return m_Wnd.GetWnd()?TRUE:FALSE;
+}
+
+
+
+/* 显示鼠标 */
+int SWindow::ShowCursor(BOOL bShow)
+{
+	return ::ShowCursor(bShow);
+}
+
+
+//设置窗口活动
+void SWindow::SetWindowInputEvent(SWindowInputEvent *pEvent)
+{
+	m_pInputEvent = pEvent;
+}
+
+//设置窗口输入事件
+void SWindow::SetWindowActivityEvent(SWindowActivityEvent *pEvent)
+{
+	m_pActivityEvent = pEvent;
+}
+
+//取得窗口活动
+SWindowInputEvent *SWindow::GetWindowInputEvent()
+{
+	return m_pInputEvent;
+}
+
+//取得窗口输入事件
+SWindowActivityEvent *SWindow::GetWindowActivityEvent()
+{
+	return m_pActivityEvent;
 }
 
 /////
@@ -203,65 +238,72 @@ void SWindow::Hide()
 
 LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+	PAINTSTRUCT ps;					//定义，无初始化,由BeginPaint初始化
+	SDc dc;
 	switch (message)
 	{
 	case WM_CREATE:					//窗口建立消息:CreateWindow函数请求创建窗口时发送此消息
-		m_ActivityEvent->OnCreate();
+		m_pActivityEvent->OnCreate();
 		break;
 
 	case WM_PAINT:					//窗口重绘消息
-		m_ActivityEvent->OnPaint(hWnd);
+		//NOTE:不写BeginPaint程序将会进入死循环,一直处理一个接一个的WM_PAINT消息
+		dc.SetDc(m_Wnd.BeginPaint(&ps));
+
+		//TODO:负责窗口绘制工作,并且绘制其下子控件
+		m_pActivityEvent->OnPaint(dc);
+
+		m_Wnd.EndPaint(&ps);
 		break;
-		
 	case WM_KEYDOWN:				//按键消息  
-		m_InputEvent->OnKeyDown(hWnd, wParam);
+		m_pInputEvent->OnKeyDown(hWnd, wParam);
 		break;
 	case WM_KEYUP:					//按键消息  
-		m_InputEvent->OnKeyUp(hWnd, wParam);
+		m_pInputEvent->OnKeyUp(hWnd, wParam);
 		break;
 
 	case WM_LBUTTONDOWN:			//鼠标左键按下消息
-		m_InputEvent->OnMouseLButtonDown(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseLButtonDown(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_LBUTTONUP:				//鼠标左键弹起消息
-		m_InputEvent->OnMouseLButtonUp(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseLButtonUp(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_MOUSEWHEEL:				//鼠标滚轮事件
-		m_InputEvent->OnMouseWheel(hWnd, wParam);
+		m_pInputEvent->OnMouseWheel(hWnd, wParam);
 		break;
 
 	case WM_LBUTTONDBLCLK:			//鼠标左键双击消息
-		m_InputEvent->OnMouseDoubleClick(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseDoubleClick(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_RBUTTONDOWN:			//鼠标右键按下消息
-		m_InputEvent->OnMouseRButtonDown(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseRButtonDown(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 	case WM_RBUTTONUP:				//鼠标右键弹起消息
-		m_InputEvent->OnMouseLButtonUp(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseLButtonUp(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_MOUSEMOVE:				//鼠标移动消息
-		m_InputEvent->OnMouseMove(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseMove(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
 		break;
 
 	case WM_SETFOCUS:				//游戏窗口得到焦点消息
-		m_ActivityEvent->OnGetFocus();
+		m_pActivityEvent->OnGetFocus();
 		break;
 
 	case WM_KILLFOCUS:				//游戏窗口失去焦点消息
-		m_ActivityEvent->OnLostFocus();
+		m_pActivityEvent->OnLostFocus();
 		break;
 
 	case WM_CLOSE:					//窗口关闭消息
-		if (m_ActivityEvent->OnClose(hWnd))				//窗口关闭前的处理
+		if (m_pActivityEvent->OnClose(hWnd))				//窗口关闭前的处理
 			DestroyWindow(hWnd);	//发出销毁窗口消息
 		break;
 
 	case WM_DESTROY:				//程序销毁消息
-		m_ActivityEvent->OnDestory();
+		m_pActivityEvent->OnDestory();
 		PostQuitMessage(0);			//DOUBT:不靠谱,并不是退出自身的,会造成接收不到WM_QUIT消息
 		break;
 		//case	WM_SYSCOMMAND //系统菜单命令：最大化按钮，最小化按，复原按钮，关闭按钮;与用户菜单命令WM_COMMAND有区别哦
@@ -293,16 +335,17 @@ void SWindow::OnRun()
 		}
 		else
 		{
-			OnEvent();//窗口事件循环
+			m_pActivityEvent->OnEvent();				//窗口事件
+			OnRunning();									//交由系统处理
 
 		}
 	}
-	//销毁窗口
-	Unsubclass(m_hWnd);									//解除绑定消息函数
+	Unsubclass(m_Wnd.GetWnd());									//解除绑定消息函数
 	SApplication::GetApp()->QuitWindow(this);			//通知主线程,线程结束
+
 }
 
-void SWindow::OnEvent()
+void SWindow::OnRunning()
 {
 	//TODO:主要循环的事件:逻辑事件
 }
@@ -407,7 +450,7 @@ BOOL SWindow::Create(){
 
 	if (SWidget::Create())
 	{
-		Subclass(m_hWnd);		//绑定消息函数
+		Subclass(m_Wnd.GetWnd());		//绑定消息函数
 		return TRUE;
 	}
 	else
@@ -430,6 +473,8 @@ void SWindow::Run(){
 
 
 void  SWindow::Destroy(){
-	
+	//销毁窗口
+	DestroyWindow(m_Wnd.GetWnd());
+
 	SWidget::Destroy();
 }
