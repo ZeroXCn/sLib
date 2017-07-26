@@ -254,6 +254,7 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		m_pActivityEvent->OnPaint(dc);
 
 		m_Wnd.EndPaint(&ps);
+
 		break;
 	case WM_KEYDOWN:				//按键消息  
 		m_pInputEvent->OnKeyDown(hWnd, wParam);
@@ -336,7 +337,7 @@ void SWindow::OnRun()
 		else
 		{
 			m_pActivityEvent->OnEvent();				//窗口事件
-			OnRunning();									//交由系统处理
+			OnRunning();								//交由系统处理
 
 		}
 	}
@@ -348,6 +349,8 @@ void SWindow::OnRun()
 void SWindow::OnRunning()
 {
 	//TODO:主要循环的事件:逻辑事件
+	//NOTE:空闲时间应该让线程休眠,减少CPU占用
+	SThread::Sleep(10);
 }
 
 

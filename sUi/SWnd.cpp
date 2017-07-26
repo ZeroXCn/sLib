@@ -34,6 +34,18 @@ HDC SWnd::GetDC()
 	return ::GetDC(m_hWnd);
 
 }
+
+//返回hWnd参数所指定的窗口的设备环境--覆盖了整个窗口
+HDC SWnd::GetWindowDC()
+{
+	return ::GetWindowDC(m_hWnd);
+}
+
+//释放设备上下文环境（DC）供其他应用程序使用
+int SWnd::ReleaseDC(HDC hdc)
+{
+	return ::ReleaseDC(m_hWnd, hdc);
+}
 //////
 
 DWORD SWnd::SetClassLong(int nlndex, LONG dwNewLong)

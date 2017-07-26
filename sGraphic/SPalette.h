@@ -9,7 +9,8 @@
 #define _SPALETTE_H_
 class SPalette :public SGdiObject
 {
-
+protected:
+	LOGPALETTE m_sPalette;
 };
 
 #endif

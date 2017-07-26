@@ -1,5 +1,9 @@
 #include "SThread.h"  
 
+void SThread::Sleep(DWORD dwMilliseconds)
+{
+	::Sleep(dwMilliseconds);
+}
 
 SThread *SThread::Run(function<void(void)> callback)
 {

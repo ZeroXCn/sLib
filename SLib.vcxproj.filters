@@ -123,9 +123,6 @@
     <ClInclude Include="sGraphic\SGraphics2D.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sGraphic\SARGB.hpp">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
     <ClInclude Include="sGraphic\SFont.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -149,6 +146,9 @@
     </ClInclude>
     <ClInclude Include="sGraphic\SDc.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SColor.hpp">
+      <Filter>sLib\sCore\head</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

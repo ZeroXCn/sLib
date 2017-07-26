@@ -7,7 +7,9 @@
 
 #include "../sCore/SObject.h"
 #include "../sCore/SString.h"
+
 #include "SGdiObject.h"
+#include "SBitmap.h"
 #ifndef _SDC_H_
 #define _SDC_H_
 #include <Windows.h>
@@ -20,6 +22,7 @@
 #define WHITE_COLOR RGB(255,255,255)
 #define BLACK_COLOR RGB(0,0,0)
 
+
 class SDc:public SObject
 {
 protected:
@@ -29,12 +32,30 @@ public:
 	SDc(HDC hDC);
 
 	virtual ~SDc();
+
+
 public:
 	//设置绘图上下文
 	void SetDc(HDC hDC);
 
 	//取得当前绘图上下文
 	HDC GetDc();
+
+public:
+	//创建设备上下文环境
+	SDc &CreateDc(LPTSTR lpszDriver, LPTSTR lpszDevice = NULL, LPTSTR lpszPort = NULL, const DEVMODE *pdm = NULL);
+
+	// 创建一个与指定设备兼容的内存设备上下文环境
+	SDc &CreateCompatibleDc(SDc dc);
+
+	// 删除指定的设备上下文环境（Dc）。
+	BOOL DeleteDC();
+public:
+	/* 以下函数为创建与该DC兼容的GDI对象 */
+	//创建兼容该DC的位图对象
+	SBitmap CreateBitmap(int nWidth, int nHeight);
+
+
 public:
 	//选择一对象到指定的设备上下文环境中
 	HGDIOBJ SelectObject(HGDIOBJ hgdiobj);
@@ -43,14 +64,20 @@ public:
 	//删除，释放系统资源
 	BOOL DeleteObject(HGDIOBJ hObject);
 	BOOL DeleteObject(SGdiObject pObj);
-
+	
 public:
 	//设置文本颜色
 	COLORREF SetTextColor(COLORREF crColor);
+	COLORREF GetTextColor();
 
 	//设置背景色
 	COLORREF SetBkColor(COLORREF color);
+	COLORREF SetBkColor(BOOL bTrans);
+	COLORREF GetBkColor();
 
+	//设置背景模式-OPAQUE不透明和TRANSPARENT透明
+	int SetBkMode(int iBkMode);
+	int GetBkMode();
 public:
 	//画点
 	BOOL DrawPoint(int x, int y, COLORREF color = RGB(0, 0, 0));
@@ -68,7 +95,8 @@ public:
 	BOOL FrameRect(int left, int top, int right, int bottom, HBRUSH hbr = NULL);
 
 	//填充矩形
-	BOOL FillRect(int left, int top, int right, int bottom, HBRUSH hbr = NULL);
+	BOOL FillRect(int left, int top, int right, int bottom, HBRUSH hbr);
+	BOOL FillRect(int left, int top, int right, int bottom, COLORREF crColor=BLACK_COLOR);
 
 	//绘制圆角矩形
 	BOOL RoundRect(int left, int top, int right, int bottom, int width, int height);
@@ -101,6 +129,7 @@ public:
 	//BOOL GradientFill(CONST PTRIVERTEX pVertex, DWORD dwNumVertex, CONST PVOID pMesh, DWORD dwNumMesh, DWORD dwMode);
 
 	//输出文字
+	BOOL DrawString(SString str, int x, int y, UINT format=DT_LEFT, COLORREF crColor = BLACK_COLOR, BOOL bTrans = TRUE);
 	BOOL DrawString(SString str, RECT rt, UINT format = DT_CALCRECT);
 
 	//输出位图

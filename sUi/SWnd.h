@@ -61,8 +61,14 @@ public:
 	//根据fuRedraw旗标的设置，重画全部或部分窗口。
 	BOOL RedrawWindow(CONST RECT* lprcUpdate, HRGN hrgnUpdate, UINT fuRedraw);
 
-	//获取设备上下文
+	//窗口的客户区域或整个屏幕的显示设备上下文环境的句柄-窗口客户区
 	HDC GetDC();
+
+	//返回hWnd参数所指定的窗口的设备环境--覆盖了整个窗口
+	HDC GetWindowDC();
+
+	//释放设备上下文环境（DC）供其他应用程序使用--与GetDC和GetWindowDC配合使用
+	int ReleaseDC(HDC hdc);
 
 	/* 设置控件句柄 */
 	void SetWnd(HWND hWnd);

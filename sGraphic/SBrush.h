@@ -9,7 +9,8 @@
 #define _SBRUSH_H_
 class SBrush :public SGdiObject
 {
-
+protected:
+	LOGBRUSH m_sBrush;
 };
 
 #endif;

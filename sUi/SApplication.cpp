@@ -100,6 +100,8 @@ int SApplication::Exec()
 			break;
 		}
 		
+		//NOTE:不需要频繁检测,休眠10ms减少CPU使用
+		::Sleep(10);
 	}
 	return 0;
 }

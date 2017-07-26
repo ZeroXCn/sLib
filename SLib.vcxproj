@@ -65,7 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="sCore\SAbstractClock.h" />
-    <ClInclude Include="sGraphic\SARGB.hpp" />
+    <ClInclude Include="sGraphic\SColor.hpp" />
     <ClInclude Include="sCore\SAsyncTask.h" />
     <ClInclude Include="sCore\SBoolean.h" />
     <ClInclude Include="sCore\SCalendar.h" />

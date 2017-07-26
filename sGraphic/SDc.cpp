@@ -16,6 +16,31 @@ SDc::~SDc()
 {
 
 }
+
+//////////////////
+
+//创建设备上下文环境
+SDc &SDc::CreateDc(LPTSTR lpszDriver, LPTSTR lpszDevice = NULL, LPTSTR lpszPort = NULL, const DEVMODE *pdm = NULL)
+{
+	m_hDC = ::CreateDCW(lpszDriver, lpszDevice, lpszPort, pdm);
+	
+	return *this;
+}
+
+// 创建一个与指定设备兼容的内存设备上下文环境
+SDc &SDc::CreateCompatibleDc(SDc dc)
+{
+
+	m_hDC = ::CreateCompatibleDC(dc.GetDc());
+
+	return *this;
+}
+
+
+BOOL SDc::DeleteDC()
+{
+	return ::DeleteDC(m_hDC);
+}
 ///////////////////
 //设置绘图上下文
 void SDc::SetDc(HDC hDC)
@@ -57,11 +82,32 @@ COLORREF SDc::SetTextColor(COLORREF crColor)
 
 }
 
+COLORREF SDc::GetTextColor()
+{
+	return ::GetTextColor(m_hDC);
+}
 
 //设置背景色
 COLORREF SDc::SetBkColor(COLORREF color)
 {
 	return ::SetBkColor(m_hDC, color);
+}
+COLORREF SDc::SetBkColor(BOOL bTrans)
+{
+	return ::SetBkMode(m_hDC, bTrans);
+}
+COLORREF SDc::GetBkColor()
+{
+	return ::GetBkMode(m_hDC);
+}
+
+int SDc::SetBkMode(int iBkMode)
+{
+	return ::SetBkMode(m_hDC, iBkMode);
+}
+int SDc::GetBkMode()
+{
+	return ::GetBkMode(m_hDC);
 }
 
 ///////////////
@@ -128,7 +174,16 @@ BOOL SDc::FillRect(int left, int top, int right, int bottom, HBRUSH hbr)
 	temp.right = right;
 	temp.bottom = bottom;
 
-	return ::FillRect(m_hDC, &temp, (hbr ? hbr : ::CreateSolidBrush(BLACK_COLOR)));
+	return ::FillRect(m_hDC, &temp, hbr);
+}
+//填充矩形
+BOOL SDc::FillRect(int left, int top, int right, int bottom, COLORREF crColor)
+{
+	HBRUSH hBrush = CreateSolidBrush(crColor);		//定义单色画刷
+	RECT rc = { left, top, right, bottom };			//定义矩形大小
+	BOOL result = ::FillRect(m_hDC, &rc, hBrush);					//绘制填充矩形
+	::DeleteObject(hBrush);
+	return result;
 }
 
 BOOL SDc::RoundRect(int left, int top, int right, int bottom, int width, int height)
@@ -185,6 +240,21 @@ BOOL SDc::GradientFill(CONST PTRIVERTEX pVertex, ULONG uVertex, CONST PVOID pMes
 	return ::GradientFill(m_hDC, pVertex, uVertex, pMesh, nMesh, ulMode);
 }
 */
+BOOL SDc::DrawString(SString str, int x, int y, UINT format,COLORREF crColor, BOOL bTrans)
+{
+	int bkModeOld;
+	if (bTrans) bkModeOld=this->SetBkMode(TRANSPARENT);
+	COLORREF colorOld = this->SetTextColor(crColor);
+
+	RECT rt{ x, y, 0, 0 };
+	//这句话不绘制,用来计算文本宽高
+	::DrawText(m_hDC, str.c_str(), -1, &rt, DT_CALCRECT);
+	return ::DrawText(m_hDC, str.c_str(), -1, &rt, format);
+
+	this->SetTextColor(colorOld);
+	if (bTrans)this->SetBkMode(bkModeOld);
+}
+
 
 BOOL SDc::DrawString(SString str, RECT rt, UINT format)
 {

@@ -11,6 +11,7 @@
 
 class SPen :public SGdiObject
 {
-
+protected:
+	LOGPEN m_sPen;
 };
 #endif

@@ -12,6 +12,8 @@
 
 class SFont :public SGdiObject
 {
+protected:
+	LOGFONT m_sFont;			//字体结构体
 public:
 	SFont();
 	SFont(LOGFONT lFont);

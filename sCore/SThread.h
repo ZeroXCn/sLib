@@ -24,6 +24,9 @@ class SThread : public SRunnable
 {
 public:
 	static SThread *Run(function<void(void)> callback);
+public:
+	//Ïß³ÌÐÝÃß
+	static void Sleep(DWORD dwMilliseconds);
 private:
 	explicit SThread(const SThread & rhs);
 private:
