@@ -5,7 +5,6 @@
 * @version v1.0 21/07/2017 
 */
 #include "../sCore/SThread.h"
-#include "../sGraphic/SGraphics.h"
 
 #include "SApplication.h"
 #include "SMessageHandler.h"

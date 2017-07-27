@@ -9,7 +9,7 @@ SGdiObject::SGdiObject(HGDIOBJ hGdiObj)
 	m_hGdiObj = hGdiObj;
 }
 
-HGDIOBJ SGdiObject::GetObject()
+HGDIOBJ SGdiObject::Get()
 {
 	return m_hGdiObj;
 }
@@ -19,7 +19,9 @@ int SGdiObject::GetObject(int cbBuffer, LPVOID lpvObject)
 	return ::GetObject(m_hGdiObj, cbBuffer, lpvObject);
 }
 
-BOOL SGdiObject::DeleteObject()
+BOOL SGdiObject::Delete()
 {
-	return ::DeleteObject(m_hGdiObj);
+	BOOL result= ::DeleteObject(m_hGdiObj);
+	m_hGdiObj = NULL;
+	return result;
 }

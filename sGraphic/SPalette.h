@@ -9,8 +9,17 @@
 #define _SPALETTE_H_
 class SPalette :public SGdiObject
 {
-protected:
-	LOGPALETTE m_sPalette;
+public:
+	SPalette();
+	SPalette(SGdiObject Obj);
+	SPalette(HPALETTE hPalette);
+	virtual ~SPalette();
+public:
+	void SetPalette(HPALETTE hPalette);
+	HPALETTE GetPalette();
+	LOGPALETTE GetPaletteStruct();
+public:
+	BOOL Create(LOGPALETTE lplgpl);
 };
 
 #endif

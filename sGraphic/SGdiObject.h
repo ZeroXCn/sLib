@@ -19,12 +19,12 @@ public:
 	SGdiObject(HGDIOBJ hGdiObj);
 public:
 	//取的封装内容
-	HGDIOBJ GetObject();
+	HGDIOBJ Get();
 
 	//到指定图形对象的信息
 	int GetObject(int cbBuffer, LPVOID lpvObject);
 
 	//释放所有与该对象有关的系统资源
-	BOOL DeleteObject();
+	BOOL Delete();
 };
 #endif

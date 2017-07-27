@@ -90,14 +90,9 @@
     <ClInclude Include="sGraphic\SDc.h" />
     <ClInclude Include="sGraphic\SFont.h" />
     <ClInclude Include="sGraphic\SGdiObject.h" />
-    <ClInclude Include="sGraphic\SGraphics.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SGraphics2D.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="sGraphic\SPalette.h" />
     <ClInclude Include="sGraphic\SPen.h" />
+    <ClInclude Include="sGraphic\SRgn.h" />
     <ClInclude Include="sUi\SApplication.h" />
     <ClInclude Include="sUi\SLabel.h" />
     <ClInclude Include="sUi\SMessageHandler.h" />
@@ -121,15 +116,14 @@
     <ClCompile Include="sCore\SStringList.cpp" />
     <ClCompile Include="sCore\SThread.cpp" />
     <ClCompile Include="sCore\STimer.cpp" />
+    <ClCompile Include="sGraphic\SBitmap.cpp" />
+    <ClCompile Include="sGraphic\SBrush.cpp" />
     <ClCompile Include="sGraphic\SDc.cpp" />
     <ClCompile Include="sGraphic\SFont.cpp" />
     <ClCompile Include="sGraphic\SGdiObject.cpp" />
-    <ClCompile Include="sGraphic\SGraphics.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
-    <ClCompile Include="sGraphic\SGraphics2D.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
+    <ClCompile Include="sGraphic\SPalette.cpp" />
+    <ClCompile Include="sGraphic\SPen.cpp" />
+    <ClCompile Include="sGraphic\SRgn.cpp" />
     <ClCompile Include="sUi\SApplication.cpp" />
     <ClCompile Include="sUi\SLabel.cpp" />
     <ClCompile Include="sUi\SMessageHandler.cpp" />

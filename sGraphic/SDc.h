@@ -10,11 +10,20 @@
 
 #include "SGdiObject.h"
 #include "SBitmap.h"
+#include "SFont.h"
+#include "SBrush.h"
+#include "SPen.h"
+#include "SRgn.h"
+#include "SPalette.h"
+
 #ifndef _SDC_H_
 #define _SDC_H_
 #include <Windows.h>
+#include <Mmsystem.h>
 #include <wingdi.h>
-#pragma comment(lib,"gdi32.lib")		//引用库
+
+#pragma	comment(lib,"winmm.lib" )
+#pragma comment(lib,"gdi32.lib")
 
 #define RED_COLOR RGB(255,0,0)
 #define GREEN_COLOR RGB(255,0,0)
@@ -61,11 +70,39 @@ public:
 	HGDIOBJ SelectObject(HGDIOBJ hgdiobj);
 	SGdiObject SelectObject(SGdiObject pObj);
 
+	//获取当前DC对象
+	HGDIOBJ GetCurrentObject(UINT uObjectType);
+	//获取对象属性
+	UINT GetObjectType(HGDIOBJ hObject);
+
 	//删除，释放系统资源
 	BOOL DeleteObject(HGDIOBJ hObject);
 	BOOL DeleteObject(SGdiObject pObj);
 	
+	//选择字体
+	SFont SetFont(SFont ofont);
+	SFont GetFont();
+	//选择位图
+	SBitmap SetBitmap(SBitmap bitmap);
+	SBitmap GetBitmap();
+	//选择画刷
+	SBrush SetBrush(SBrush brush);
+	SBrush GetBrush();
+	//选择画笔
+	SPen SetPen(SPen pen);
+	SPen GetPen();
+	//选择区域
+	SRgn SetRgn(SRgn rgn);
+
+	//调色板
+	SPalette GetPalette();
+
+
 public:
+	//指定设备环境设置文字对齐标志
+	UINT SetTextAlign(UINT fMode); // 文本对齐选项
+	UINT GetTextAlign(); // 文本对齐选项
+
 	//设置文本颜色
 	COLORREF SetTextColor(COLORREF crColor);
 	COLORREF GetTextColor();
@@ -78,6 +115,7 @@ public:
 	//设置背景模式-OPAQUE不透明和TRANSPARENT透明
 	int SetBkMode(int iBkMode);
 	int GetBkMode();
+
 public:
 	//画点
 	BOOL DrawPoint(int x, int y, COLORREF color = RGB(0, 0, 0));
@@ -126,15 +164,21 @@ public:
 	BOOL DrawPolyPolygon(POINT *apt, int *asz, int csz);
 
 	//渐变填充
-	//BOOL GradientFill(CONST PTRIVERTEX pVertex, DWORD dwNumVertex, CONST PVOID pMesh, DWORD dwNumMesh, DWORD dwMode);
+	BOOL GradientFill(CONST PTRIVERTEX pVertex, DWORD dwNumVertex, CONST PVOID pMesh, DWORD dwNumMesh, DWORD dwMode);
 
 	//输出文字
-	BOOL DrawString(SString str, int x, int y, UINT format=DT_LEFT, COLORREF crColor = BLACK_COLOR, BOOL bTrans = TRUE);
-	BOOL DrawString(SString str, RECT rt, UINT format = DT_CALCRECT);
+	BOOL DrawString(SString str, int x, int y, COLORREF crColor = BLACK_COLOR, BOOL bTrans = TRUE, UINT format = DT_LEFT);
+	int DrawString(SString str, RECT rt, UINT format = DT_CALCRECT);
+	//输出带边框文字
+	int DrawStringEx(SString str, LPRECT lprc, UINT dwDTFormat = DT_LEFT, LPDRAWTEXTPARAMS lpDTParams = NULL);
 
 	//输出位图
+	BOOL DrawImage(HBITMAP hbm, int x, int y, DWORD dwRop = SRCCOPY);
+	BOOL DrawImage(HBITMAP hbm, int x, int y, UINT crTransparent);
 	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc = 0, int ySrc = 0, DWORD dwRop = SRCCOPY);
-
+	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, int xSrcWidth, int ySrcHeight, DWORD dwRop = SRCCOPY);
+	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, UINT crTransparent = RGB(255, 255, 255));
+	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, int xSrcWidth, int ySrcHeight, UINT crTransparent );
 
 };
 
