@@ -16,6 +16,8 @@
 #include "SRgn.h"
 #include "SPalette.h"
 
+#include "SBufferDC.h"
+
 #ifndef _SDC_H_
 #define _SDC_H_
 #include <Windows.h>
@@ -45,25 +47,20 @@ public:
 
 public:
 	//设置绘图上下文
-	void SetDc(HDC hDC);
+	void SetDC(HDC hDC);
 
 	//取得当前绘图上下文
-	HDC GetDc();
+	HDC GetDC();
 
 public:
 	//创建设备上下文环境
-	SDc &CreateDc(LPTSTR lpszDriver, LPTSTR lpszDevice = NULL, LPTSTR lpszPort = NULL, const DEVMODE *pdm = NULL);
+	SDc &CreateDC(LPTSTR lpszDriver, LPTSTR lpszDevice = NULL, LPTSTR lpszPort = NULL, const DEVMODE *pdm = NULL);
 
 	// 创建一个与指定设备兼容的内存设备上下文环境
-	SDc &CreateCompatibleDc(SDc dc);
+	SDc &CreateCompatibleDC(SDc dc);
 
 	// 删除指定的设备上下文环境（Dc）。
 	BOOL DeleteDC();
-public:
-	/* 以下函数为创建与该DC兼容的GDI对象 */
-	//创建兼容该DC的位图对象
-	SBitmap CreateBitmap(int nWidth, int nHeight);
-
 
 public:
 	//选择一对象到指定的设备上下文环境中
@@ -179,6 +176,65 @@ public:
 	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, int xSrcWidth, int ySrcHeight, DWORD dwRop = SRCCOPY);
 	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, UINT crTransparent = RGB(255, 255, 255));
 	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, int xSrcWidth, int ySrcHeight, UINT crTransparent );
+
+	//输出画布
+	BOOL DrawDC(HDC hdcSrc, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, DWORD dwRop = SRCCOPY);
+	BOOL DrawDC(HDC hdcSrc, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, int nXOriginSrc = 0, int nYOriginSrc = 0, DWORD dwRop = SRCCOPY);
+public:
+	/* DC操作 */
+	//二维的线性转变，此转换可用于输出缩放、旋转、倾斜变换或平移变换的图形。
+	int SetTransform(CONST XFORM *lpXform);
+	XFORM GetTransform();
+	int RestoreTransform(int nGraphicsMode = GM_COMPATIBLE);	//恢复正常DC
+
+	//旋转和恢复旋转
+	int Rotate(int iAngle, int cx = 0, int cy = 0);
+	int Rotate(double dTheta, int cx = 0, int cy = 0);
+	int RotateFrom(int iAngle, int cx = 0, int cy = 0);
+	int RotateFrom(double dTheta, int cx = 0, int cy = 0);
+	
+	//缩放
+	int Scale(float sx, float sy);
+	int ScaleFrom(float sx, float sy);
+
+	//平移
+	int Offset(int cx, int cy);
+	int OffsetFrom(int cx, int cy);
+
+	//错切
+	int Shear(int sx, int sy);
+
+	//反射
+	int Reflect(int cx, int cy );
+
+	//镜像-关于某中轴线
+	int Mirror(int dX);
+
+	//关于某点对称
+	int Symmetry(int cx, int cy);
+
+public:
+	/* 以下是位图操作 */
+	//对指定的源设备环境区域中的像素进行位块（bit_block）转换，以传送到目标设备环境。
+	BOOL BitBlt(int nXDest, int nYDest, int nWidth, int nHeight, HDC hdcSrc, int nXSrc, int nYSrc, DWORD dwRop = SRCCOPY);
+
+	//选入指定设备环境中的刷子绘制给定的矩形区域
+	BOOL PatBlt(int nXLeft, int nYLeft, int nWidth, int nHeight, DWORD dwRop = PATCOPY);
+
+	//对源设备环境中指定的矩形区域中的颜色数据位进行位块转换，并转换到目标设备环境中指定的平行四边形里。
+	BOOL PlgBlt(CONST POINT *lpPoint, HDC hdcSrc, int nXSrc, int nYSrc, int nWidth, int nHeight, HBITMAP hbmMask, int xMask, int yMask);
+
+	//从源矩形中复制一个位图到目标矩形，必要时按目标设备设置的模式进行图像的拉伸或压缩
+	BOOL StretchBlt(int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, HDC hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, DWORD dwRop);
+
+	//使用特定的掩码和光栅操作来对源和目标位图的颜色数据进行组合
+	BOOL MaskBlt(int nXDest, int nYDest, int nWidth, int nHeight, HDC hdcSrc, int nXSrc, int nYSrc, HBITMAP hbmMask, int xMask, int yMask, DWORD dwRop);
+
+	//对指定的源设备环境中的矩形区域像素的颜色数据进行位块（bit_block）转换，并将结果置于目标设备环境
+	BOOL TransparentBlt(int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, HDC hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, UINT crTransparent);
+
+	//用来显示具有指定透明度的图像
+	BOOL AlphaBlend(int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, HDC hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, BLENDFUNCTION blendFunction);
 
 };
 

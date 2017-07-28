@@ -69,7 +69,7 @@ public:
 public:
 	/* 位图操作 */
 	//对指定的源设备环境区域中的像素进行位块（bit_block）转换，以传送到目标设备环境。
-	BOOL BitBlt( HDC hdcDest,  int nXDest,  int nYDest,  int nWidth,  int nHeight,  HDC hdcSrc,  int nXSrc,  int nYSrc,  DWORD dwRop);
+	BOOL BitBlt(HDC hdcDest,  int nXDest,  int nYDest,  int nWidth,  int nHeight,  HDC hdcSrc,  int nXSrc,  int nYSrc,  DWORD dwRop);
 	BOOL BitBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, int nXSrc = 0, int nYSrc = 0, DWORD dwRop = SRCCOPY);
 	BOOL BitBlt(HDC hdcDest, int nXDest, int nYDest, DWORD dwRop = SRCCOPY);
 

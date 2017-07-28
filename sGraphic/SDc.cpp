@@ -20,18 +20,18 @@ SDc::~SDc()
 //////////////////
 
 //创建设备上下文环境
-SDc &SDc::CreateDc(LPTSTR lpszDriver, LPTSTR lpszDevice , LPTSTR lpszPort , const DEVMODE *pdm)
+SDc &SDc::CreateDC(LPTSTR lpszDriver, LPTSTR lpszDevice , LPTSTR lpszPort , const DEVMODE *pdm)
 {
-	m_hDC = ::CreateDCW(lpszDriver, lpszDevice, lpszPort, pdm);
+	m_hDC = ::CreateDC(lpszDriver, lpszDevice, lpszPort, pdm);
 	
 	return *this;
 }
 
 // 创建一个与指定设备兼容的内存设备上下文环境
-SDc &SDc::CreateCompatibleDc(SDc dc)
+SDc &SDc::CreateCompatibleDC(SDc dc)
 {
 
-	m_hDC = ::CreateCompatibleDC(dc.GetDc());
+	m_hDC = ::CreateCompatibleDC(dc.GetDC());
 
 	return *this;
 }
@@ -43,13 +43,13 @@ BOOL SDc::DeleteDC()
 }
 ///////////////////
 //设置绘图上下文
-void SDc::SetDc(HDC hDC)
+void SDc::SetDC(HDC hDC)
 {
 	m_hDC = hDC;
 }
 
 //取得当前绘图上下文
-HDC SDc::GetDc()
+HDC SDc::GetDC()
 {
 	return m_hDC;
 }
@@ -143,13 +143,6 @@ SPalette SDc::GetPalette()
 	return SPalette((HPALETTE)::GetCurrentObject(m_hDC, OBJ_PAL));
 }
 
-///////////////////
-SBitmap SDc::CreateBitmap(int nWidth, int nHeight)
-{
-	SBitmap lbitmap(::CreateCompatibleBitmap(m_hDC, nWidth, nHeight));
-	return lbitmap;
-	
-}
 /////////////////
 //指定设备环境设置文字对齐标志
 UINT SDc::SetTextAlign(UINT fMode)
@@ -391,7 +384,7 @@ BOOL SDc::DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc
 	HDC hdcMem = ::CreateCompatibleDC(m_hDC);		//创建兼容设备
 	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, hbm);	//将位图选入兼容设备，并记录下旧的句柄
 
-	BOOL result = StretchBlt(m_hDC, x, y, nWidth, nHeight, hdcMem, xSrc, ySrc, xSrcWidth, ySrcHeight, dwRop);
+	BOOL result = ::StretchBlt(m_hDC, x, y, nWidth, nHeight, hdcMem, xSrc, ySrc, xSrcWidth, ySrcHeight, dwRop);
 
 	::SelectObject(hdcMem, hOldBmp);
 	::DeleteObject(hOldBmp);
@@ -413,11 +406,253 @@ BOOL SDc::DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc
 	HDC hdcMem = ::CreateCompatibleDC(m_hDC);		//创建兼容设备
 	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, hbm);	//将位图选入兼容设备，并记录下旧的句柄
 
-	BOOL result = TransparentBlt(m_hDC, x, y, nWidth, nHeight, hdcMem, xSrc, ySrc, xSrcWidth, ySrcHeight, crTransparent);
+	BOOL result = ::TransparentBlt(m_hDC, x, y, nWidth, nHeight, hdcMem, xSrc, ySrc, xSrcWidth, ySrcHeight, crTransparent);
 
 	::SelectObject(hdcMem, hOldBmp);
 	::DeleteObject(hOldBmp);
 	::DeleteDC(hdcMem);
 
 	return result;
+}
+
+BOOL SDc::DrawDC(HDC hdcSrc, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, DWORD dwRop)
+{
+	return ::StretchBlt(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, hdcSrc, nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, dwRop);
+
+}
+BOOL SDc::DrawDC(HDC hdcSrc, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, int nXOriginSrc , int nYOriginSrc, DWORD dwRop)
+{
+	return ::BitBlt(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, hdcSrc, nXOriginSrc, nYOriginSrc, dwRop);
+}
+///////////////
+int SDc::SetTransform(CONST XFORM *lpXform)
+{
+	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	::SetWorldTransform(m_hDC, lpXform);
+	return nGraphicsMode;
+}
+
+XFORM SDc::GetTransform()
+{
+	XFORM Xform;
+	::GetWorldTransform(m_hDC, &Xform);
+	return Xform;
+}
+
+int SDc::RestoreTransform(int nGraphicsMode)
+{
+	//单位矩阵,恒等变化
+	XFORM xform;
+	xform.eM11 = (float)1.0;
+	xform.eM12 = (float)0;
+	xform.eM21 = (float)0;
+	xform.eM22 = (float)1.0;
+	xform.eDx = (float)0;
+	xform.eDy = (float)0;
+
+	SetWorldTransform(m_hDC, &xform);
+	return SetGraphicsMode(m_hDC, nGraphicsMode);
+}
+
+// 将DC旋转一定的角度  
+int SDc::Rotate(double dTheta, int cx, int cy)
+{
+	//为指定的设备环境设置图形模式
+	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	XFORM xform;
+
+	//旋转矩阵
+	double fangle = dTheta; //(double)iAngle / 180. * 3.1415926;
+
+	xform.eM11 = (float)cos(fangle);
+	xform.eM12 = (float)sin(fangle);
+	xform.eM21 = (float)-sin(fangle);
+	xform.eM22 = (float)cos(fangle);
+	xform.eDx = (float)(cx - cos(fangle)*cx + sin(fangle)*cy);
+	xform.eDy = (float)(cy - cos(fangle)*cy - sin(fangle)*cx);
+
+	::SetWorldTransform(m_hDC, &xform);
+	
+	return nGraphicsMode;
+}
+int SDc::Rotate(int iAngle, int cx , int cy)
+{
+	return Rotate((double)((double)iAngle / 180.f * 3.1415926), cx, cy);
+}
+
+int SDc::RotateFrom(int iAngle, int cx , int cy)
+{
+	return RotateFrom((double)((double)iAngle / 180.f * 3.1415926), cx, cy);
+}
+int SDc::RotateFrom(double dTheta, int cx , int cy )
+{
+	
+	XFORM xOldform;
+	double OldTheta;
+	::GetWorldTransform(m_hDC, &xOldform);
+	OldTheta = acos(xOldform.eM11);	//取得之前DC的原角度
+	return Rotate(OldTheta+dTheta, cx, cy);
+}
+
+
+int SDc::Scale(float sx, float sy)
+{
+	//为指定的设备环境设置图形模式
+	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	XFORM xform;
+	//平移矩阵
+	xform.eM11 = (float)sx;
+	xform.eM12 = (float)0.f;
+	xform.eM21 = (float)0.f;
+	xform.eM22 = (float)sy;
+	xform.eDx = (float)0.f;
+	xform.eDy = (float)0.f;
+
+	::SetWorldTransform(m_hDC, &xform);
+
+	return nGraphicsMode;
+}
+int SDc::ScaleFrom(float sx, float sy)
+{
+	XFORM xOldform;
+	::GetWorldTransform(m_hDC, &xOldform);
+	sx *= xOldform.eM11; sy *= xOldform.eM22;
+	return Scale(sx, sy);
+}
+
+
+int SDc::Offset(int cx, int cy)
+{
+	//为指定的设备环境设置图形模式
+	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	XFORM xform;
+	//平移矩阵
+	xform.eM11 = (float)1.f;
+	xform.eM12 = (float)0.f;
+	xform.eM21 = (float)0.f;
+	xform.eM22 = (float)1.f;
+	xform.eDx = (float)cx;
+	xform.eDy = (float)cy;
+
+	::SetWorldTransform(m_hDC, &xform);
+
+	return nGraphicsMode;
+}
+
+int SDc::OffsetFrom(int cx, int cy)
+{
+	XFORM xOldform;
+	::GetWorldTransform(m_hDC, &xOldform);
+	cx += (int)xOldform.eDx; cy += (int)xOldform.eDy;
+	return Offset(cx,cy);
+}
+
+//错切
+int SDc::Shear(int sx, int sy)
+{
+	//为指定的设备环境设置图形模式
+	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	XFORM xform;
+	//错切矩阵
+	xform.eM11 = (float)1.f;
+	xform.eM12 = (float)sx;
+	xform.eM21 = (float)sy;
+	xform.eM22 = (float)1.f;
+	xform.eDx = (float)0;
+	xform.eDy = (float)0;
+
+	::SetWorldTransform(m_hDC, &xform);
+
+	return nGraphicsMode;
+}
+
+//反射
+int SDc::Reflect(int cx, int cy)
+{
+	return Scale((float)(cx >= 0 ? 1 : -1), (float)(cy >= 0 ? 1 : -1));
+}
+
+//镜像
+int SDc::Mirror(int dX)
+{
+	//为指定的设备环境设置图形模式
+	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	XFORM xform;
+	//镜像矩阵
+	xform.eM11 = (float)-1.f;
+	xform.eM12 = (float)0.f;
+	xform.eM21 = (float)0.f;
+	xform.eM22 = (float)1.f;
+	xform.eDx = (float)dX;
+	xform.eDy = (float)0.f;
+
+	::SetWorldTransform(m_hDC, &xform);
+
+	return nGraphicsMode;
+}
+
+int SDc::Symmetry(int cx, int cy)
+{
+	//为指定的设备环境设置图形模式
+	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	XFORM xform;
+	//对称矩阵
+	xform.eM11 = (float)-1.f;
+	xform.eM12 = (float)0.f;
+	xform.eM21 = (float)0.f;
+	xform.eM22 = (float)-1.f;
+	xform.eDx = (float)2 * cx;
+	xform.eDy = (float)2 * cy;
+
+	::SetWorldTransform(m_hDC, &xform);
+
+	return nGraphicsMode;
+}
+
+/////////////////
+//对指定的源设备环境区域中的像素进行位块（bit_block）转换，以传送到目标设备环境。
+BOOL SDc::BitBlt(int nXDest, int nYDest, int nWidth, int nHeight, HDC hdcSrc, int nXSrc, int nYSrc, DWORD dwRop)
+{
+	return ::BitBlt(m_hDC, nXDest, nYDest, nWidth, nHeight, hdcSrc, nXSrc, nYSrc, dwRop);
+}
+
+//选入指定设备环境中的刷子绘制给定的矩形区域
+BOOL SDc::PatBlt(int nXLeft, int nYLeft, int nWidth, int nHeight, DWORD dwRop)
+{
+	return ::PatBlt(m_hDC, nXLeft, nYLeft, nWidth, nHeight, dwRop);
+
+}
+
+//对源设备环境中指定的矩形区域中的颜色数据位进行位块转换，并转换到目标设备环境中指定的平行四边形里。
+BOOL SDc::PlgBlt(CONST POINT *lpPoint, HDC hdcSrc, int nXSrc, int nYSrc, int nWidth, int nHeight, HBITMAP hbmMask, int xMask, int yMask)
+{
+	return ::PlgBlt(m_hDC, lpPoint, hdcSrc, nXSrc, nYSrc, nWidth, nHeight, hbmMask, xMask, yMask);
+
+}
+
+//从源矩形中复制一个位图到目标矩形，必要时按目标设备设置的模式进行图像的拉伸或压缩
+BOOL SDc::StretchBlt(int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, HDC hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, DWORD dwRop)
+{
+	return ::StretchBlt(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, hdcSrc, nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, dwRop);
+}
+
+//使用特定的掩码和光栅操作来对源和目标位图的颜色数据进行组合
+BOOL SDc::MaskBlt(int nXDest, int nYDest, int nWidth, int nHeight, HDC hdcSrc, int nXSrc, int nYSrc, HBITMAP hbmMask, int xMask, int yMask, DWORD dwRop)
+{
+	return ::MaskBlt(m_hDC, nXDest, nYDest, nWidth, nHeight, hdcSrc, nXSrc, nYSrc, hbmMask, xMask, yMask, dwRop);
+
+}
+
+//对指定的源设备环境中的矩形区域像素的颜色数据进行位块（bit_block）转换，并将结果置于目标设备环境
+BOOL SDc::TransparentBlt(int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, HDC hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, UINT crTransparent)
+{
+	return ::TransparentBlt(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, hdcSrc, nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, crTransparent);
+
+}
+
+//用来显示具有指定透明度的图像
+BOOL SDc::AlphaBlend(int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, HDC hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, BLENDFUNCTION blendFunction)
+{
+	return ::AlphaBlend(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, hdcSrc, nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, blendFunction);
+
 }

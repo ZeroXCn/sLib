@@ -147,6 +147,9 @@
     <ClInclude Include="sGraphic\SRgn.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sGraphic\SBufferDC.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp">
@@ -237,6 +240,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sGraphic\SRgn.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SBufferDC.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -68,7 +68,7 @@ SDc SWidget::GetDC()
 {
 	SDc dc;
 	if (m_Wnd.GetWnd())
-		dc.SetDc(m_Wnd.GetDC());
+		dc.SetDC(m_Wnd.GetDC());
 	return dc;
 }
 

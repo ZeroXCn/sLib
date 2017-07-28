@@ -65,6 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="sCore\SAbstractClock.h" />
+    <ClInclude Include="sGraphic\SBufferDC.h" />
     <ClInclude Include="sGraphic\SColor.hpp" />
     <ClInclude Include="sCore\SAsyncTask.h" />
     <ClInclude Include="sCore\SBoolean.h" />
@@ -118,6 +119,7 @@
     <ClCompile Include="sCore\STimer.cpp" />
     <ClCompile Include="sGraphic\SBitmap.cpp" />
     <ClCompile Include="sGraphic\SBrush.cpp" />
+    <ClCompile Include="sGraphic\SBufferDC.cpp" />
     <ClCompile Include="sGraphic\SDc.cpp" />
     <ClCompile Include="sGraphic\SFont.cpp" />
     <ClCompile Include="sGraphic\SGdiObject.cpp" />

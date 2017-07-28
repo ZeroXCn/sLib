@@ -248,7 +248,7 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 	case WM_PAINT:					//窗口重绘消息
 		//NOTE:不写BeginPaint程序将会进入死循环,一直处理一个接一个的WM_PAINT消息
-		dc.SetDc(m_Wnd.BeginPaint(&ps));
+		dc.SetDC(m_Wnd.BeginPaint(&ps));
 
 		//TODO:负责窗口绘制工作,并且绘制其下子控件
 		m_pActivityEvent->OnPaint(dc);
