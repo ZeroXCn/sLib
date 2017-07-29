@@ -86,26 +86,16 @@ BOOL SBitmap::CreateIndirect(CONST BITMAP *lpbm)
 //从资源中加载位图
 BOOL SBitmap::Load(UINT uRcid, HINSTANCE hInstance)
 {
-	return Load(hInstance, MAKEINTRESOURCE(uRcid), IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE);
+	
+	m_hGdiObj = (HBITMAP)::LoadImage(hInstance, MAKEINTRESOURCE(uRcid), IMAGE_BITMAP, 0, 0, LR_DEFAULTSIZE);
+	 return m_hGdiObj ? TRUE : FALSE;
 }
 
 //从文件中加载位图
 BOOL SBitmap::Load(LPTSTR lpFileName, HINSTANCE hInstance)
 {
-	return Load(hInstance, lpFileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
-}
-
-//该函数装载图标，光标，或位图
-BOOL SBitmap::Load(
-	HINSTANCE hinst,
-	LPCTSTR lpszName,
-	UINT uType,
-	int cxDesired,
-	int cyDesired,
-	UINT fuLoad)
-{
-	m_hGdiObj = (HBITMAP)LoadImage(hinst, lpszName, uType, cxDesired, cyDesired, fuLoad);
-	return (m_hGdiObj ? TRUE : FALSE);
+	m_hGdiObj = (HBITMAP)::LoadImage(hInstance, lpFileName, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE);
+	return m_hGdiObj ? TRUE : FALSE;
 }
 
 //////////

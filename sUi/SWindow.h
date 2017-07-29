@@ -31,8 +31,9 @@ class SWindow:
 protected:
 	static int s_winnum;					//设置一个用于记录窗口自增的参数
 protected:
-	WORD		m_wIcon;					//程序图标（大）
-	WORD		m_wSmallIcon;				//程序图标（小）
+	HICON 		m_hIcon;					//程序图标（大）
+	HICON 		m_hSmallIcon;				//程序图标（小）
+	HCURSOR		m_hCursor;					//鼠标图标
 
 	BOOL		m_bFullScreen;				//是否全屏显示
 	int			m_nColorbit;				//色彩模式（32位、24位或16位）
@@ -47,37 +48,34 @@ protected:
 public:
 	//声明空构造函数
 	SWindow(SWidget *parent=NULL);
-
-	//最简单构造
-	SWindow(LPTSTR szTitle);
 	
 	//声明虚析构函数，便于在派生类中进行扩展
 	virtual ~SWindow();
 public:
 	//设置窗口属性
-	void SetAttribute(HINSTANCE hInstance,				//设置程序实例句柄
-		LPTSTR szWindowClass,			//设置窗口名称
-		LPTSTR szTitle,					//设置窗口标题
-		WORD wIcon,						//设置图标（大）
-		WORD wSmallIcon,				//设置图标（小）
+	void SetAttribute(HINSTANCE hInstance,	//设置程序实例句柄
+		LPTSTR szWindowClass,				//设置窗口名称
+		LPTSTR szTitle,						//设置窗口标题
+		HICON szIcon,						//设置图标（大）
+		HICON szSmallIcon,					//设置图标（小）
 		BOOL bFullScreen = FALSE,			//设置全屏，默认为FALSE
 		int nColorbit = 32,					//设置色彩模式，默认为32位色
 		int nWidth = 800,					//设置窗口宽度，默认为800像素
 		int nHeight = 600);					//设置窗口高度，默认为600像素
 
 	void SetAttribute(
-		LPTSTR szWindowClass,			//设置窗口名称
-		LPTSTR szTitle,					//设置窗口标题
-		WORD wIcon,					//设置图标（大）
-		WORD wSmallIcon,				//设置图标（小）
+		LPTSTR szWindowClass,				//设置窗口名称
+		LPTSTR szTitle,						//设置窗口标题
+		HICON szIcon,						//设置图标（大）
+		HICON szSmallIcon,					//设置图标（小）
 		BOOL bFullScreen = FALSE,			//设置全屏，默认为FALSE
 		int nColorbit = 32,					//设置色彩模式，默认为32位色
 		int nWidth = 800,					//设置窗口宽度，默认为800像素
 		int nHeight = 600);					//设置窗口高度，默认为600像素
 
 	void SetAttribute(
-		LPTSTR szWindowClass,			//设置窗口名称
-		LPTSTR szTitle,					//设置窗口标题
+		LPTSTR szWindowClass,				//设置窗口名称
+		LPTSTR szTitle,						//设置窗口标题
 		int nWidth = 800,					//设置窗口宽度，默认为800像素
 		int nHeight = 600);					//设置窗口高度，默认为600像素
 
@@ -88,13 +86,13 @@ public:
 		int nHeight = 600);					//设置窗口高度，默认为600像素
 public:
 	/* 设置大图标 */
-	void SetBigIcon(WORD wIcon);
+	void SetBigIcon(HICON szIcon);
 
 	/* 设置小图标 */
-	void SetSmallIcon(WORD wIcon);
+	void SetSmallIcon(HICON szIcon);
 
 	/* 设置鼠标指针*/
-	long SetCursorIcon(WORD wIcon);
+	long SetCursorIcon(HICON szIcon);
 
 	/* 设置全屏模式 */
 	void SetFullScreen(BOOL bFullScreen);

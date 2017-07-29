@@ -73,7 +73,18 @@ BOOL SWnd::GetWindowRect(LPRECT lpRect)
 	return ::GetWindowRect(m_hWnd, lpRect);
 }
 
+BOOL SWnd::GetClientRect(LPRECT lpRect)
+{
+	return ::GetClientRect(m_hWnd, lpRect);
+}
+
 BOOL SWnd::ScreenToClient(LPPOINT lpPoint)
+{
+	return ::ScreenToClient(m_hWnd, lpPoint);
+}
+
+//矩形的用户坐标转换成屏幕坐标
+BOOL SWnd::ClientToScreen(LPPOINT lpPoint)
 {
 	return ::ScreenToClient(m_hWnd, lpPoint);
 }

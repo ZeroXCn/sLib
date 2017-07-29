@@ -315,8 +315,8 @@ BOOL SWidget::Create()
 		m_dwStyle,									//设置窗口风格
 		m_nPosX,									//设置窗口左上角X坐标		
 		m_nPosY,									//设置窗口左上角Y坐标	
-		m_nWidth,									//设置窗口宽度 + 10是为了与实际大小一致
-		m_nHeight,									//设置窗口高度 + 8原因同上
+		m_nWidth,									//设置窗口宽度
+		m_nHeight,									//设置窗口高度
 		m_pParent ? m_pParent->GetWnd().GetWnd() : NULL,		//父窗口句柄
 		m_hMenu,									//菜单的句柄
 		m_hInstance,								//程序实例句柄

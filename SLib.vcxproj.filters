@@ -150,6 +150,15 @@
     <ClInclude Include="sGraphic\SBufferDC.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sGraphic\SIcon.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SCursor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sMedia\SMedia.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp">
@@ -243,6 +252,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sGraphic\SBufferDC.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SIcon.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SCursor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sMedia\SMedia.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

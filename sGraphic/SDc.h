@@ -62,6 +62,16 @@ public:
 	// 删除指定的设备上下文环境（Dc）。
 	BOOL DeleteDC();
 
+	//把设备上下文环境中悬而未决的操作取消。
+	BOOL CancelDC();
+
+	//保存DC当前状态
+	int SavaDC();
+
+	//恢复由SavaDC()保存的DC
+	BOOL RestoreDC(int nSavedDc);
+
+
 public:
 	//选择一对象到指定的设备上下文环境中
 	HGDIOBJ SelectObject(HGDIOBJ hgdiobj);
@@ -90,10 +100,12 @@ public:
 	SPen GetPen();
 	//选择区域
 	SRgn SetRgn(SRgn rgn);
-
 	//调色板
 	SPalette GetPalette();
-
+public:
+	/* DC属性操作 */
+	//取得DC起始点坐标
+	POINT GetDCOrgEx();
 
 public:
 	//指定设备环境设置文字对齐标志
@@ -171,7 +183,7 @@ public:
 
 	//输出位图
 	BOOL DrawImage(HBITMAP hbm, int x, int y, DWORD dwRop = SRCCOPY);
-	BOOL DrawImage(HBITMAP hbm, int x, int y, UINT crTransparent);
+	BOOL DrawImage(HBITMAP hbm, int x, int y, UINT crTransparent);	//两者不可区分,参数需要强制转换
 	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc = 0, int ySrc = 0, DWORD dwRop = SRCCOPY);
 	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, int xSrcWidth, int ySrcHeight, DWORD dwRop = SRCCOPY);
 	BOOL DrawImage(HBITMAP hbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, UINT crTransparent = RGB(255, 255, 255));

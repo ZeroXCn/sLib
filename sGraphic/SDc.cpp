@@ -41,6 +41,24 @@ BOOL SDc::DeleteDC()
 {
 	return ::DeleteDC(m_hDC);
 }
+
+BOOL SDc::CancelDC()
+{
+	return ::CancelDC(m_hDC);
+}
+
+//保存DC当前状态
+int SDc::SavaDC()
+{
+	return ::SaveDC(m_hDC);
+}
+
+//恢复由SavaDC()保存的DC
+BOOL SDc::RestoreDC(int nSavedDc)
+{
+	return ::RestoreDC(m_hDC, nSavedDc);
+}
+
 ///////////////////
 //设置绘图上下文
 void SDc::SetDC(HDC hDC)
@@ -141,6 +159,13 @@ SRgn SDc::SetRgn(SRgn rgn)
 SPalette SDc::GetPalette()
 {
 	return SPalette((HPALETTE)::GetCurrentObject(m_hDC, OBJ_PAL));
+}
+///////
+POINT SDc::GetDCOrgEx()
+{
+	POINT pt{ 0, 0 };
+	::GetDCOrgEx(m_hDC, &pt);
+	return pt;
 }
 
 /////////////////
@@ -353,7 +378,7 @@ BOOL SDc::DrawImage(HBITMAP hbm, int x, int y, DWORD dwRop)
 	BITMAP  bm;
 	::GetObject(hbm,sizeof(BITMAP), &bm);
 	size.cx = bm.bmWidth; size.cy = bm.bmHeight;
-	return DrawImage(hbm, x, y, size.cx, size.cy, 0, 0, dwRop);
+	return DrawImage(hbm, x, y, size.cx, size.cy, 0, 0, size.cx, size.cy, dwRop);
 }
 
 BOOL SDc::DrawImage(HBITMAP hbm, int x, int y, UINT crTransparent)

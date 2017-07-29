@@ -5,6 +5,7 @@
 * @version v1.0 25/07/2017
 */
 #include "SGdiObject.h"
+
 #ifndef _SBITMAP_H_
 #define _SBITMAP_H_
 #include <Windows.h>
@@ -43,15 +44,6 @@ public:
 
 	//从文件中加载位图
 	BOOL Load(LPTSTR lpFileName, HINSTANCE hInstance = NULL);
-
-	//该函数装载图标，光标，或位图
-	BOOL Load(
-		HINSTANCE hinst,
-		LPCTSTR lpszName,
-		UINT uType,
-		int cxDesired,
-		int cyDesired,
-		UINT fuLoad);
 
 public:
 	//取得,设置位宽

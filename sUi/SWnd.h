@@ -34,8 +34,14 @@ public:
 	//返回指定窗口的边框矩形的尺寸
 	BOOL GetWindowRect(LPRECT lpRect);
 
+	//获取窗口客户区的大小。注意一下：窗口的客户区为窗口中除标题栏、菜单栏之外的地方
+	BOOL GetClientRect(LPRECT lpRect);
+
 	//屏幕坐标到客户区坐标的转换
 	BOOL ScreenToClient(LPPOINT lpPoint);
+
+	//矩形的用户坐标转换成屏幕坐标
+	BOOL ClientToScreen(LPPOINT lpPoint);
 
 	//改变子窗口、弹出窗口和顶层窗口的大小、位置和Z轴次序
 	BOOL SetWindowPos(HWND hWndInsertAfter, int X, int Y, int cx, int cy, UINT uFlags);

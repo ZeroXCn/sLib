@@ -17,6 +17,7 @@ protected:
 public:
 	SGdiObject();
 	SGdiObject(HGDIOBJ hGdiObj);
+	virtual ~SGdiObject();
 public:
 	//取的封装内容
 	HGDIOBJ Get();

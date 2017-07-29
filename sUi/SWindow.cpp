@@ -15,8 +15,12 @@ void SWindow::Init()
 	_stprintf_s(m_szTitle, TEXT("Win32%d"), s_winnum++);
 
 	m_hInstance = SApplication::GetApp() ? SApplication::GetApp()->GetInstance(): ::GetModuleHandle(NULL);
-	m_wIcon = NULL;
-	m_wSmallIcon = NULL;
+
+	//NOTO:仅当加载 WIN 预设图标时 Instance 为NULL
+	m_hIcon = LoadIcon(NULL, IDI_APPLICATION);;
+	m_hSmallIcon = LoadIcon(NULL, IDI_APPLICATION);;
+	m_hCursor = LoadCursor(NULL, IDC_ARROW);
+
 	m_bFullScreen = FALSE;
 	m_nColorbit = 32;
 
@@ -36,14 +40,6 @@ SWindow::SWindow(SWidget *parent) :
 	
 }
 
-SWindow::SWindow(LPTSTR szTitle) :
-	SWidget(NULL)
-{
-	Init();
-	_stprintf_s(m_szTitle, szTitle);
-
-}
-
 /* 窗口析构函数 */
 SWindow::~SWindow()
 {
@@ -54,7 +50,7 @@ SWindow::~SWindow()
 }
 
 
-void SWindow::SetAttribute(HINSTANCE hInstance, LPTSTR szClassName, LPTSTR szTitle, WORD wIcon, WORD wSmallIcon, BOOL bFullScreen, int nColorbit, int nWidth, int nHeight)
+void SWindow::SetAttribute(HINSTANCE hInstance, LPTSTR szClassName, LPTSTR szTitle, HICON hIcon, HICON hSmallIcon, BOOL bFullScreen, int nColorbit, int nWidth, int nHeight)
 {
 	m_hInstance = hInstance;						//设置引擎实例为当前程序实例句柄					
 
@@ -68,18 +64,19 @@ void SWindow::SetAttribute(HINSTANCE hInstance, LPTSTR szClassName, LPTSTR szTit
 	m_nHeight = nHeight;
 
 	/*设置图标和光标*/
-	m_wIcon = wIcon;
-	m_wSmallIcon = wSmallIcon;
+	m_hIcon = hIcon;
+	m_hSmallIcon = hSmallIcon;
+
 
 }
 
-void SWindow::SetAttribute(LPTSTR szWindowClass, LPTSTR szTitle, WORD wIcon, WORD wSmallIcon, BOOL bFullScreen, int nColorbit, int nWidth, int nHeight)
+void SWindow::SetAttribute(LPTSTR szWindowClass, LPTSTR szTitle, HICON hIcon, HICON hSmallIcon, BOOL bFullScreen, int nColorbit, int nWidth, int nHeight)
 {
 	SetAttribute(GetInstance(),
 		szWindowClass,
 		szTitle,
-		wIcon,
-		wSmallIcon,
+		hIcon,
+		hSmallIcon,
 		bFullScreen,
 		nColorbit,
 		nWidth,
@@ -116,26 +113,27 @@ void SWindow::SetAttribute(LPTSTR szTitle, int nWidth, int nHeight)
 }
 
 
-long SWindow::SetCursorIcon(WORD wIcon){
+long SWindow::SetCursorIcon(HCURSOR hIcon){
 	
-	long lCur = (long)LoadCursor(GetInstance(), MAKEINTRESOURCE(wIcon));
+	long lCur = (long)hIcon;
 	if (m_Wnd.GetWnd()){
 		m_Wnd.SetClassLong(GCL_HCURSOR, lCur);
 		return lCur;
 	}
+	else m_hCursor = hIcon;
 	return 0;
 }
 
 
-void SWindow::SetBigIcon(WORD wIcon)
+void SWindow::SetBigIcon(HICON hIcon)
 {
-	m_wIcon = wIcon;
+	m_hIcon = hIcon;
 }
 
 
-void SWindow::SetSmallIcon(WORD wIcon)
+void SWindow::SetSmallIcon(HICON hIcon)
 {
-	m_wSmallIcon = wIcon;
+	m_hSmallIcon = hIcon;
 }
 
 
@@ -367,9 +365,9 @@ BOOL SWindow::Create(){
 	wcApp.hInstance = m_hInstance;								//指定义窗口应用程序的句柄
 	wcApp.cbWndExtra = 0;										//指向窗口过程函数的指针. 可以使用 CallWindowProc函数调用窗口过程.
 	wcApp.cbClsExtra = 0;										//指定紧跟在类之后的附加内存空间的字节数. 系统初始化为0.
-	wcApp.hIconSm = m_wIcon ? LoadIcon(m_hInstance, MAKEINTRESOURCE(m_wIcon)) : NULL;			//加载程序图标（大）
-	wcApp.hIcon = m_wSmallIcon ? LoadIcon(m_hInstance, MAKEINTRESOURCE(m_wSmallIcon)) : NULL;	//加载程序图标（小）
-	wcApp.hCursor = LoadCursor(NULL, IDC_ARROW);				//加载鼠标样式
+	wcApp.hIconSm = m_hIcon;									//加载程序图标（大）
+	wcApp.hIcon = m_hSmallIcon;									//加载程序图标（小）
+	wcApp.hCursor = m_hCursor;									//加载鼠标样式
 	wcApp.hbrBackground = (HBRUSH)(COLOR_WINDOW);				//设置窗口背景色
 	wcApp.lpszMenuName = NULL;									//设置窗口没有菜单
 
