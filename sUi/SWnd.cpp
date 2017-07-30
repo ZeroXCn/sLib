@@ -141,3 +141,13 @@ BOOL SWnd::EndPaint(CONST PAINTSTRUCT *lpPaint)
 {
 	return ::EndPaint(m_hWnd, lpPaint);
 }
+
+HWND SWnd::GetParent()
+{
+	return ::GetParent(m_hWnd);
+}
+
+BOOL SWnd::EnableWindow(BOOL bEnable)
+{
+	return ::EnableWindow(m_hWnd, bEnable);
+}

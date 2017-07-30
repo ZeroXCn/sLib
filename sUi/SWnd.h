@@ -88,5 +88,11 @@ public:
 	//标记指定窗口的绘画过程结束
 	BOOL EndPaint(CONST PAINTSTRUCT *lpPaint);
 
+	//获取父窗口句柄。
+	HWND GetParent();
+
+	//允许/禁止指定的窗口或控件接受鼠标和键盘的输入
+	BOOL EnableWindow(BOOL bEnable);
+
 };
 #endif

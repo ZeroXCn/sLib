@@ -1,12 +1,12 @@
 /**
-* SMessageHandler类
+* SMessageHandler抽象类
 * 消息处理程序,实现从普通函数到对象方法转换
 *
 * @author ZeroX 参考自colin<linzhenqun@gmail.com>
 * @address http://blog.csdn.net/linzhengqun/article/details/6540366
 * @version v1.0 21/07/2017
 */
-#include "../sCore/SObject.h"
+
 #ifndef _SMESSAGEHANDLER_H_
 #define _SMESSAGEHANDLER_H_
 
@@ -15,7 +15,7 @@
 using namespace std;
 
 //typedef LRESULT(CALLBACK *WNDPROC)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
-class SMessageHandler :public SObject
+class SMessageHandler
 {
 protected:
 	class wnd_hash

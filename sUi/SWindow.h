@@ -7,7 +7,6 @@
 #include "../sCore/SThread.h"
 
 #include "SApplication.h"
-#include "SMessageHandler.h"
 #include "SWidget.h"
 
 #include "SWindowActivityEvent.h"
@@ -21,9 +20,8 @@
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 class SWindow:
-	public SThread,
 	public SWidget,
-	public SMessageHandler,
+	public SRunnable,
 	public SWindowActivityEvent,
 	public SWindowInputEvent
 {
@@ -40,6 +38,7 @@ protected:
 
 	BOOL		m_bIsRunning;				//循环标记
 
+	SThread *m_pThread;						//线程
 	SWindowInputEvent *m_pInputEvent;		//输入事件
 	SWindowActivityEvent *m_pActivityEvent;	//活动事件
 protected:
@@ -126,7 +125,9 @@ protected:
 	//取得窗口输入事件
 	SWindowActivityEvent *GetWindowActivityEvent();
 public:
-	virtual void DoModal();
+	//模态显示
+	virtual int DoModal();
+
 	//显示控件
 	virtual void Show();
 	virtual void Show(int nCmdShow);
@@ -135,17 +136,19 @@ public:
 	virtual void Hide();
 
 protected:
-	//IMPORTMENT:父类不能调用子类函数,必须将以下方法写成接口
-	/*//IMPORTMENT:考虑到可设置静态消息回调函数,以下函数必须public,否则静态函数可能无法调用*/
+	/* 以下函数为接口重写函数 */
+
 	//消息回调函数
 	virtual LRESULT CALLBACK OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
-	//控件入口
+	//处理子控件
+	virtual void OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+protected:	
+	//线程主循环部分
 	virtual void OnRun();
 
 	//控件循环事件
 	virtual void OnRunning();
-
 
 public:
 

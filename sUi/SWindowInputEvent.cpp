@@ -1,5 +1,49 @@
 #include "SWindowInputEvent.h"
 
+
+
+SWindowInputEvent::Param::Param(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam) :
+hWnd(hWnd), message(message), wParam(wParam), lParam(lParam)
+{
+
+};
+
+HWND &SWindowInputEvent::Param::GetWnd()
+{
+	return this->hWnd;
+}
+UINT &SWindowInputEvent::Param::GetMessage()
+{
+	return this->message;
+}
+WPARAM &SWindowInputEvent::Param::GetWParam()
+{
+	return this->wParam;
+}
+LPARAM &SWindowInputEvent::Param::GetLParam()
+{
+	return this->lParam;
+}
+
+void SWindowInputEvent::Param::SetWnd(HWND &hWnd)
+{
+	this->hWnd = hWnd;
+}
+void SWindowInputEvent::Param::SetMessage(UINT &message)
+{
+	this->message = message;
+}
+void SWindowInputEvent::Param::SetWParam(WPARAM &wParam)
+{
+	this->wParam = wParam;
+}
+void SWindowInputEvent::Param::SetLParam(LPARAM &lParam)
+{
+	this->lParam = lParam;
+}
+
+///////////////////////////////
+
 //»î¶¯¿ØÖÆ
 void SWindowInputEvent::OnKeyEvent()
 {

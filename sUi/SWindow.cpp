@@ -26,6 +26,7 @@ void SWindow::Init()
 
 	m_bIsRunning = TRUE;
 
+	m_pThread = new SThread((SRunnable *) this);
 	m_pInputEvent = (SWindowInputEvent *) this;
 	m_pActivityEvent = (SWindowActivityEvent *) this;
 
@@ -47,6 +48,8 @@ SWindow::~SWindow()
 	//TODO:线程结束不代表对被释放,
 
 	SApplication::GetApp()->DestroyWindow(this);
+
+	delete m_pThread;
 }
 
 
@@ -199,15 +202,22 @@ SWindowActivityEvent *SWindow::GetWindowActivityEvent()
 }
 
 /////
-void SWindow::DoModal()
+int SWindow::DoModal()
 {
 	if (!IsCreated()){
 		if (Create()){
+			::EnableWindow(m_Wnd.GetParent(), FALSE);  //锁定父窗口
+			
 			Show();
 			OnRun();
+
+			::EnableWindow(m_Wnd.GetParent(), TRUE);//释放父窗口
+			Hide();//隐藏自己
 		}
 	}
 	else SWidget::Show(SW_SHOWNORMAL);
+
+	return 0;
 }
 
 //显示控件
@@ -218,7 +228,7 @@ void SWindow::Show()
 void SWindow::Show(int nCmdShow)
 {
 	if (!IsCreated()){
-		Start();	//开启线程
+		m_pThread->Start();	//开启线程
 	}
 	else SWidget::Show(nCmdShow);
 	
@@ -238,10 +248,13 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 {
 	PAINTSTRUCT ps;					//定义，无初始化,由BeginPaint初始化
 	SDc dc;
+	SWindowActivityEvent::Param acParam(hWnd, message, wParam, lParam);
+	SWindowInputEvent::Param inParam(hWnd, message, wParam, lParam);
+
 	switch (message)
 	{
 	case WM_CREATE:					//窗口建立消息:CreateWindow函数请求创建窗口时发送此消息
-		m_pActivityEvent->OnCreate();
+		m_pActivityEvent->OnCreate(acParam);
 		break;
 
 	case WM_PAINT:					//窗口重绘消息
@@ -254,6 +267,10 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		m_Wnd.EndPaint(&ps);
 
 		break;
+	case WM_COMMAND:
+		m_pActivityEvent->OnCommand(hWnd, message, wParam, lParam);
+		break;
+
 	case WM_KEYDOWN:				//按键消息  
 		m_pInputEvent->OnKeyDown(hWnd, wParam);
 		break;
@@ -289,20 +306,20 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_SETFOCUS:				//游戏窗口得到焦点消息
-		m_pActivityEvent->OnGetFocus();
+		m_pActivityEvent->OnGetFocus(acParam);
 		break;
 
 	case WM_KILLFOCUS:				//游戏窗口失去焦点消息
-		m_pActivityEvent->OnLostFocus();
+		m_pActivityEvent->OnLostFocus(acParam);
 		break;
 
 	case WM_CLOSE:					//窗口关闭消息
-		if (m_pActivityEvent->OnClose(hWnd))				//窗口关闭前的处理
+		if (m_pActivityEvent->OnClose(acParam))				//窗口关闭前的处理
 			DestroyWindow(hWnd);	//发出销毁窗口消息
 		break;
 
 	case WM_DESTROY:				//程序销毁消息
-		m_pActivityEvent->OnDestory();
+		m_pActivityEvent->OnDestory(acParam);
 		PostQuitMessage(0);			//DOUBT:不靠谱,并不是退出自身的,会造成接收不到WM_QUIT消息
 		break;
 		//case	WM_SYSCOMMAND //系统菜单命令：最大化按钮，最小化按，复原按钮，关闭按钮;与用户菜单命令WM_COMMAND有区别哦
@@ -351,6 +368,12 @@ void SWindow::OnRunning()
 	SThread::Sleep(10);
 }
 
+
+
+void SWindow::OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+
+}
 
 //创建控件
 BOOL SWindow::Create(){
@@ -456,7 +479,7 @@ BOOL SWindow::Create(){
 	}
 	else
 	{
-		MessageBox(NULL, TEXT("注册窗口失败"), TEXT("error"), 0);
+		::MessageBox(NULL, TEXT("注册窗口失败"), TEXT("error"), 0);
 		return FALSE;
 	}
 

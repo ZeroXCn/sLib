@@ -12,8 +12,8 @@ SWidget::SWidget(SWidget *parent)
 
 	m_nPosX = 0;
 	m_nPosY = 0;
-	m_nWidth = 480;
-	m_nHeight = 480;
+	m_nWidth = 0;
+	m_nHeight = 0;
 	m_bEnabled = TRUE;
 	m_bVisible = TRUE;
 
@@ -25,6 +25,16 @@ SWidget::SWidget(SWidget *parent)
 SWidget::~SWidget()
 {
 	
+}
+
+/////
+SWidget *SWidget::GetParent()
+{
+	return m_pParent;
+}
+void  SWidget::SetParent(SWidget *parent)
+{
+	m_pParent = parent;
 }
 
 /* 设置实例句柄 */
@@ -43,6 +53,11 @@ void SWidget::SetWnd(SWnd pWnd)
 void SWidget::SetMenu(HMENU hMenu)
 {
 	m_hMenu = hMenu;
+}
+
+HMENU SWidget::GetMenu()
+{
+	return m_hMenu;
 }
 
 /* 设置参数 */
@@ -276,6 +291,7 @@ void SWidget::Update()
 		m_Wnd.UpdateWindow();					//强制刷新窗口
 	}
 }
+//游戏用
 void SWidget::Update(int left, int top, int right, int bottom)
 {
 	if (m_Wnd.GetWnd())
@@ -301,8 +317,14 @@ void SWidget::RePaint()
 	}
 	
 }
+/////////////
+//控件消息处理
+LRESULT CALLBACK SWidget::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	return SMessageHandler::OnProc(hWnd, message, wParam, lParam);
+}
 
-
+////////////
 //创建控件
 BOOL SWidget::Create()
 {

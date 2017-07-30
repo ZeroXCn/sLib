@@ -7,20 +7,21 @@
 *
 */
 
+#include "SObject.h"
 #include "SString.h"  
 #include "SRunnable.h"
 
 #ifndef _STHREAD_H_
 #define _STHREAD_H_
 
-
-
 #include <windows.h>  
 #include <process.h>  
 
 #include <functional>  
 
-class SThread : public SRunnable
+class SThread : 
+	public SObject,
+	public SRunnable
 {
 public:
 	static SThread *Run(function<void(void)> callback);

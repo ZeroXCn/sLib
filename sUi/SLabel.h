@@ -9,11 +9,11 @@
 #ifndef _SLABEL_H_
 #define _SLABEL_H_
 
-#include <Windows.h>
 class SLabel :public SWidget
 {
 public:
-
+	SLabel(SWidget *parent=NULL);
+	virtual ~SLabel();
 public:
 	//´´½¨¿Ø¼þ
 	virtual BOOL Create();

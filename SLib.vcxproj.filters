@@ -159,6 +159,15 @@
     <ClInclude Include="sMedia\SMedia.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sUi\SMessageBox.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SButton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SDialog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp">
@@ -261,6 +270,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sMedia\SMedia.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SMessageBox.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SButton.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SDialog.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,18 +1,17 @@
 /**
 *
-*	SRunnable类
+*	SRunnable接口类
 *	SThread的接口
 *	@author ZeroX
 *	@version v1.0 22/07/2017(22/07/2017)
 *
 */
-#include "SObject.h"
 
 #ifndef _SRUNNABLE_H_
 #define _SRUNNABLE_H_
 #include <functional>
-
-class SRunnable :public SObject
+using namespace std;
+class SRunnable
 {
 public:
 	virtual ~SRunnable() {};

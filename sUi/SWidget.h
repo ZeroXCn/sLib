@@ -7,12 +7,15 @@
 #include "../sCore/SObject.h"
 #include "../sGraphic/SDc.h"
 #include "SWnd.h"
+#include "SMessageHandler.h"
 #ifndef _SWIDGET_H_
 #define _SWIDGET_H_
 
 #include <Windows.h>
 
-class SWidget:public SObject
+class SWidget:
+	public SObject,
+	public SMessageHandler
 {
 protected:
 	SWidget *m_pParent;				//父类控件
@@ -20,7 +23,7 @@ protected:
 	SWnd m_Wnd;						//控件句柄
 
 	HINSTANCE m_hInstance;			//当前控件实例句柄
-	HMENU m_hMenu;					//菜单实例句柄
+	HMENU m_hMenu;					//菜单实例句柄或者记录控件ID
 	LPVOID m_lpParam;				//传递给消息函数的参数指针
 
 	TCHAR m_szClassName[64];		//控件类型名称
@@ -37,30 +40,30 @@ public:
 	SWidget(SWidget *parent = NULL);
 	virtual ~SWidget();
 
-protected:
-	/* 设置实例句柄 */
+public:
+	/* 控件通用操作 */
+	SWidget *GetParent();
+	void SetParent(SWidget *parent);
+
+	//获取设置控件实例句柄
+	HINSTANCE GetInstance();
 	void SetInstance(HINSTANCE hInstance);
 
-	/* 设置控件句柄 */
+	//获取设置控件句柄
+	SWnd GetWnd();
 	void SetWnd(SWnd pWnd);
+
 
 	/* 设置菜单句柄-或者是控件ID */
 	void SetMenu(HMENU hMenu);
+	HMENU GetMenu();
 
 	/* 设置参数 */
 	void SetParam(LPVOID lpParam);
-public:
-	//获取控件实例句柄
-	HINSTANCE GetInstance();
-
-	//获取控件句柄
-	SWnd GetWnd();
+	LPVOID GetParam();
 
 	//获取设备上下文
 	SDc GetDC();
-
-	/* 设置参数 */
-	LPVOID GetParam();
 
 	/* 设置控件类型名称 */
 	void SetClassName(LPTSTR szClassName);
@@ -103,6 +106,7 @@ public:
 	/* 获取设置控件提示 */
 	LPTSTR GetTip();
 	void SetTip(LPTSTR str);
+
 public:
 	/* 置顶窗口 */
 	BOOL SetForegroundWindow();
@@ -124,7 +128,11 @@ public:
 
 	//重绘控件
 	void RePaint();
-
+protected:
+		//IMPORTMENT:父类不能调用子类函数,必须将以下方法写成接口
+		/*//IMPORTMENT:考虑到可设置静态消息回调函数,以下函数必须public,否则静态函数可能无法调用*/
+		//消息回调函数
+		virtual LRESULT CALLBACK OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 public:
 	//创建控件
 	virtual BOOL Create() ;
