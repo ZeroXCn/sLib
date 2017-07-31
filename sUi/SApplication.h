@@ -11,7 +11,7 @@
 #include <Windows.h>
 #include <set>
 
-#include "SWindow.h"
+#include "SWidget.h"
 using namespace std;
 
 
@@ -26,7 +26,7 @@ protected:
 	PSTR m_lpCmdline;						//启动的附加命令
 	int m_nCmdShow;							//启动模式
 
-	set<SWindow *>	m_winset;				//窗口集合
+	set<SWidget *>	m_winset;				//窗口集合
 public:
 
 public:
@@ -46,20 +46,20 @@ public:
 	int GetCmdShow();
 
 	//取得窗口集合
-	set<SWindow *> *GetWindowSet();
+	set<SWidget *> *GetWidgetSet();
 
 public:
 	//注册窗体
-	BOOL RegisterWindow(SWindow *pWindow);
+	BOOL RegisterWidget(SWidget *pWidget);
 
 	//反注册窗体
-	BOOL UnRegisterWindow(SWindow *pWindow);
+	BOOL UnRegisterWidget(SWidget *pWidget);
 
 	//退出窗体
-	void QuitWindow(SWindow *pWindow);
+	void QuitWidget(SWidget *pWidget);
 
 	//注销窗体
-	void DestroyWindow(SWindow *pWindow);
+	void DestroyWidget(SWidget *pWidget);
 public:
 	//取得单例
 	static SApplication *GetApp();

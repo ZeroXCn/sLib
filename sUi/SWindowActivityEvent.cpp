@@ -1,49 +1,49 @@
 #include "SWindowActivityEvent.h"
 
 
-SWindowActivityEvent::Param::Param(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam):
+SWindowActivityEvent::ActivityParam::ActivityParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam) :
 hWnd(hWnd), message(message), wParam(wParam), lParam(lParam)
 {
 		
 };
 
-HWND &SWindowActivityEvent::Param::GetWnd()
+HWND &SWindowActivityEvent::ActivityParam::GetWnd()
 {
 	return this->hWnd;
 }
-UINT &SWindowActivityEvent::Param::GetMessage()
+UINT &SWindowActivityEvent::ActivityParam::GetMessage()
 {
 	return this->message;
 }
-WPARAM &SWindowActivityEvent::Param::GetWParam()
+WPARAM &SWindowActivityEvent::ActivityParam::GetWParam()
 {
 	return this->wParam;
 }
-LPARAM &SWindowActivityEvent::Param::GetLParam()
+LPARAM &SWindowActivityEvent::ActivityParam::GetLParam()
 {
 	return this->lParam;
 }
 
-void SWindowActivityEvent::Param::SetWnd(HWND &hWnd)
+void SWindowActivityEvent::ActivityParam::SetWnd(HWND &hWnd)
 {
 	this->hWnd = hWnd;
 }
-void SWindowActivityEvent::Param::SetMessage(UINT &message)
+void SWindowActivityEvent::ActivityParam::SetMessage(UINT &message)
 {
 	this->message = message;
 }
-void SWindowActivityEvent::Param::SetWParam(WPARAM &wParam)
+void SWindowActivityEvent::ActivityParam::SetWParam(WPARAM &wParam)
 {
 	this->wParam = wParam;
 }
-void SWindowActivityEvent::Param::SetLParam(LPARAM &lParam)
+void SWindowActivityEvent::ActivityParam::SetLParam(LPARAM &lParam)
 {
 	this->lParam = lParam;
 }
 
 ///////////////////////////////
 //控件创建之前
-BOOL SWindowActivityEvent::OnCreate(Param &param)
+BOOL SWindowActivityEvent::OnCreate(ActivityParam &param)
 {
 	return TRUE;
 }
@@ -66,7 +66,7 @@ void SWindowActivityEvent::OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPA
 }
 
 //关闭窗口
-BOOL SWindowActivityEvent::OnClose(Param &param)
+BOOL SWindowActivityEvent::OnClose(ActivityParam &param)
 {
 	//DOUBT:这里的MessageBox无法正常显示,待解决
 	/*
@@ -79,19 +79,19 @@ BOOL SWindowActivityEvent::OnClose(Param &param)
 }
 
 //销毁窗口
-void SWindowActivityEvent::OnDestory(Param &param)
+void SWindowActivityEvent::OnDestory(ActivityParam &param)
 {
 	//TODO:做销毁前最后的操作
 }
 
 //取得窗口焦点
-void SWindowActivityEvent::OnGetFocus(Param &param)
+void SWindowActivityEvent::OnGetFocus(ActivityParam &param)
 {
 
 }
 
 //失去焦点
-void SWindowActivityEvent::OnLostFocus(Param &param)
+void SWindowActivityEvent::OnLostFocus(ActivityParam &param)
 {
 
 }

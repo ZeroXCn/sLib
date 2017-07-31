@@ -12,7 +12,7 @@
 class SWindowActivityEvent
 {
 public:
-	class Param
+	class ActivityParam
 	{
 	public:
 		HWND &hWnd;			//句柄
@@ -20,7 +20,7 @@ public:
 		WPARAM &wParam;		//参数1
 		LPARAM &lParam;		//参数2
 	public:
-		Param(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam);
+		ActivityParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam);
 	public:
 		HWND &GetWnd();
 		UINT &GetMessage();
@@ -38,7 +38,7 @@ public:
 	//以下消息必须给出默认的系统处理方法
 
 	//控件创建之前
-	virtual BOOL OnCreate(Param &param);
+	virtual BOOL OnCreate(ActivityParam &param);
 
 	//绘制绘制事件
 	virtual void OnPaint(SDc dc);
@@ -50,16 +50,16 @@ public:
 	virtual void OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	//关闭窗口
-	virtual BOOL OnClose(Param &param);
+	virtual BOOL OnClose(ActivityParam &param);
 
 	//销毁窗口
-	virtual void OnDestory(Param &param);
+	virtual void OnDestory(ActivityParam &param);
 
 	//取得窗口焦点
-	virtual void OnGetFocus(Param &param);
+	virtual void OnGetFocus(ActivityParam &param);
 
 	//失去焦点
-	virtual void OnLostFocus(Param &param);
+	virtual void OnLostFocus(ActivityParam &param);
 };
 
 #endif

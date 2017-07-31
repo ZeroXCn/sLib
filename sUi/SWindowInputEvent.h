@@ -17,7 +17,7 @@
 class SWindowInputEvent
 {
 public:
-	class Param
+	class InputParam
 	{
 	public:
 		HWND &hWnd;			//句柄
@@ -25,7 +25,7 @@ public:
 		WPARAM &wParam;		//参数1
 		LPARAM &lParam;		//参数2
 	public:
-		Param(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam);
+		InputParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam);
 	public:
 		HWND &GetWnd();
 		UINT &GetMessage();

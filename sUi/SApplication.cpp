@@ -24,20 +24,20 @@ SApplication *SApplication::GetApp()
 }
 
 ///
-BOOL SApplication::RegisterWindow(SWindow *pWindow)
+BOOL SApplication::RegisterWidget(SWidget *pWidget)
 {
 
-	if (m_winset.find(pWindow) == m_winset.end()){
-		m_winset.insert(pWindow);
+	if (m_winset.find(pWidget) == m_winset.end()){
+		m_winset.insert(pWidget);
 		return TRUE;
 	}
 	return FALSE;
 	
 }
 
-BOOL SApplication::UnRegisterWindow(SWindow *pWindow)
+BOOL SApplication::UnRegisterWidget(SWidget *pWidget)
 {
-	auto itr = m_winset.find(pWindow);
+	auto itr = m_winset.find(pWidget);
 	if (itr != m_winset.end())m_winset.erase(itr);
 	else return FALSE;
 	return TRUE;
@@ -46,17 +46,17 @@ BOOL SApplication::UnRegisterWindow(SWindow *pWindow)
 
 
 //退出窗体
-void SApplication::QuitWindow(SWindow *pWindow)
+void SApplication::QuitWidget(SWidget *pWidget)
 {
 	//TODO:线程退出,资源不一定被回收,即Run()结束,不会调用析构
-	UnRegisterWindow(pWindow);
+	UnRegisterWidget(pWidget);
 }
 
-void SApplication::DestroyWindow(SWindow *pWindow)
+void SApplication::DestroyWidget(SWidget *pWidget)
 {
 	//NOTE:如果窗体是临时变量会造成二次删除
-	//delete pWindow;
-	UnRegisterWindow(pWindow);
+	//delete pWidget;
+	UnRegisterWidget(pWidget);
 }
 //取得窗口实例
 HINSTANCE SApplication::GetInstance()
@@ -83,7 +83,7 @@ int SApplication::GetCmdShow()
 }
 
 
-set<SWindow *> *SApplication::GetWindowSet()
+set<SWidget *> *SApplication::GetWidgetSet()
 {
 	return &m_winset;
 }

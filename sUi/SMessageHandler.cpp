@@ -81,6 +81,7 @@ LRESULT CALLBACK SMessageHandler::MessageHandlerProc(HWND hWnd,		//窗口句柄
 	WndHandlerMap::const_iterator itr = s_WndHandlerMap.find(hWnd);
 	if (itr == s_WndHandlerMap.end()){
 		//NOTE:窗体未返回hWnd时的消息顺序WM_GETMINMAXINFO,WM_NCCREATE,WM_NCCALCSIZE,WM_CREATE
+		//TODO:拦截消息,使返回hWnd之前能正确执行到子类的回调函数
 		if (message == WM_NCCREATE || message == WM_CREATE) {
 			LPCREATESTRUCT lpcs = reinterpret_cast<LPCREATESTRUCT>(lParam);
 			handler = static_cast<SMessageHandler*>(lpcs->lpCreateParams);

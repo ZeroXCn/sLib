@@ -11,10 +11,13 @@
 class SButton :public SWidget
 {
 public:
-	SButton(SWidget *parent = NULL);
+
+	SButton(LPTSTR name = TEXT("button"), SWidget *parent = NULL);
 	virtual ~SButton();
-public:
-	virtual BOOL Create();
+protected:
+	//注册一个类-用来标记控件类型
+	virtual BOOL OnPreCreate();
+
 };
 
 #endif

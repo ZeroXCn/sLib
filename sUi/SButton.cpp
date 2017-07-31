@@ -1,11 +1,10 @@
 #include "SButton.h"
 
 
-SButton::SButton(SWidget *parent):
+SButton::SButton(LPTSTR name, SWidget *parent) :
 SWidget(parent)
 {
-	SetClassName(TEXT("button"));	//使用"button"类创建按钮
-	SetTitle(TEXT("Button"));
+	SetTitle(name);
 	SetStyle(WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON);
 	SetPos(0, 0);
 	SetWidth(100);
@@ -21,9 +20,9 @@ SButton::~SButton()
 
 }
 
-BOOL SButton::Create()
+BOOL SButton::OnPreCreate()
 {
-	return SWidget::Create();
-
+	return SWidget::Register(TEXT("button"),NULL);
 }
+
 

@@ -12,11 +12,11 @@
 class SLabel :public SWidget
 {
 public:
-	SLabel(SWidget *parent=NULL);
+	SLabel(LPTSTR name=TEXT("This is a Label"),SWidget *parent=NULL);
 	virtual ~SLabel();
-public:
-	//创建控件
-	virtual BOOL Create();
+protected:
+	//注册一个类-用来标记控件类型
+	virtual BOOL OnPreCreate();
 
 };
 #endif

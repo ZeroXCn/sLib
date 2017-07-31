@@ -2,42 +2,42 @@
 
 
 
-SWindowInputEvent::Param::Param(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam) :
+SWindowInputEvent::InputParam::InputParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam) :
 hWnd(hWnd), message(message), wParam(wParam), lParam(lParam)
 {
 
 };
 
-HWND &SWindowInputEvent::Param::GetWnd()
+HWND &SWindowInputEvent::InputParam::GetWnd()
 {
 	return this->hWnd;
 }
-UINT &SWindowInputEvent::Param::GetMessage()
+UINT &SWindowInputEvent::InputParam::GetMessage()
 {
 	return this->message;
 }
-WPARAM &SWindowInputEvent::Param::GetWParam()
+WPARAM &SWindowInputEvent::InputParam::GetWParam()
 {
 	return this->wParam;
 }
-LPARAM &SWindowInputEvent::Param::GetLParam()
+LPARAM &SWindowInputEvent::InputParam::GetLParam()
 {
 	return this->lParam;
 }
 
-void SWindowInputEvent::Param::SetWnd(HWND &hWnd)
+void SWindowInputEvent::InputParam::SetWnd(HWND &hWnd)
 {
 	this->hWnd = hWnd;
 }
-void SWindowInputEvent::Param::SetMessage(UINT &message)
+void SWindowInputEvent::InputParam::SetMessage(UINT &message)
 {
 	this->message = message;
 }
-void SWindowInputEvent::Param::SetWParam(WPARAM &wParam)
+void SWindowInputEvent::InputParam::SetWParam(WPARAM &wParam)
 {
 	this->wParam = wParam;
 }
-void SWindowInputEvent::Param::SetLParam(LPARAM &lParam)
+void SWindowInputEvent::InputParam::SetLParam(LPARAM &lParam)
 {
 	this->lParam = lParam;
 }

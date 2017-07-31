@@ -4,112 +4,62 @@
 #include "SWindow.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//初始化静态变量	
-int SWindow::s_winnum = 0;
 
-void SWindow::Init()
+
+/* 窗口空构造函数 */
+SWindow::SWindow(LPTSTR name, SWidget *parent) :
+	SWidget(parent)
 {
+	//NOTE:这里的m_szTitle不允许出现重复,因为按标题查找可能会查到多个窗口
 
-	//NOTE:这里的ClassName不允许出现重复
-	_stprintf_s(m_szClassName, TEXT("Win32%d"), s_winnum++);
-	_stprintf_s(m_szTitle, TEXT("Win32%d"), s_winnum++);
-
-	m_hInstance = SApplication::GetApp() ? SApplication::GetApp()->GetInstance(): ::GetModuleHandle(NULL);
+	_stprintf_s(m_szTitle, name);
 
 	//NOTO:仅当加载 WIN 预设图标时 Instance 为NULL
-	m_hIcon = LoadIcon(NULL, IDI_APPLICATION);;
-	m_hSmallIcon = LoadIcon(NULL, IDI_APPLICATION);;
+	m_hIcon = LoadIcon(NULL, IDI_APPLICATION);
+	m_hSmallIcon = LoadIcon(NULL, IDI_APPLICATION);
 	m_hCursor = LoadCursor(NULL, IDC_ARROW);
 
 	m_bFullScreen = FALSE;
 	m_nColorbit = 32;
 
-	m_bIsRunning = TRUE;
-
-	m_pThread = new SThread((SRunnable *) this);
 	m_pInputEvent = (SWindowInputEvent *) this;
 	m_pActivityEvent = (SWindowActivityEvent *) this;
-
-	SApplication::GetApp()->RegisterWindow(this);
-}
-
-/* 窗口空构造函数 */
-SWindow::SWindow(SWidget *parent) :
-	SWidget(parent)
-{
-	Init();
 	
+	SApplication::GetApp()->RegisterWidget(this);
+
 }
 
 /* 窗口析构函数 */
 SWindow::~SWindow()
 {
-	//TODO:只进行资源释放,不能反注册
-	//TODO:线程结束不代表对被释放,
 
-	SApplication::GetApp()->DestroyWindow(this);
-
-	delete m_pThread;
+	SApplication::GetApp()->DestroyWidget(this);
 }
 
-
-void SWindow::SetAttribute(HINSTANCE hInstance, LPTSTR szClassName, LPTSTR szTitle, HICON hIcon, HICON hSmallIcon, BOOL bFullScreen, int nColorbit, int nWidth, int nHeight)
+void SWindow::SetAttribute(LPTSTR szTitle, HICON hIcon, HICON hSmallIcon, BOOL bFullScreen, int nColorbit, int nWidth, int nHeight)
 {
-	m_hInstance = hInstance;						//设置引擎实例为当前程序实例句柄					
-
-	lstrcpy(m_szClassName, szClassName);		//将窗口类注册名称赋给_szWindowClass
-	lstrcpy(m_szTitle, szTitle);					//将标题赋给m_szTitle
+	//将标题赋给m_szTitle
+	SetTitle(szTitle);					
 
 	/* 设置屏幕模式和大小 */
-	m_bFullScreen = bFullScreen;
-	m_nColorbit = nColorbit;
-	m_nWidth = nWidth;
-	m_nHeight = nHeight;
+	SetFullScreen(bFullScreen);
+	SetWidth(nWidth);
+	SetHeight(nHeight);
 
 	/*设置图标和光标*/
-	m_hIcon = hIcon;
-	m_hSmallIcon = hSmallIcon;
-
-
-}
-
-void SWindow::SetAttribute(LPTSTR szWindowClass, LPTSTR szTitle, HICON hIcon, HICON hSmallIcon, BOOL bFullScreen, int nColorbit, int nWidth, int nHeight)
-{
-	SetAttribute(GetInstance(),
-		szWindowClass,
-		szTitle,
-		hIcon,
-		hSmallIcon,
-		bFullScreen,
-		nColorbit,
-		nWidth,
-		nHeight);
-
-}
-
-void SWindow::SetAttribute(LPTSTR szWindowClass, LPTSTR szTitle ,int nWidth, int nHeight)
-{
-	SetAttribute(GetInstance(),
-		szWindowClass,
-		szTitle,
-		NULL,
-		NULL,
-		FALSE,
-		32,
-		nWidth,
-		nHeight);
+	SetBigIcon(hIcon);
+	SetSmallIcon(hSmallIcon);
 
 }
 
 void SWindow::SetAttribute(LPTSTR szTitle, int nWidth, int nHeight)
 {
-	SetAttribute(GetInstance(),
-		m_szClassName,
+	SetAttribute(
 		szTitle,
-		NULL,
-		NULL,
-		FALSE,
-		32,
+		m_hIcon,
+		m_hSmallIcon,
+		m_bFullScreen,
+		m_nColorbit,
 		nWidth,
 		nHeight);
 
@@ -150,33 +100,18 @@ void SWindow::SetColorbit(int nColorbit)
 {
 	m_nColorbit = nColorbit;
 }
-
-void SWindow::SetWndProc(WNDPROC pWndProc)
-{
-	Subclass(m_Wnd.GetWnd());
-	SetMessageProc(pWndProc);
-	m_Wnd.SetWindowLong(GWL_WNDPROC, (long)pWndProc);
-}
-
-void SWindow::SetRunning(BOOL bRunning)
-{
-	m_bIsRunning = bRunning;
-}
-
-BOOL SWindow::IsCreated()
-{
-	return m_Wnd.GetWnd()?TRUE:FALSE;
-}
-
-
-
+////////////////
 /* 显示鼠标 */
 int SWindow::ShowCursor(BOOL bShow)
 {
 	return ::ShowCursor(bShow);
 }
+void SWindow::RePaint()
+{
+	SWidget::UpdateWindow();
+}
 
-
+//////////////
 //设置窗口活动
 void SWindow::SetWindowInputEvent(SWindowInputEvent *pEvent)
 {
@@ -201,55 +136,14 @@ SWindowActivityEvent *SWindow::GetWindowActivityEvent()
 	return m_pActivityEvent;
 }
 
-/////
-int SWindow::DoModal()
-{
-	if (!IsCreated()){
-		if (Create()){
-			::EnableWindow(m_Wnd.GetParent(), FALSE);  //锁定父窗口
-			
-			Show();
-			OnRun();
 
-			::EnableWindow(m_Wnd.GetParent(), TRUE);//释放父窗口
-			Hide();//隐藏自己
-		}
-	}
-	else SWidget::Show(SW_SHOWNORMAL);
-
-	return 0;
-}
-
-//显示控件
-void SWindow::Show()
-{
-	Show(SW_SHOWNORMAL);
-}
-void SWindow::Show(int nCmdShow)
-{
-	if (!IsCreated()){
-		m_pThread->Start();	//开启线程
-	}
-	else SWidget::Show(nCmdShow);
-	
-	return;
-
-}
-
-//隐藏控件
-void SWindow::Hide()
-{
-	Show(SW_HIDE);
-}
-
-//////////////
 
 LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	PAINTSTRUCT ps;					//定义，无初始化,由BeginPaint初始化
 	SDc dc;
-	SWindowActivityEvent::Param acParam(hWnd, message, wParam, lParam);
-	SWindowInputEvent::Param inParam(hWnd, message, wParam, lParam);
+	SWindowActivityEvent::ActivityParam acParam(hWnd, message, wParam, lParam);
+	SWindowInputEvent::InputParam inParam(hWnd, message, wParam, lParam);
 
 	switch (message)
 	{
@@ -325,64 +219,17 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		//case	WM_SYSCOMMAND //系统菜单命令：最大化按钮，最小化按，复原按钮，关闭按钮;与用户菜单命令WM_COMMAND有区别哦
 
 	default:
-			//IMPORTMENT:此处的hWnd可能不为m_hWnd(对象未构造前会调用静态消息函数,此时m_hWnd==NULL),不应该对HWND封装,因为会变
-		return DefWindowProc(hWnd, message, wParam, lParam);
+		//调用父类的函数处理
+		return SWidget::OnProc(hWnd, message, wParam, lParam);
 	
 	}
 	return 0;
 }
-
-
-void SWindow::OnRun()
+BOOL SWindow::OnPreCreate()
 {
-	MSG msg;											//定义消息结构
-
-	/* 消息循环 */
-	while (m_bIsRunning)
-	{
-		//NOTE:如果第二参数为m_hWnd会导致无法接收WM_QUIT消息
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))	//接收消息
-		{
-			if (msg.message == WM_QUIT)					//如果是退出消息，则退出循环
-				break;
-				
-			TranslateMessage(&msg);						//将虚拟键消息转换为字符消息
-			DispatchMessage(&msg);						//处理消息
-		}
-		else
-		{
-			m_pActivityEvent->OnEvent();				//窗口事件
-			OnRunning();								//交由系统处理
-
-		}
-	}
-	Unsubclass(m_Wnd.GetWnd());									//解除绑定消息函数
-	SApplication::GetApp()->QuitWindow(this);			//通知主线程,线程结束
-
-}
-
-void SWindow::OnRunning()
-{
-	//TODO:主要循环的事件:逻辑事件
-	//NOTE:空闲时间应该让线程休眠,减少CPU占用
-	SThread::Sleep(10);
-}
-
-
-
-void SWindow::OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-
-}
-
-//创建控件
-BOOL SWindow::Create(){
-
-	WNDCLASSEX wcApp;							//声明窗口类
-	wcApp.cbSize = sizeof(wcApp);
-
+	WNDCLASSEX wcApp;											//声明窗口类
 	//给窗口属性赋值
-	wcApp.lpszClassName = m_szClassName;						//设置窗口类名
+	wcApp.cbSize = sizeof(wcApp);
 	wcApp.style = CS_HREDRAW;									//定义窗口风格
 	wcApp.lpfnWndProc = m_pWndProc;								//指定消息处理函数
 	wcApp.hInstance = m_hInstance;								//指定义窗口应用程序的句柄
@@ -395,10 +242,26 @@ BOOL SWindow::Create(){
 	wcApp.lpszMenuName = NULL;									//设置窗口没有菜单
 
 	//注册窗口类
-	//DOUBT:没Create之前已经开始消息的发送,此时m_hWnd仍为空,所以必须找方法在RegisterClassEx()之前设置m_hWnd
-	if (!RegisterClassEx(&wcApp))
-		return FALSE;
+	return SWidget::Register(TEXT("swindow"), &wcApp);
+}
 
+void SWindow::OnRunning()
+{
+	m_pActivityEvent->OnEvent();
+	SWidget::OnRunning();
+}
+
+void SWindow::OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	//TODO:处理子控件消息
+	//事件交由子控件自身处理
+}
+
+////////////////////////
+
+//创建控件
+BOOL SWindow::Create()
+{
 	/*使用DEVMODE结构设置屏幕显示模式*/
 	DEVMODE DevMode;
 	ZeroMemory(&DevMode, sizeof(DevMode));					//将结构DevMode的内存清零
@@ -470,35 +333,7 @@ BOOL SWindow::Create(){
 	m_nWidth += 10;
 	m_nHeight += 8;
 
-	SetParam((SMessageHandler *)this);	//设置参数,让消息顺序能正确执行到对象消息,必须带上类型
-
-	if (SWidget::Create())
-	{
-		Subclass(m_Wnd.GetWnd());		//绑定消息函数
-		return TRUE;
-	}
-	else
-	{
-		::MessageBox(NULL, TEXT("注册窗口失败"), TEXT("error"), 0);
-		return FALSE;
-	}
-
-	return TRUE;
+	return SWidget::Create();
 	
 }
 
-void SWindow::Run(){
-	if (Create()){
-		Show();
-		OnRun();
-	}
-
-}
-
-
-void  SWindow::Destroy(){
-	//销毁窗口
-	DestroyWindow(m_Wnd.GetWnd());
-
-	SWidget::Destroy();
-}

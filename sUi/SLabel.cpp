@@ -1,10 +1,9 @@
 #include "SLabel.h"
 
-SLabel::SLabel(SWidget *parent):
+SLabel::SLabel(LPTSTR name , SWidget *parent) :
 SWidget(parent)
 {
-	SetClassName(TEXT("static"));	//创建控件用的类
-	SetTitle(TEXT("Label"));
+	SetTitle(name);
 	SetStyle(WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT | WS_BORDER);
 	SetPos(0, 0);
 	SetWidth(0);
@@ -18,9 +17,7 @@ SLabel::~SLabel()
 {
 
 }
-
-BOOL SLabel::Create()
+BOOL SLabel::OnPreCreate()
 {
-	return SWidget::Create();
-
+	return SWidget::Register(TEXT("static"), NULL);
 }

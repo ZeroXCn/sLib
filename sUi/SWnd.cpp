@@ -63,15 +63,22 @@ int SWnd::GetWindowText(LPTSTR lpString, int nMaxCount)
 	return ::GetWindowText(m_hWnd, lpString, nMaxCount);
 }
 
-LONG SWnd::SetWindowLong(int nlndex, LONG dwNewLong)
+LONG SWnd::SetWindowLong(int nIndex, LONG dwNewLong)
 {
-	return ::SetWindowLong(m_hWnd, nlndex, dwNewLong);
+	return ::SetWindowLong(m_hWnd, nIndex, dwNewLong);
 }
+
+LONG SWnd::GetWindowLong(int nIndex)
+{
+	return ::GetWindowLong(m_hWnd, nIndex);
+}
+
 
 BOOL SWnd::GetWindowRect(LPRECT lpRect)
 {
 	return ::GetWindowRect(m_hWnd, lpRect);
 }
+
 
 BOOL SWnd::GetClientRect(LPRECT lpRect)
 {

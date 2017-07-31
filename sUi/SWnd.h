@@ -28,8 +28,9 @@ public:
 	//将指定窗口的标题条文本（如果存在）拷贝到一个缓存区内。
 	int GetWindowText(LPTSTR lpString, int nMaxCount);
 
-	//改变指定窗口的属性
-	LONG SetWindowLong(int nlndex,LONG dwNewLong);
+	//改变指定窗口的属性-用于改变回调函数-返回旧的回调函数
+	LONG SetWindowLong(int nIndex,LONG dwNewLong);
+	LONG GetWindowLong(int nIndex);
 
 	//返回指定窗口的边框矩形的尺寸
 	BOOL GetWindowRect(LPRECT lpRect);
