@@ -17,7 +17,7 @@ using namespace std;
 //typedef LRESULT(CALLBACK *WNDPROC)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 class SMessageHandler
 {
-protected:
+private:
 	class wnd_hash
 	{
 	public:
@@ -39,13 +39,14 @@ protected:
 		}
 	};
 	typedef hash_map<HWND, SMessageHandler *, wnd_hash> WndHandlerMap;
-	
+
 public:
 	//普通函数
 	static LRESULT CALLBACK MessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	static WNDPROC GetMessageHandlerProc();
 protected:
 	static WndHandlerMap s_WndHandlerMap;
+
 protected:
 	WNDPROC m_pWndProc;
 
@@ -65,6 +66,12 @@ public:
 
 	//设置消息处理函数
 	void SetMessageProc(WNDPROC pWndProc);
+
+	//改变消息处理函数
+	WNDPROC ChangeMessageProv(HWND hWnd, WNDPROC pWndProc);
+
+	//公开的消息处理回调函数
+	LRESULT CALLBACK Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 protected:
 	//窗口子类化
 	bool Subclass(HWND hwnd);

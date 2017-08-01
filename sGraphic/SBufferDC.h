@@ -22,7 +22,7 @@ public:
 	void SetEnabled(BOOL bEnable);
 	BOOL GetEnabled();
 public:
-	SBufferDc(HDC hdc,int nWidth,int nHeight);
+	SBufferDc(SDc sdc,int nWidth,int nHeight);
 	virtual ~SBufferDc();
 };
 

@@ -1,14 +1,14 @@
 #include "SBufferDc.h"
 
-SBufferDc::SBufferDc(HDC hDC, int nWidth, int nHeight)
+SBufferDc::SBufferDc(SDc sDC, int nWidth, int nHeight)
 {
-	m_outHdc = hDC;
+	m_outHdc = sDC.GetDC();
 	m_nWidth = nWidth;
 	m_nHeight = nHeight;
-	m_hDC = ::CreateCompatibleDC(hDC);	//创建内存兼容设备环境
+	m_hDC = ::CreateCompatibleDC(sDC.GetDC());	//创建内存兼容设备环境
 
 	//创建内存兼容位图
-	m_newBitmap = ::CreateCompatibleBitmap(hDC, nWidth, nHeight);
+	m_newBitmap = ::CreateCompatibleBitmap(sDC.GetDC(), nWidth, nHeight);
 	m_oldBitmap = (HBITMAP)::SelectObject(m_hDC, m_newBitmap);
 
 	m_bEnabled = TRUE;

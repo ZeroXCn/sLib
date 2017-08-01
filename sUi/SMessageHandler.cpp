@@ -32,9 +32,23 @@ WNDPROC SMessageHandler::GetMessageProc()
 void SMessageHandler::SetMessageProc(WNDPROC pWndProc)
 {
 	m_pWndProc = pWndProc;
+
+}
+
+WNDPROC SMessageHandler::ChangeMessageProv(HWND hWnd, WNDPROC pWndProc)
+{
+	Unsubclass(hWnd);
+	SetMessageProc(pWndProc);
+	Subclass(hWnd);
+	return (WNDPROC)::SetWindowLongW(hWnd, GWL_WNDPROC, (long)pWndProc);
+}
+LRESULT CALLBACK SMessageHandler::Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	return OnProc(hWnd, message, wParam, lParam);
 }
 
 
+////
 bool SMessageHandler::Subclass(HWND hwnd)
 {
 	//说明用户自定义消息函数

@@ -123,8 +123,6 @@ public:
 	/* 窗口是否创建*/
 	BOOL IsCreated();
 
-	/* 设置消息处理函数 */
-	void SetWndProc(WNDPROC pWndProc);
 
 protected: 
 	//退出消息循环-相当于结束线程
@@ -173,9 +171,6 @@ public:
 
 	//注册控件类-WNDCLASSEX *为空则表示使用系统默认(szName不能为空)
 	virtual BOOL Register(LPTSTR szName, WNDCLASSEX *wcApp);
-
-	//公开的消息处理回调函数
-	virtual LRESULT CALLBACK Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 	//创建控件
 	virtual BOOL Create() ;

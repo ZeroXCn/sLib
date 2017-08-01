@@ -255,6 +255,8 @@ void SWindow::OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	//TODO:处理子控件消息
 	//事件交由子控件自身处理
+
+		
 }
 
 ////////////////////////

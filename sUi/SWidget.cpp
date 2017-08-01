@@ -281,17 +281,6 @@ BOOL SWidget::IsCreated()
 	return m_Wnd.GetWnd() ? TRUE : FALSE;
 }
 
-
-void SWidget::SetWndProc(WNDPROC pWndProc)
-{
-	Unsubclass(m_Wnd.GetWnd());
-	SetMessageProc(pWndProc);
-	Subclass(m_Wnd.GetWnd());
-	m_Wnd.SetWindowLong(GWL_WNDPROC, (long)pWndProc);
-}
-
-
-
 void SWidget::SetRunning(BOOL bRunning)
 {
 	m_bIsRunning = bRunning;
@@ -454,11 +443,6 @@ BOOL SWidget::Register(LPTSTR szName, WNDCLASSEX *wcApp)
 	else return FALSE;
 }
 
-//
-LRESULT CALLBACK SWidget::Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	return OnProc(hWnd, message, wParam, lParam);
-}
 
 //´´½¨¿Ø¼þ
 BOOL SWidget::Create()
