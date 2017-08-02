@@ -38,15 +38,26 @@ private:
 			return   hwnd1 != hwnd2;
 		}
 	};
+	class wnd_msg
+	{
+	public:
+		HWND hWnd; UINT message; WPARAM wParam; LPARAM lParam;
+	public:
+		wnd_msg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) :
+			hWnd(hWnd), message(message), wParam(wParam), lParam(lParam){}
+	};
 	typedef hash_map<HWND, SMessageHandler *, wnd_hash> WndHandlerMap;
 
 public:
 	//普通函数
 	static LRESULT CALLBACK MessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	static WNDPROC GetMessageHandlerProc();
-protected:
-	static WndHandlerMap s_WndHandlerMap;
 
+	static LRESULT CALLBACK ParentMessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	static LRESULT CALLBACK ChildMessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+protected:
+	static WndHandlerMap s_WndHandlerMap;		//记录全局父窗口消息的map
+	WndHandlerMap m_ChildWndMap;				//记录某个父窗口下的子消息map
 protected:
 	WNDPROC m_pWndProc;
 
@@ -72,12 +83,20 @@ public:
 
 	//公开的消息处理回调函数
 	LRESULT CALLBACK Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
-protected:
+public:
+	/*以下操作适合父窗口*/
 	//窗口子类化
-	bool Subclass(HWND hwnd);
+	bool SubClass(HWND hwnd);
 
 	//窗口反子类化
-	void Unsubclass(HWND hwnd);
+	void UnSubClass(HWND hwnd);
+	void UnSubClass(SMessageHandler *handler);
+
+	//添加子窗口
+	bool SubChildClass(HWND hwnd, SMessageHandler *parent);
+
+	//移除子窗口
+	void UnSubChildClass(HWND hwnd, SMessageHandler *parent);
 };
 
 #endif

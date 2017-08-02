@@ -1,12 +1,13 @@
 #include "SWidget.h"
 
+int SWidget::g_nWidgetId = 100;
+///
 SWidget::SWidget(SWidget *parent)
 {
 	m_pParent = parent;
 
 	m_hInstance = SApplication::GetApp() ? SApplication::GetApp()->GetInstance() : ::GetModuleHandle(NULL);
 
-	m_parentWnd = m_pParent ? m_pParent->GetWnd().GetWnd() : NULL;
 	m_hMenu = NULL;
 	m_lpParam = NULL;
 
@@ -18,6 +19,8 @@ SWidget::SWidget(SWidget *parent)
 	m_bVisible = TRUE;
 	m_bIsRunning = TRUE;
 	m_bSysClass = FALSE;
+
+	g_nWidgetId++;
 
 	lstrcpy(m_szTitle, TEXT("Widget"));
 	lstrcpy(m_szTip, TEXT(""));
@@ -43,7 +46,7 @@ SWidget *SWidget::GetParent()
 void  SWidget::SetParent(SWidget *parent)
 {
 	m_pParent = parent;
-	m_parentWnd = parent?parent->GetWnd().GetWnd():NULL;
+	//m_parentWnd = parent?parent->GetWnd().GetWnd():NULL;
 }
 
 /* 设置实例句柄 */
@@ -407,7 +410,7 @@ void SWidget::OnRunning()
 void SWidget::OnRan()
 {
 	//TODO:处理OnRun()结束的事
-	Unsubclass(m_Wnd.GetWnd());									//解除绑定消息函数
+	UnSubClass(m_Wnd.GetWnd());									//解除绑定消息函数
 	SApplication::GetApp()->DestroyWidget(this);				//通知主线程,线程结束
 }
 ////////////
@@ -415,6 +418,8 @@ void SWidget::OnRan()
 void SWidget::Run()
 {
 	if (Create()){
+		SubClass(m_Wnd.GetWnd());
+		m_Wnd.SetParent(NULL);
 		ShowWindow();
 		OnRun();
 		OnRan();//出口
@@ -463,7 +468,7 @@ BOOL SWidget::Create()
 		m_nPosY,									//设置窗口左上角Y坐标	
 		m_nWidth,									//设置窗口宽度
 		m_nHeight,									//设置窗口高度
-		m_parentWnd,								//父窗口句柄
+		m_pParent ? m_pParent->GetWnd().GetWnd() : NULL ,//父窗口句柄
 		m_hMenu,									//菜单的句柄
 		m_hInstance,								//程序实例句柄
 		m_lpParam);									//传递给消息函数的指针
@@ -473,11 +478,17 @@ BOOL SWidget::Create()
 		SApplication::GetApp()->UnRegisterWidget(this);	//反注册
 		return FALSE;
 	}else{
+	
 		m_Wnd.SetWnd(hWnd);								//设置句柄
+		//DOUBT(02/08/17)TODO:自定义的窗口返回的hWnd居然没有设置parent???????
+		//NOTE:这里如果手动SetParent(),则会内嵌到主窗口(子控件可以这么做,但子窗口不能这样)
+		//TODO:需要添加判断-如果是自定义子控件,需要手动SetParent(),否则不用
+		//TODO:如何判断是子控件还是子窗口???
+		//TODO:但问题是只有SetParent()的控件才能接收自定义消息
+		//TODO:目前解决方法:子窗口交由全局消息处理--问题是与父窗口同处一线程,子窗口退出父窗口也完蛋??
 
-		//如果是自定义消息,则还必须注册到消息管理接收消息
-		if (!m_bSysClass)
-			Subclass(hWnd);
+
+		m_Wnd.SetParent(m_pParent ? m_pParent->GetWnd().GetWnd() : NULL);
 
 		return TRUE;
 	}
@@ -493,16 +504,31 @@ void SWidget::Destroy(){
 //模态显示
 int SWidget::DoModal()
 {
+
 	if (!IsCreated()){
 		if (Create()){
-			::EnableWindow(m_Wnd.GetParent(), FALSE);  //锁定父窗口
+			//如果是父窗口,将消息托管给全局
+			//如果是自定义消息,则还必须注册到消息管理接收消息
+			SWnd parent = m_pParent ? m_pParent->GetWnd() : NULL;
+			SubClass(m_Wnd.GetWnd());
+			m_Wnd.SetParent(NULL);
 
-			ShowWindow();
-			OnRun();
-			OnRan();	//出口
+			{
+				//将父窗口的消息交接给子窗口
+				::EnableWindow(parent.GetWnd(), FALSE);  //锁定父窗口
 
-			::EnableWindow(m_Wnd.GetParent(), TRUE);//释放父窗口
-			HideWindow();//隐藏自己
+				ShowWindow();
+				OnRun();
+				OnRan();	//出口
+
+
+				::EnableWindow(parent.GetWnd(), TRUE);//释放父窗口
+				HideWindow();//隐藏自己
+			}
+
+			//把父窗口置顶到前端-会造成闪烁
+			parent.SetForegroundWindow();
+
 		}
 	}
 	else ShowWindow();

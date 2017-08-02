@@ -4,15 +4,11 @@
 #include "SWindow.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-/* 窗口空构造函数 */
-SWindow::SWindow(LPTSTR name, SWidget *parent) :
-	SWidget(parent)
+void SWindow::Init()
 {
 	//NOTE:这里的m_szTitle不允许出现重复,因为按标题查找可能会查到多个窗口
 
-	_stprintf_s(m_szTitle, name);
+	_stprintf_s(m_szTitle, TEXT("Window"));
 
 	//NOTO:仅当加载 WIN 预设图标时 Instance 为NULL
 	m_hIcon = LoadIcon(NULL, IDI_APPLICATION);
@@ -24,9 +20,21 @@ SWindow::SWindow(LPTSTR name, SWidget *parent) :
 
 	m_pInputEvent = (SWindowInputEvent *) this;
 	m_pActivityEvent = (SWindowActivityEvent *) this;
-	
+
 	SApplication::GetApp()->RegisterWidget(this);
 
+}
+SWindow::SWindow(SWidget *parent):
+	SWidget(parent)
+{
+	Init();
+}
+/* 窗口空构造函数 */
+SWindow::SWindow(LPTSTR name, SWidget *parent) :
+	SWidget(parent)
+{
+	_stprintf_s(m_szTitle, name);
+	Init();
 }
 
 /* 窗口析构函数 */
@@ -214,6 +222,7 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 	case WM_DESTROY:				//程序销毁消息
 		m_pActivityEvent->OnDestory(acParam);
+		//TODO:此消息发送时,要求只退出子窗口而不影响父窗口
 		PostQuitMessage(0);			//DOUBT:不靠谱,并不是退出自身的,会造成接收不到WM_QUIT消息
 		break;
 		//case	WM_SYSCOMMAND //系统菜单命令：最大化按钮，最小化按，复原按钮，关闭按钮;与用户菜单命令WM_COMMAND有区别哦

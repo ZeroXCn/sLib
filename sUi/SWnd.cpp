@@ -149,9 +149,19 @@ BOOL SWnd::EndPaint(CONST PAINTSTRUCT *lpPaint)
 	return ::EndPaint(m_hWnd, lpPaint);
 }
 
+HWND SWnd::SetParent(HWND parent)
+{
+	return ::SetParent(m_hWnd, parent);
+}
+
 HWND SWnd::GetParent()
 {
 	return ::GetParent(m_hWnd);
+}
+
+HWND SWnd::GetAncestor(UINT gaFlags)
+{
+	return ::GetAncestor(m_hWnd, gaFlags);
 }
 
 BOOL SWnd::EnableWindow(BOOL bEnable)

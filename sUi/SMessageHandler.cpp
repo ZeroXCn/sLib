@@ -1,5 +1,4 @@
 #include "SMessageHandler.h"
-
 //记录对象消息函数的MAP
 SMessageHandler::WndHandlerMap SMessageHandler::s_WndHandlerMap;
 
@@ -14,7 +13,9 @@ SMessageHandler::SMessageHandler()
 }
 SMessageHandler::~SMessageHandler()
 {
-	
+	//释放所有资源
+	UnSubClass(this);
+
 }
 
 SMessageHandler::WndHandlerMap *SMessageHandler::GetWndHandlerMap()
@@ -37,9 +38,9 @@ void SMessageHandler::SetMessageProc(WNDPROC pWndProc)
 
 WNDPROC SMessageHandler::ChangeMessageProv(HWND hWnd, WNDPROC pWndProc)
 {
-	Unsubclass(hWnd);
+	UnSubClass(hWnd);
 	SetMessageProc(pWndProc);
-	Subclass(hWnd);
+	SubClass(hWnd);
 	return (WNDPROC)::SetWindowLongW(hWnd, GWL_WNDPROC, (long)pWndProc);
 }
 LRESULT CALLBACK SMessageHandler::Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -49,23 +50,23 @@ LRESULT CALLBACK SMessageHandler::Proc(HWND hWnd, UINT message, WPARAM wParam, L
 
 
 ////
-bool SMessageHandler::Subclass(HWND hwnd)
+bool SMessageHandler::SubClass(HWND hwnd)
 {
 	//说明用户自定义消息函数
-	if (m_pWndProc != SMessageHandler::MessageHandlerProc)
+	if (m_pWndProc != SMessageHandler::GetMessageHandlerProc())
 		return true;
 
 	s_WndHandlerMap.erase(hwnd);
 	m_pWndProc = MessageHandlerProc;
-	::SetWindowLong(hwnd, GWL_WNDPROC, (long)MessageHandlerProc);
+	::SetWindowLong(hwnd, GWL_WNDPROC, (long)GetMessageHandlerProc());
 	
 	s_WndHandlerMap.insert(make_pair(hwnd, this));
 	return true;
 }
-void SMessageHandler::Unsubclass(HWND hwnd)
+void SMessageHandler::UnSubClass(HWND hwnd)
 {
 	//说明用户自定义消息函数
-	if (m_pWndProc != SMessageHandler::MessageHandlerProc)
+	if (m_pWndProc != SMessageHandler::GetMessageHandlerProc())
 		return ;
 
 	s_WndHandlerMap.erase(hwnd);
@@ -78,16 +79,62 @@ void SMessageHandler::Unsubclass(HWND hwnd)
 
 }
 
+void SMessageHandler::UnSubClass(SMessageHandler *handler)
+{
+	for (auto it : s_WndHandlerMap)
+	{
+		if (it.second == handler)
+		{
+			UnSubClass(it.first);
+			break;
+		}
+	}
+}
 
+//添加子窗口
+bool SMessageHandler::SubChildClass(HWND hwnd, SMessageHandler *parent)
+{
+	if (parent){
+		parent->m_ChildWndMap.insert(make_pair(hwnd, this));
+		return true;
+	}
+	return false;
+}
+
+//移除子窗口
+void SMessageHandler::UnSubChildClass(HWND hwnd, SMessageHandler *parent)
+{
+	if (parent){
+		parent->m_ChildWndMap.erase(hwnd);
+	}
+}
+
+//默认处理
 LRESULT CALLBACK SMessageHandler::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	return ::DefWindowProc(hWnd, message, wParam, lParam);
 }
 
+/////////////////
 LRESULT CALLBACK SMessageHandler::MessageHandlerProc(HWND hWnd,		//窗口句柄
 	UINT message,		 	//消息标识
 	WPARAM wParam,		//消息参数
 	LPARAM lParam)		//消息参数
+{
+	//NOTE:使用GetParent()无法判断自定义的子窗口,只能判断系统的默认子窗口
+	HWND parent = ::GetParent(hWnd);
+	if (parent == NULL){
+		//TODO:还要判断是否只是一个控件,否则子窗口事件开线程让子窗口自行处理,模态窗口交由父窗口处理
+		return SMessageHandler::ParentMessageHandlerProc(hWnd, message, wParam, lParam);
+	}
+	else{
+		//DOUBT:?子窗口没有执行到这里??????
+		return SMessageHandler::ChildMessageHandlerProc(hWnd, message, wParam, lParam);
+	}
+}
+
+
+LRESULT CALLBACK SMessageHandler::ParentMessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	//NOTD:这里如果没有找到必须返回DefWindowProc(),否则可能无法成功创建窗体
 
@@ -106,10 +153,47 @@ LRESULT CALLBACK SMessageHandler::MessageHandlerProc(HWND hWnd,		//窗口句柄
 		}
 		return ::DefWindowProc(hWnd, message, wParam, lParam);
 
-	}
-	else{
+	}else{
+		//取得特定对象
 		handler = itr->second;
+		//TODO:进行额外的消息拦截
+		if (message == WM_COMMAND)
+		{
+			WndHandlerMap *pChildMap = &handler->m_ChildWndMap;
+			//NOTE:不管是系统还是自定义消息,都转到自身消息处理函数
+			WndHandlerMap::const_iterator itb;
+			if (wParam == NULL){//自定义消息
+				wnd_msg *msg= reinterpret_cast<wnd_msg *>(lParam);
+				itb = pChildMap->find(msg->hWnd);
+				if (itb != pChildMap->end()){
+					return itb->second->OnProc(msg->hWnd, msg->message, msg->wParam, msg->lParam);
+				}
+				delete msg;
+			}else{//系统消息
+				HWND childhWnd = reinterpret_cast<HWND>(lParam);
+				itb = pChildMap->find(childhWnd);
+				if (itb != pChildMap->end()){
+					return itb->second->OnProc(hWnd, message, wParam, lParam);
+				}
+			}	
+		}
+
 		return handler->OnProc(hWnd, message, wParam, lParam);
-	}
 	
+	}
+
+}
+
+LRESULT CALLBACK SMessageHandler::ChildMessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	//NOTE:只有自定义消息,才会触发函数,系统消息不会触发
+	//将原消息进行包装
+	wnd_msg *tempmsg = new wnd_msg(hWnd, message, wParam, lParam);
+
+	//转发到父亲的WM_COMMAND,在这里进行处理,wParam待定使用(可用于检测是否为自定义消息)
+	//NOTE:应该自定义一个处理消息
+
+	::SendMessage(::GetParent(hWnd), WM_COMMAND, (WPARAM)NULL, (LPARAM)tempmsg);
+
+	return 0;
 }

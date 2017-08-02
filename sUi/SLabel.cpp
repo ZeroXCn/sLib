@@ -10,7 +10,7 @@ SWidget(parent)
 	SetHeight(0);
 
 	SetParent(parent);
-	SetMenu((HMENU)520);	//应该自动分配ID
+	SetMenu((HMENU)DEFAULT_MENU_VALUE);	//应该自动分配ID
 	SetInstance((HINSTANCE)::GetModuleHandle(NULL));
 }
 SLabel::~SLabel()

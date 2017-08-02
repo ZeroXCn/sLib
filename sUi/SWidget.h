@@ -13,6 +13,7 @@
 #ifndef _SWIDGET_H_
 #define _SWIDGET_H_
 
+#define DEFAULT_MENU_VALUE g_nWidgetId
 #include <Windows.h>
 
 class SWidget:
@@ -22,12 +23,13 @@ class SWidget:
 {
 	friend class SApplication;
 protected:
+	static int g_nWidgetId;			//记录控件ID的自增
+protected:
 	SWidget *m_pParent;				//父类控件
 
 	SWnd m_Wnd;						//控件句柄
 
 	HINSTANCE m_hInstance;			//当前控件实例句柄
-	HWND m_parentWnd;				//父类控件句柄
 	HMENU m_hMenu;					//菜单实例句柄或者记录控件ID
 	LPVOID m_lpParam;				//传递给消息函数的参数指针
 

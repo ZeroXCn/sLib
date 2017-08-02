@@ -37,9 +37,13 @@ protected:
 	SWindowInputEvent *m_pInputEvent;		//输入事件
 	SWindowActivityEvent *m_pActivityEvent;	//活动事件
 
+private:
+	void Init();
 public:
+
 	//声明空构造函数
-	SWindow(LPTSTR name=TEXT("Window"),SWidget *parent = NULL);
+	SWindow(SWidget *parent = NULL);
+	SWindow(LPTSTR name,SWidget *parent = NULL);
 	
 	//声明虚析构函数，便于在派生类中进行扩展
 	virtual ~SWindow();
