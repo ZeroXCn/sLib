@@ -125,6 +125,8 @@ public:
 	int SetBkMode(int iBkMode);
 	int GetBkMode();
 
+	//取得文本宽高
+	SIZE GetTextExtentPoint(LPTSTR lpString, int clen);
 public:
 	//画点
 	BOOL DrawPoint(int x, int y, COLORREF color = RGB(0, 0, 0));

@@ -101,5 +101,13 @@ public:
 	//允许/禁止指定的窗口或控件接受鼠标和键盘的输入
 	BOOL EnableWindow(BOOL bEnable);
 
+	//发送消息
+	LRESULT SendMessage(UINT Msg,WPARAM wParam,LPARAM lParam);
+
+	//投递消息
+	BOOL PostMessage(UINT Msg, WPARAM wParam, LPARAM lParam);
+
+	//枚举一个父窗口的所有子窗口。
+	BOOL EnumChildWindows(WNDENUMPROC lpEnumFunc, LPARAM lParam);
 };
 #endif

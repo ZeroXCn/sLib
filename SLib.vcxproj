@@ -97,6 +97,29 @@
     <ClInclude Include="sGraphic\SPen.h" />
     <ClInclude Include="sGraphic\SRgn.h" />
     <ClInclude Include="sMedia\SMedia.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\allocator.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\assertions.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\autolink.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\config.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\features.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\forwards.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\json.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\reader.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\value.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\version.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\writer.h" />
+    <ClInclude Include="sParser\extern\tinyxml2\tinyxml2.h" />
+    <ClInclude Include="sParser\SInf.h" />
+    <ClInclude Include="sParser\SIni.h" />
+    <ClInclude Include="sParser\SJson.h" />
+    <ClInclude Include="sParser\SRegistry.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="sParser\SText.h" />
+    <ClInclude Include="sParser\SXml.h" />
+    <ClInclude Include="sPattern\SObserver.h" />
+    <ClInclude Include="sPattern\SSingleton.h" />
+    <ClInclude Include="sPattern\SSubject.h" />
     <ClInclude Include="sUi\SDialog.h" />
     <ClInclude Include="sUi\SApplication.h" />
     <ClInclude Include="sUi\SButton.h" />
@@ -135,6 +158,10 @@
     <ClCompile Include="sGraphic\SPen.cpp" />
     <ClCompile Include="sGraphic\SRgn.cpp" />
     <ClCompile Include="sMedia\SMedia.cpp" />
+    <ClCompile Include="sParser\extern\tinyxml2\tinyxml2.cpp" />
+    <ClCompile Include="sPattern\SObserver.cpp" />
+    <ClCompile Include="sPattern\SSingleton.cpp" />
+    <ClCompile Include="sPattern\SSubject.cpp" />
     <ClCompile Include="sUi\SDialog.cpp" />
     <ClCompile Include="sUi\SApplication.cpp" />
     <ClCompile Include="sUi\SButton.cpp" />

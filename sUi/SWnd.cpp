@@ -168,3 +168,18 @@ BOOL SWnd::EnableWindow(BOOL bEnable)
 {
 	return ::EnableWindow(m_hWnd, bEnable);
 }
+
+LRESULT SWnd::SendMessage( UINT Msg, WPARAM wParam, LPARAM lParam)
+{
+	return ::SendMessage(m_hWnd, Msg, wParam, lParam);
+}
+
+BOOL SWnd::PostMessage(UINT Msg, WPARAM wParam, LPARAM lParam)
+{
+	return ::PostMessage(m_hWnd, Msg, wParam, lParam);
+}
+
+BOOL SWnd::EnumChildWindows(WNDENUMPROC lpEnumFunc, LPARAM lParam)
+{
+	return ::EnumChildWindows(m_hWnd, lpEnumFunc, lParam);
+}

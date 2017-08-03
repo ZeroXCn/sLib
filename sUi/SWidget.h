@@ -121,6 +121,10 @@ public:
 	// 获取设置控件提示 
 	LPTSTR GetTip();
 	void SetTip(LPTSTR str);
+
+	//取得设置文本字体
+	void SetFont(HFONT font);
+	HFONT GetFont();
 public:
 	/* 窗口是否创建*/
 	BOOL IsCreated();

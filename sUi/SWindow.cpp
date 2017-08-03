@@ -24,13 +24,9 @@ void SWindow::Init()
 	SApplication::GetApp()->RegisterWidget(this);
 
 }
-SWindow::SWindow(SWidget *parent):
-	SWidget(parent)
-{
-	Init();
-}
+
 /* 窗口空构造函数 */
-SWindow::SWindow(LPTSTR name, SWidget *parent) :
+SWindow::SWindow(SWidget *parent, LPTSTR name) :
 	SWidget(parent)
 {
 	_stprintf_s(m_szTitle, name);

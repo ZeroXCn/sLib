@@ -214,6 +214,13 @@ int SDc::GetBkMode()
 	return ::GetBkMode(m_hDC);
 }
 
+SIZE SDc::GetTextExtentPoint(LPTSTR lpString, int clen)
+{
+	SIZE size;
+	::GetTextExtentPoint(m_hDC, lpString, clen, &size);
+	return size;
+}
+
 ///////////////
 BOOL SDc::DrawPoint(int x, int y, COLORREF color)
 {

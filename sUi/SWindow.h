@@ -5,10 +5,7 @@
 * @version v1.0 21/07/2017 
 */
 #include "../sCore/SThread.h"
-
-
 #include "SWidget.h"
-
 #include "SWindowActivityEvent.h"
 #include "SWindowInputEvent.h"
 
@@ -42,8 +39,7 @@ private:
 public:
 
 	//声明空构造函数
-	SWindow(SWidget *parent = NULL);
-	SWindow(LPTSTR name,SWidget *parent = NULL);
+	SWindow(SWidget *parent = NULL,LPTSTR name=TEXT("Window") );
 	
 	//声明虚析构函数，便于在派生类中进行扩展
 	virtual ~SWindow();

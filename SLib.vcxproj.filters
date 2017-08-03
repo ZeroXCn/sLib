@@ -168,6 +168,69 @@
     <ClInclude Include="sUi\SDialog.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sPattern\SSingleton.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sPattern\SSubject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sPattern\SObserver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\allocator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\assertions.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\autolink.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\config.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\features.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\forwards.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\json.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\reader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\value.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\version.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\writer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\tinyxml2\tinyxml2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\SIni.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\SXml.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\SJson.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\SRegistry.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\SText.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\SInf.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp">
@@ -279,6 +342,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sUi\SDialog.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sPattern\SSingleton.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sPattern\SSubject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sPattern\SObserver.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\extern\tinyxml2\tinyxml2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

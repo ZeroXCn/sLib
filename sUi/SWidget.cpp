@@ -265,6 +265,14 @@ void SWidget::SetTip(LPTSTR str)
 	lstrcpy(m_szTip, str);
 }
 
+void SWidget::SetFont(HFONT font)
+{
+	m_Wnd.SendMessage(WM_SETFONT, (WPARAM)font, 0);
+}
+HFONT SWidget::GetFont()
+{
+	return (HFONT)m_Wnd.SendMessage(WM_GETFONT, 0, 0);
+}
 
 /* ÖÃ¶¥´°¿Ú */
 BOOL SWidget::SetForegroundWindow()
