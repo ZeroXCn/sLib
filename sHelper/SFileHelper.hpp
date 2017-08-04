@@ -1,3 +1,10 @@
+/**
+* SFileHelper类
+* 简单的文件读写辅助类
+* @author ZeroX
+* @version v1.0 03/08/2017(25/04/2016)
+*/
+
 #ifndef SFILEHELPER_H
 #define SFILEHELPER_H
 #include <iostream>

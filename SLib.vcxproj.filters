@@ -231,6 +231,18 @@
     <ClInclude Include="sParser\SInf.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sMisc\SFileInfo.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sHelper\SFileHelper.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\SProfile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sParser\extern\inifile2\inifile.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp">
@@ -354,6 +366,21 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sParser\extern\tinyxml2\tinyxml2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\SText.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\SRegistry.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\SInf.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\SProfile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\extern\inifile2\inifile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

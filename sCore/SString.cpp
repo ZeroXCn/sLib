@@ -6,20 +6,71 @@
 *************************************/
 #include "SString.h"
 
+wstring SString::StringToWstring(const string str)
+{
+	unsigned len = str.size() * 2;// 预留字节数
+	size_t converted = 0;
+	setlocale(LC_CTYPE, "");     //必须调用此函数
+	wchar_t *p = new wchar_t[len];// 申请一段内存存放转换后的字符串
+	mbstowcs_s(&converted, p, len, str.c_str(), _TRUNCATE);// 转换
+	std::wstring str1(p);
+	delete[] p;// 释放申请的内存
+	return str1;
+}
+string SString::WStringToString(const wstring str)
+{
+	unsigned len = str.size() * 4;
+	size_t converted = 0;
+	setlocale(LC_CTYPE, "");
+	char *p = new char[len];
+	wcstombs_s(&converted, p, len, str.c_str(), _TRUNCATE);
+	std::string str1(p);
+	delete[] p;
+	return str1;
+}
+
 SString SString::Format(const TCHAR *pszFormat, ...)
 {
 	va_list args;
 	va_start(args, pszFormat);
 
-	TCHAR str[256];
-	_vstprintf_s(str, 256,pszFormat, args);
+	TCHAR str[1024];
+	_vstprintf_s(str, 1024, pszFormat, args);
 
 	va_end(args);
 
 	return SString(str);
 }
 
+rtstring SString::Parse(tstring OStr)
+{
+	rtstring result;
+	size_t len = OStr.length() + 1;
+	size_t converted = 0;
+	RTCHAR *RStr;
+	RStr = new RTCHAR(len*sizeof(RTCHAR));
+	tcstortcs(&converted, RStr, len, OStr.c_str(), _TRUNCATE);
+	result = RStr;
+	delete[] RStr;
+	return result;
 
+}
+
+tstring SString::Parse(rtstring OStr)
+{
+	tstring result;
+	size_t len = OStr.length() + 1;
+	size_t converted = 0;
+	TCHAR *RStr;
+	RStr = new TCHAR(len*sizeof(TCHAR));
+	rtcstotcs(&converted, RStr, len, OStr.c_str(), _TRUNCATE);
+	result = RStr;
+	delete[] RStr;
+	return result;
+}
+
+
+////
 SString::SString(TCHAR ch)
 {
 	*this += ch;
@@ -58,14 +109,55 @@ SString::~SString()
 }
 ///
 
-SString &SString::arg(SString &str)
+SString &SString::arg(SString str)
 {
-	//仿qt的string
+	//仿qt的string,这里采用查找,替换的方法
+	//TODO:有待改进(04/08/2017)
+	SString result;
+	bool flag = false;
+	int size = this->size();
+	for (int i = 0; i < size; i++)
+	{
+		if ((*this)[i] != _T('%'))result += (*this)[i];
+		else{
+			if (!flag){
+				TCHAR next = this->at(i + 1);
+				try{
+					switch (next){
+						case _T('d'):
+						case _T('s'):
+						case _T('f'):
+							result += str;
+							flag = true;
+							i++;
+							break;
+							/*
+						case _T('%'):
+							result += (*this)[i];
+							i++;
+							break;
+							*/
+						default:
+							result += (*this)[i];
+							break;
+					}
+
+
+				}
+				catch (...){}
+			}
+			else{ result += (*this)[i]; }
+		}
+	}
+
+
+	*this = result;
 	return *this;
 }
 
-SString &SString::trim(SString &s)
+SString &SString::trim()
 {
+	SString &s = *this;
 	if (s.empty())
 		return s;
 
@@ -97,7 +189,8 @@ vector<SString> SString::split(SString &s, SString &delim)
 	return ret;
 }
 
-SString SString::ToString()
+
+SString SString::toString()
 {
 	return *this;
 }

@@ -15,11 +15,14 @@
 
 #include <iostream>
 #include <tchar.h>
+#include <locale.h>
 
 #include <sstream>
 #include <string>
 #include <cstdarg>
 #include <vector>
+
+#include <regex>
 using namespace std;
 
 #ifndef _INC_TCHAR
@@ -111,17 +114,25 @@ typedef char TCHAR;
 #endif
 
 #ifdef _UNICODE
+typedef string rtstring;
 typedef wstring tstring;
 typedef wostream tostream;
 typedef wistream tistream;
+typedef char RTCHAR;
 #define tcout wcout
 #define tcin win
+#define rtcstotcs mbstowcs_s
+#define tcstortcs wcstombs_s
 #else
+typedef wstring rtstring;
 typedef string tstring;
 typedef ostream tostream;
 typedef istream tistream;
+typedef wchar_t RTCHAR
 #define tcout cout
 #define tcin cin
+#define rtcstotcs wcstombs_s
+#define tcstortcs mbstowcs_s
 #endif
 
 class SString:
@@ -131,7 +142,11 @@ public:
 	friend tostream& operator <<(tostream&, SString&);
 	friend tistream& operator >>(tistream&, SString&);
 public:
+	static wstring StringToWstring(const string str);
+	static string WStringToString(const wstring str);
 	static SString Format(const TCHAR *pszFormat, ...);
+	static rtstring Parse(tstring OStr);
+	static tstring Parse(rtstring OStr);
 public:
 	//原构造函数
 	SString() :tstring(){};
@@ -149,19 +164,21 @@ public:
 	SString(double x);
 	SString(bool x);
 
+
 	virtual ~SString();
 public:
-	SString &arg(SString &str);
-	SString& trim(SString &s);
+	SString &arg(SString str);
+	SString& trim();
 	void split(SString &s, SString &delim, vector<SString> *ret);
 	vector<SString> split(SString &s, SString &delim);
 
-	SString ToString();
 public:
 	float toFloat();
 	int toInt();
 	double toDouble();
 	bool toBool();
+	SString toString();
+public:
 
 };
 
