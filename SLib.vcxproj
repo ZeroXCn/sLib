@@ -65,6 +65,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="sCore\SAbstractClock.h" />
+    <ClInclude Include="sCore\SRegex.h" />
     <ClInclude Include="sGraphic\SBufferDC.h" />
     <ClInclude Include="sGraphic\SColor.hpp" />
     <ClInclude Include="sCore\SAsyncTask.h" />
@@ -97,6 +98,7 @@
     <ClInclude Include="sGraphic\SPen.h" />
     <ClInclude Include="sGraphic\SRgn.h" />
     <ClInclude Include="sHelper\SFileHelper.hpp" />
+    <ClInclude Include="sHelper\SStringHelper.h" />
     <ClInclude Include="sMedia\SMedia.h" />
     <ClInclude Include="sMisc\SFileInfo.hpp" />
     <ClInclude Include="sParser\extern\inifile2\inifile.h" />

@@ -119,6 +119,8 @@ typedef wstring tstring;
 typedef wostream tostream;
 typedef wistream tistream;
 typedef char RTCHAR;
+typedef wregex tregex;
+typedef wsmatch tsmatch;
 #define tcout wcout
 #define tcin win
 #define rtcstotcs mbstowcs_s
@@ -129,6 +131,8 @@ typedef string tstring;
 typedef ostream tostream;
 typedef istream tistream;
 typedef wchar_t RTCHAR
+typedef regex tregex;
+typedef smatch tsmatch;
 #define tcout cout
 #define tcin cin
 #define rtcstotcs wcstombs_s
@@ -142,8 +146,6 @@ public:
 	friend tostream& operator <<(tostream&, SString&);
 	friend tistream& operator >>(tistream&, SString&);
 public:
-	static wstring StringToWstring(const string str);
-	static string WStringToString(const wstring str);
 	static SString Format(const TCHAR *pszFormat, ...);
 	static rtstring Parse(tstring OStr);
 	static tstring Parse(rtstring OStr);
@@ -171,7 +173,8 @@ public:
 	SString& trim();
 	void split(SString &s, SString &delim, vector<SString> *ret);
 	vector<SString> split(SString &s, SString &delim);
-
+	void split(SString &s, tregex expression, vector<SString> *ret);
+	vector<SString> split(SString &s, tregex expression);
 public:
 	float toFloat();
 	int toInt();
@@ -179,7 +182,21 @@ public:
 	bool toBool();
 	SString toString();
 public:
-
+	/*更新对正则表达式的支持*/
+	/* 为了防止重载隐藏,不能与父类重载同名 */
+	//查找
+	size_t indexOf(tregex expression, size_t pos = 0) const;
+	size_t indexOf(tregex expression, size_t pos,int *matchLength) const;	//返回匹配长度
+	//替换
+	SString &replaceAll(tregex expression, SString des);
+public:
+	//比较
+	bool equals(SString str);
+	bool equals(SString &str);
+	bool equals(tregex expression);
+public:
+	//返回强制转换后的c_str(),前提是必须确保不被修改
+	TCHAR *str();
 };
 
 typedef SString String;

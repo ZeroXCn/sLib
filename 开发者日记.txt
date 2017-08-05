@@ -1,6 +1,11 @@
-03/08/2017:
+04/08/2017:
 1.补充SString中的arg()函数,不够完整,有待改进
 2.补充SString中关于UNICODE与ANSCII的互相转换
 3.增加SText类
 4.增加SProfile类
 5.更新sParse库,仍有三个类待补充
+
+05/08/2017:
+1.重写SInf类
+2.修正SString类转换BUG
+3.SString功能补充,增加正则表达式

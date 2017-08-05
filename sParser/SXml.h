@@ -11,6 +11,15 @@ using namespace tinyxml2;
 
 #ifndef _SXML_H_
 #define _SXML_H_
+/* 这样做会无法继承父类的构造函数 */
+//class SXmlDocument :public SObject, public XMLDocument{};
+//class SXmlElement :public SObject, public XMLElement{};
+//class SXmlAttribute :public SObject, public XMLAttribute{};
+//class SXmlComment :public SObject, public XMLComment{};
+//class SXmlText :public SObject, public XMLText{};
+//class SXmlDeclaration :public SObject, public XMLDeclaration{};
+//class SXmlUnknown :public SObject, public XMLUnknown{};
+//class SXmlPrinter :public SObject, public XMLPrinter{};
 
 typedef XMLDocument SXmlDocument;
 typedef XMLElement SXmlElement;
@@ -21,9 +30,4 @@ typedef XMLDeclaration SXmlDeclaration;
 typedef XMLUnknown SXmlUnknown;
 typedef XMLPrinter SXmlPrinter;
 
-
-class SXml :public SObject
-{
-
-};
 #endif

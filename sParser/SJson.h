@@ -11,8 +11,5 @@
 #ifndef _SJSON_H_
 #define _SJSON_H_
 
-class SJson:public SObject
-{
 
-};
 #endif

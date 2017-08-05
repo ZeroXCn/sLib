@@ -243,6 +243,12 @@
     <ClInclude Include="sParser\extern\inifile2\inifile.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sHelper\SStringHelper.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SRegex.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp">
