@@ -65,7 +65,25 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="sCore\SAbstractClock.h" />
+    <ClInclude Include="sCore\SBaseType.h" />
+    <ClInclude Include="sCore\SByteArray.h" />
+    <ClInclude Include="sCore\SNumber.h" />
     <ClInclude Include="sCore\SRegex.h" />
+    <ClInclude Include="sData\SSqlConnection.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlException.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlFactory.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlStatement.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlResultSet.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="sGraphic\SBufferDC.h" />
     <ClInclude Include="sGraphic\SColor.hpp" />
     <ClInclude Include="sCore\SAsyncTask.h" />
@@ -99,6 +117,7 @@
     <ClInclude Include="sGraphic\SRgn.h" />
     <ClInclude Include="sHelper\SFileHelper.hpp" />
     <ClInclude Include="sHelper\SStringHelper.h" />
+    <ClInclude Include="sCore\SBigInteger.h" />
     <ClInclude Include="sMedia\SMedia.h" />
     <ClInclude Include="sMisc\SFileInfo.hpp" />
     <ClInclude Include="sParser\extern\inifile2\inifile.h" />
@@ -140,10 +159,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp" />
+    <ClCompile Include="sCore\SBoolean.cpp" />
+    <ClCompile Include="sCore\SByteArray.cpp" />
+    <ClCompile Include="sCore\SCharacter.cpp" />
     <ClCompile Include="sCore\SDebug.cpp" />
     <ClCompile Include="sCore\SDelayClock.cpp" />
+    <ClCompile Include="sCore\SDouble.cpp" />
     <ClCompile Include="sCore\SException.cpp" />
+    <ClCompile Include="sCore\SFloat.cpp" />
     <ClCompile Include="sCore\SFrequencyClock.cpp" />
+    <ClCompile Include="sCore\SInteger.cpp" />
     <ClCompile Include="sCore\SMediaClock.cpp" />
     <ClCompile Include="sCore\SObject.cpp" />
     <ClCompile Include="sCore\SRunnable.cpp" />
@@ -163,6 +188,7 @@
     <ClCompile Include="sGraphic\SPalette.cpp" />
     <ClCompile Include="sGraphic\SPen.cpp" />
     <ClCompile Include="sGraphic\SRgn.cpp" />
+    <ClCompile Include="sCore\SBigInteger.cpp" />
     <ClCompile Include="sMedia\SMedia.cpp" />
     <ClCompile Include="sParser\extern\inifile2\inifile.cpp" />
     <ClCompile Include="sParser\extern\tinyxml2\tinyxml2.cpp" />

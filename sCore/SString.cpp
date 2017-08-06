@@ -204,6 +204,20 @@ SString SString::toString()
 {
 	return *this;
 }
+
+SString SString::toHexString()
+{
+	SString ret;
+	int len = sizeof(TCHAR)*( 8 / 4 + 2 + 1);
+	TCHAR *hex = new TCHAR[len];
+	for (int i = 0; i != tstring::size(); ++i)
+	{
+		_stprintf_s(hex, len, _T("%#.2x "), (TCHAR)(*this)[i]);
+		ret += hex;
+	}
+	delete[] hex;
+	return ret;
+}
 //
 float SString::toFloat()
 {
@@ -219,6 +233,17 @@ double SString::toDouble()
 {
 	double result = _tcstod(c_str(), NULL);
 	return result;
+}
+
+SString &SString::toUpper()
+{
+	transform(tstring::begin(), tstring::end(), tstring::begin(), ::toupper);
+	return *this;
+}
+SString &SString::toLower()
+{
+	transform(tstring::begin(), tstring::end(), tstring::begin(), ::tolower);
+	return *this;
 }
 ////
 

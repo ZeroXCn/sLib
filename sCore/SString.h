@@ -16,6 +16,7 @@
 #include <iostream>
 #include <tchar.h>
 #include <locale.h>
+#include <algorithm>
 
 #include <sstream>
 #include <string>
@@ -181,6 +182,10 @@ public:
 	double toDouble();
 	bool toBool();
 	SString toString();
+	SString toHexString();
+
+	SString &toUpper();
+	SString &toLower();
 public:
 	/*更新对正则表达式的支持*/
 	/* 为了防止重载隐藏,不能与父类重载同名 */

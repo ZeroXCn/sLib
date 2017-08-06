@@ -11,12 +11,17 @@
 #define _SSHAREDPTR_H_
 #include <memory>
 
+
+
 template<class T>
 class SSharedPtr :
 	public SObject,
 	public shared_ptr<T>
 {
-
+public:
+	SSharedPtr(T ptr) :shared_ptr(ptr)
+	{
+	}
 };
 
 #endif

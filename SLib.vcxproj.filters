@@ -249,6 +249,33 @@
     <ClInclude Include="sCore\SRegex.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sCore\SBigInteger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SBaseType.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SNumber.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SByteArray.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlConnection.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlResultSet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlException.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlStatement.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp">
@@ -387,6 +414,27 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sParser\extern\inifile2\inifile.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SBigInteger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SFloat.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SInteger.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SDouble.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SBoolean.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SCharacter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SByteArray.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

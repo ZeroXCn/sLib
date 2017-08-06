@@ -7,7 +7,7 @@
 *
 */
 
-
+#include "SBaseType.h"
 #include "SString.h"
 
 #ifndef _SOBJECT_H_
@@ -19,6 +19,8 @@ class SObject
 
 public:
 	virtual SString ToString();
+
+	virtual bool Equals(SObject &obj);
 };
 
 #endif
