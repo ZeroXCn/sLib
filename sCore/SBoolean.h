@@ -18,8 +18,6 @@ public:
 	static SBoolean ValueOf(bool i);
 	static SBoolean ValueOf(SString s);
 
-	static SString ToHexString(bool i, bool bIsUpper = false);	//返回16进制
-
 	static bool ParseBoolean(SString s);								//数值转换
 };
 

@@ -22,10 +22,10 @@ public:
 public:
 	static SInteger ValueOf(int i);
 	static SInteger ValueOf(SString s);							
-
-	static SString ToHexString(int num, bool bIsUpper = false);	//返回16进制
 			
 	static int ParseInt(SString s);								//数值转换
+public:
+	SString ToHexString();
 
 };
 

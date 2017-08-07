@@ -276,6 +276,27 @@
     <ClInclude Include="sData\SSqlStatement.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sPattern\SAbstractFcatory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sPattern\SProduct.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SLong.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SOptional.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SAny.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SVairant.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sHelper\SDllHelper.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp">
@@ -435,6 +456,18 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sCore\SByteArray.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sPattern\SAbstractFcatory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sPattern\SProduct.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SLong.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SNumber.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -74,6 +74,13 @@ SString::SString(double x)
 	*this = str;
 }
 
+SString::SString(long x)
+{
+	TCHAR str[10];
+	_stprintf_s(str, _T("%ld"), x);
+	*this = str;
+}
+
 SString::SString(bool x)
 {
 	TCHAR str[6];
@@ -199,7 +206,18 @@ vector<SString> SString::split(SString &s, tregex expression)
 	return ret;
 }
 
+SString &SString::upper()
+{
+	transform(tstring::begin(), tstring::end(), tstring::begin(), ::toupper);
+	return *this;
+}
+SString &SString::lower()
+{
+	transform(tstring::begin(), tstring::end(), tstring::begin(), ::tolower);
+	return *this;
+}
 
+/////
 SString SString::toString()
 {
 	return *this;
@@ -235,15 +253,32 @@ double SString::toDouble()
 	return result;
 }
 
-SString &SString::toUpper()
+bool SString::toBool()
 {
-	transform(tstring::begin(), tstring::end(), tstring::begin(), ::toupper);
-	return *this;
+	SString ret = *this;
+	transform(ret.begin(), ret.end(), ret.begin(), ::toupper);
+	if (ret == _T("TRUE"))return true;
+	else return false;
+
 }
-SString &SString::toLower()
+
+long SString::toLong()
 {
-	transform(tstring::begin(), tstring::end(), tstring::begin(), ::tolower);
-	return *this;
+	long result = _tcstol(c_str(), NULL, 10);
+	return result;
+}
+
+SString SString::toUpper()
+{
+	SString ret = *this;
+	transform(ret.begin(), ret.end(), ret.begin(), ::toupper);
+	return ret;
+}
+SString SString::toLower()
+{
+	SString ret = *this;
+	transform(ret.begin(), ret.end(), ret.begin(), ::tolower);
+	return ret;
 }
 ////
 

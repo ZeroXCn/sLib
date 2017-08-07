@@ -27,9 +27,8 @@ public:
 	static SDouble ValueOf(double i);
 	static SDouble ValueOf(SString s);
 
-	static SString ToHexString(double i, bool bIsUpper = false);	//返回16进制
-
 	static double ParseDouble(SString s);								//数值转换
+
 };
 
 #endif

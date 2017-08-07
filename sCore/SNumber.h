@@ -21,64 +21,28 @@ class SNumber :public SObject
 protected:
 	_T m_data;
 protected:
-	SNumber(_T data)
-	{
-		m_data = data;
-	}
+	SNumber(_T data);
 
 public:
-	virtual SString ToString()
-	{
-		return SString(m_data);
-	}
+	virtual SString ToString();
 
-	virtual SString ToHexString()
-	{
-		return SString::Format(_T("%x"), m_data);
-	}
+	virtual SString ToHexString();
 
-	virtual SString ToBinString()
-	{
-		return SString::Format(_T("%b"), m_data);
-	}
-
-	virtual SString ToDecString()
-	{
-		return SString::Format(_T("%d"),(int)m_data);
-	}
-
-	static SString ToString(_T num)
-	{
-		return SString(num);
-	}
+	virtual SString ToBinString();
+	virtual SString ToDecString();
 
 	
 public:
-	virtual int IntValue(){
-		return (int)m_data;
-	}
-	virtual double DoubleValue(){
-		return (double)m_data;
-	}
-	virtual float FloatValue(){
-		return (float)m_data;
-	}
-	virtual TCHAR CharValue(){
-		return (TCHAR)m_data;
-	}
-	virtual bool BoolValue(){
-		return m_data?true:false;
-	}
+	virtual int IntValue();
+	virtual double DoubleValue();
+	virtual float FloatValue();
+	virtual TCHAR CharValue();
+	virtual bool BoolValue();
+	virtual long LongValue();
 
-	bool operator >(SNumber num){
-		return m_data > num;
-	}
-	bool operator <(SNumber num){
-		return m_data < num;
-	}
-	bool operator ==(SNumber num){
-		return m_data == num;
-	}
+	bool operator >(SNumber num);
+	bool operator <(SNumber num);
+	bool operator ==(SNumber num);
 };
 
 #endif

@@ -15,3 +15,10 @@
 2.添加byte类型
 3.增加SString类型的ToHexString(),输出16进制
 4.规范数据库--概念
+5.增加BigInteger类,
+
+07/08/2017:
+1.增加简单工厂模式
+2.增加SAny,SVairant,SOptional,SDllHelper类
+3.修复基本封装类SNumber的几个函数
+4.为SInf增加运算符重载,并增强其功能

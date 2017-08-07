@@ -64,11 +64,16 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="sHelper\SDllHelper.hpp" />
     <ClInclude Include="sCore\SAbstractClock.h" />
+    <ClInclude Include="sCore\SAny.hpp" />
     <ClInclude Include="sCore\SBaseType.h" />
     <ClInclude Include="sCore\SByteArray.h" />
+    <ClInclude Include="sCore\SLong.h" />
     <ClInclude Include="sCore\SNumber.h" />
+    <ClInclude Include="sCore\SOptional.hpp" />
     <ClInclude Include="sCore\SRegex.h" />
+    <ClInclude Include="sCore\SVairant.hpp" />
     <ClInclude Include="sData\SSqlConnection.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClInclude>
@@ -142,7 +147,9 @@
     </ClInclude>
     <ClInclude Include="sParser\SText.h" />
     <ClInclude Include="sParser\SXml.h" />
+    <ClInclude Include="sPattern\SAbstractFcatory.h" />
     <ClInclude Include="sPattern\SObserver.h" />
+    <ClInclude Include="sPattern\SProduct.h" />
     <ClInclude Include="sPattern\SSingleton.h" />
     <ClInclude Include="sPattern\SSubject.h" />
     <ClInclude Include="sUi\SDialog.h" />
@@ -169,7 +176,9 @@
     <ClCompile Include="sCore\SFloat.cpp" />
     <ClCompile Include="sCore\SFrequencyClock.cpp" />
     <ClCompile Include="sCore\SInteger.cpp" />
+    <ClCompile Include="sCore\SLong.cpp" />
     <ClCompile Include="sCore\SMediaClock.cpp" />
+    <ClCompile Include="sCore\SNumber.cpp" />
     <ClCompile Include="sCore\SObject.cpp" />
     <ClCompile Include="sCore\SRunnable.cpp" />
     <ClCompile Include="sCore\SSharedPtr.cpp" />
@@ -196,7 +205,9 @@
     <ClCompile Include="sParser\SInf.cpp" />
     <ClCompile Include="sParser\SRegistry.cpp" />
     <ClCompile Include="sParser\SText.cpp" />
+    <ClCompile Include="sPattern\SAbstractFcatory.cpp" />
     <ClCompile Include="sPattern\SObserver.cpp" />
+    <ClCompile Include="sPattern\SProduct.cpp" />
     <ClCompile Include="sPattern\SSingleton.cpp" />
     <ClCompile Include="sPattern\SSubject.cpp" />
     <ClCompile Include="sUi\SDialog.cpp" />

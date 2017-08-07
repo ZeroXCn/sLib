@@ -1,5 +1,9 @@
 #include "SInf.h"
 
+//定义两个空引用
+SInfSection g_nullptr_section;
+SInfValue g_nullptr_value;
+///
 SInfDocument::SInfDocument()
 {
 
@@ -10,9 +14,15 @@ SInfDocument::~SInfDocument()
 		delete it;
 }
 ///
-string SInfDocument::GetValue(string szSection, string szKey, string def)
+
+SInfValue SInfDocument::GetValue(string szSection, string szKey)
 {
-	string result;
+	SInfValue def = "";
+	return GetValue(szSection, szKey, def);
+}
+SInfValue SInfDocument::GetValue(string szSection, string szKey, SInfValue def)
+{
+	SInfValue result;
 	for (auto ita = m_vSections.begin(); ita != m_vSections.end(); ita++)
 	{
 		SInfSection *pSection = *ita;
@@ -21,7 +31,7 @@ string SInfDocument::GetValue(string szSection, string szKey, string def)
 	}
 	return def;
 }
-bool SInfDocument::SetValue(string szSection, string szKey, string value)
+bool SInfDocument::SetValue(string szSection, string szKey, SInfValue value)
 {
 	//如果没有则新建,有则插入
 	auto ita = m_vSections.begin();
@@ -63,6 +73,10 @@ vector<SInfSection *> *SInfDocument::GetList()
 	return &m_vSections;
 }
 
+int SInfDocument::GetSize()
+{
+	return m_vSections.size();
+}
 
 	//插入一个结点
 bool SInfDocument::Insert(SInfSection *pSection)
@@ -76,6 +90,23 @@ bool SInfDocument::Insert(SInfSection &section)
 	return Insert(temp);
 
 }
+
+SInfSection &SInfDocument::operator [](string szSection)
+{
+	SInfSection *temp = this->GetSection(szSection);
+	if (temp)return *temp;
+	else return g_nullptr_section;	//空字段,由Value处理未获取的情况
+	//else throw "nullptr";	//抛出一个异常,字符串
+}
+
+SInfSection &SInfDocument::operator [](int index) 
+{
+	try{
+		return *m_vSections.at(index);
+	}
+	catch (...){ return g_nullptr_section; }
+}
+
 	/* 读写操作 */
 bool SInfDocument::Load(string path)
 {
@@ -152,7 +183,7 @@ bool SInfDocument::Load(string path)
 							key.erase(key.find_last_not_of(" ") + 1);
 							value.erase(value.find_last_not_of(" ") + 1);
 
-							nowSection->GetMap()->insert(pair<string,string>(key, value));
+							nowSection->GetMap()->insert(pair<string, SInfValue>(key, value));
 						}
 					}
 
@@ -203,7 +234,12 @@ void SInfSection::SetName(string szName)
 	m_szName = szName;
 }
 
-string SInfSection::GetValue(string key, string def)
+SInfValue SInfSection::GetValue(string key)
+{
+	SInfValue def = "";
+	return GetValue(key, def);
+}
+SInfValue SInfSection::GetValue(string key, SInfValue def)
 {
 	auto it = m_mKeyMap.find(key);
 	if (it != m_mKeyMap.end())
@@ -211,25 +247,25 @@ string SInfSection::GetValue(string key, string def)
 	else
 		return def;
 }
-void SInfSection::SetValue(string key, string value)
+void SInfSection::SetValue(string key, SInfValue value)
 {
 	auto it = m_mKeyMap.find(key);
 	if (it != m_mKeyMap.end())
 		it->second = value;
 }
 
-map<string, string> *SInfSection::GetMap()
+map<string, SInfValue> *SInfSection::GetMap()
 {
 	return &m_mKeyMap;
 }
 
-bool SInfSection::Insert(string key, string value)
+bool SInfSection::Insert(string key, SInfValue value)
 {
 	auto it = m_mKeyMap.find(key);
 	if (it != m_mKeyMap.end())
 		return false;
 	else{
-		m_mKeyMap.insert(pair<string,string>(key, value));
+		m_mKeyMap.insert(pair<string, SInfValue>(key, value));
 	}
 	return true;
 }
@@ -237,4 +273,155 @@ bool SInfSection::Remove(string key)
 {
 	m_mKeyMap.erase(key);
 	return true;
+}
+
+SInfValue &SInfSection::operator [](string szkey)
+{
+	auto it = m_mKeyMap.find(szkey);
+	if (it != m_mKeyMap.end())
+		return it->second;
+	else
+		return g_nullptr_value;
+}
+
+///////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+
+SInfValue::SInfValue()
+{
+
+}
+
+SInfValue::SInfValue(string szValue) :m_szValue(szValue)
+{
+
+}
+
+SInfValue::SInfValue(const char ch) 
+{
+	m_szValue += ch;
+}
+
+SInfValue::SInfValue(const char *szStr) :m_szValue(szStr)
+{
+
+}
+
+
+SInfValue::SInfValue(int value)
+{
+	*this = value;
+}
+SInfValue::SInfValue(double value)
+{
+	*this = value;
+}
+SInfValue::SInfValue(float value)
+{
+	*this = value;
+
+}
+SInfValue::SInfValue(bool value)
+{
+	*this = value;
+}
+SInfValue::SInfValue(long value)
+{
+	*this = value;
+}
+
+
+SInfValue &SInfValue::operator = (const char * szValue)
+{
+	m_szValue = szValue;
+	return *this;
+}
+SInfValue &SInfValue::operator = (const char Value)
+{
+	m_szValue += Value;
+	return *this;
+}
+SInfValue &SInfValue::operator = (string szValue)
+{
+	m_szValue = szValue;
+	return *this;
+}
+SInfValue &SInfValue::operator = (int Value)
+{
+	char str[32];
+	sprintf_s(str, "%d", Value);
+	m_szValue = str;
+	return *this;
+}
+SInfValue &SInfValue::operator = (double Value)
+{
+	char str[32];
+	sprintf_s(str, "%lf", Value);
+	m_szValue = str;
+	return *this;
+}
+SInfValue &SInfValue::operator = (float Value)
+{
+	char str[32];
+	sprintf_s(str, "%f", Value);
+	m_szValue = str;
+	return *this;
+}
+SInfValue &SInfValue::operator = (bool Value)
+{
+	if (Value)m_szValue = "true";
+	else m_szValue = "false";
+	return *this;
+}
+SInfValue &SInfValue::operator = (long Value)
+{
+	char str[32];
+	sprintf_s(str, "%ld", Value);
+	m_szValue = str;
+	return *this;
+}
+
+
+int SInfValue::ToInt()
+{
+	return (int)atoi(m_szValue.c_str());
+}
+float SInfValue::ToFloat()
+{
+	return (float)atof(m_szValue.c_str());
+}
+double SInfValue::ToDouble()
+{
+	return (double)atof(m_szValue.c_str());
+}
+bool SInfValue::ToBool()
+{
+	string ret = m_szValue;
+	transform(ret.begin(), ret.end(), ret.begin(), ::tolower);
+	if (ret == "true")return true;
+	else return false;
+}
+string SInfValue::ToStrString()
+{
+	return m_szValue;
+}
+SString SInfValue::ToString()
+{
+	return SString::Parse(m_szValue);
+}
+long SInfValue::ToLong()
+{
+	return (long)atol(m_szValue.c_str());
+}
+
+
+ostream& operator <<(ostream& out, SInfValue&obj)
+{
+	out << obj.m_szValue;
+	return out;
+}
+istream& operator >>(istream& in, SInfValue&obj)
+{
+	in >> obj.m_szValue;
+	return in;
 }

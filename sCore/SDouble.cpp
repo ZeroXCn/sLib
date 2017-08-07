@@ -23,11 +23,6 @@ SDouble SDouble::ValueOf(SString s)
 	return SDouble(s.toDouble());
 }
 
-SString SDouble::ToHexString(double i, bool bIsUpper)
-{
-	if (bIsUpper)return SString::Format(_T("%X"), i);
-	else return SString::Format(_T("%x"), i);
-}
 
 double SDouble::ParseDouble(SString s)
 {

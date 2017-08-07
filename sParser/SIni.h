@@ -9,11 +9,8 @@
 using namespace inifile;
 #ifndef _SINI_H_
 #define _SINI_H_
-class SIni:
-	public SObject,
-	public IniFile
-{
 
-};
+typedef IniFile SIni;
+
 
 #endif

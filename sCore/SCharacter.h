@@ -24,8 +24,6 @@ public:
 	static SCharacter ValueOf(TCHAR i);
 	static SCharacter ValueOf(SString s);
 
-	static SString ToHexString(TCHAR num, bool bIsUpper = false);	//返回16进制
-
 	static TCHAR ParseInt(SString s);								//数值转换
 };
 

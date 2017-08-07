@@ -1,4 +1,5 @@
 #include "SCharacter.h"
+#include "SNumber.cpp"
 
 const char SCharacter::MAX_VALUE = CHAR_MAX;
 const char SCharacter::MIN_VALUE = CHAR_MIN;
@@ -21,11 +22,6 @@ SCharacter SCharacter::ValueOf(SString s)
 	else return SCharacter(0);
 }
 
-SString SCharacter::ToHexString(TCHAR num, bool bIsUpper)
-{
-	if (bIsUpper)return SString::Format(_T("%X"), num);
-	else return SString::Format(_T("%x"), num);
-}
 
 TCHAR SCharacter::ParseInt(SString s)
 {

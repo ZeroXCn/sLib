@@ -165,6 +165,7 @@ public:
 	SString(int x);
 	SString(float x);
 	SString(double x);
+	SString(long x);
 	SString(bool x);
 
 
@@ -176,16 +177,21 @@ public:
 	vector<SString> split(SString &s, SString &delim);
 	void split(SString &s, tregex expression, vector<SString> *ret);
 	vector<SString> split(SString &s, tregex expression);
+
+	SString &upper();
+	SString &lower();
 public:
 	float toFloat();
 	int toInt();
 	double toDouble();
 	bool toBool();
+	long toLong();
+
 	SString toString();
 	SString toHexString();
 
-	SString &toUpper();
-	SString &toLower();
+	SString toUpper();
+	SString toLower();
 public:
 	/*更新对正则表达式的支持*/
 	/* 为了防止重载隐藏,不能与父类重载同名 */

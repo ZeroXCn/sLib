@@ -1,4 +1,5 @@
 #include "SInteger.h"
+#include "SNumber.cpp"
 
 const int SInteger::MAX_VALUE = INT_MAX;
 const int SInteger::MIN_VALUE = INT_MIN;
@@ -13,9 +14,10 @@ SInteger SInteger::ValueOf(SString s)
 	return SInteger(s.toInt());
 }
 
-SString SInteger::ToHexString(int num, bool bIsUpper)
+SString SInteger::ToHexString()
 {
 	SString strHex;
+	int &num = m_data;
 	int len = sizeof(num)* 8;		//总位数
 	int iCount = len / 4;			//总循环次数
 	for (int i = iCount - 1; i >= 0; i--){
@@ -25,7 +27,7 @@ SString SInteger::ToHexString(int num, bool bIsUpper)
 			cCur += _T('0');
 		}
 		else{
-			cCur += ((bIsUpper ? _T('A') : _T('a')) - 10);
+			cCur += ((false ? _T('A') : _T('a')) - 10);
 		}
 
 		strHex += cCur;

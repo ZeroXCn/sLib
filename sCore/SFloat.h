@@ -28,8 +28,6 @@ public:
 	static SFloat ValueOf(float i);
 	static SFloat ValueOf(SString s);
 
-	static SString ToHexString(float i, bool bIsUpper = false);	//返回16进制
-
 	static float ParseFloat(SString s);								//数值转换
 
 };
