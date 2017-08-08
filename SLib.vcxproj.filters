@@ -261,9 +261,6 @@
     <ClInclude Include="sCore\SByteArray.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sData\SSqlFactory.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sData\SSqlConnection.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -295,6 +292,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sHelper\SDllHelper.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSql.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlDriver.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

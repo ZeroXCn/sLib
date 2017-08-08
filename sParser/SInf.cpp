@@ -1,8 +1,8 @@
 #include "SInf.h"
 
 //定义两个空引用
-SInfSection g_nullptr_section;
-SInfValue g_nullptr_value;
+SInfSection SInfSection::g_nullptr_section;
+SInfValue SInfValue::g_nullptr_value;
 ///
 SInfDocument::SInfDocument()
 {
@@ -95,7 +95,7 @@ SInfSection &SInfDocument::operator [](string szSection)
 {
 	SInfSection *temp = this->GetSection(szSection);
 	if (temp)return *temp;
-	else return g_nullptr_section;	//空字段,由Value处理未获取的情况
+	else return SInfSection::g_nullptr_section;	//空字段,由Value处理未获取的情况
 	//else throw "nullptr";	//抛出一个异常,字符串
 }
 
@@ -104,7 +104,7 @@ SInfSection &SInfDocument::operator [](int index)
 	try{
 		return *m_vSections.at(index);
 	}
-	catch (...){ return g_nullptr_section; }
+	catch (...){ return SInfSection::g_nullptr_section; }
 }
 
 	/* 读写操作 */
@@ -281,7 +281,7 @@ SInfValue &SInfSection::operator [](string szkey)
 	if (it != m_mKeyMap.end())
 		return it->second;
 	else
-		return g_nullptr_value;
+		return SInfValue::g_nullptr_value;
 }
 
 ///////////////////////////////////////////////////////

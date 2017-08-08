@@ -64,6 +64,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="sData\SSql.h" />
     <ClInclude Include="sHelper\SDllHelper.hpp" />
     <ClInclude Include="sCore\SAbstractClock.h" />
     <ClInclude Include="sCore\SAny.hpp" />
@@ -75,19 +76,19 @@
     <ClInclude Include="sCore\SRegex.h" />
     <ClInclude Include="sCore\SVairant.hpp" />
     <ClInclude Include="sData\SSqlConnection.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="sData\SSqlException.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="sData\SSqlFactory.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    <ClInclude Include="sData\SSqlDriver.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="sData\SSqlStatement.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="sData\SSqlResultSet.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="sGraphic\SBufferDC.h" />
     <ClInclude Include="sGraphic\SColor.hpp" />
@@ -105,7 +106,9 @@
     <ClInclude Include="sCore\SMediaClock.h" />
     <ClInclude Include="sCore\SObject.h" />
     <ClInclude Include="sCore\SRunnable.h" />
-    <ClInclude Include="sCore\SSharedPtr.h" />
+    <ClInclude Include="sCore\SSharedPtr.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="sCore\SString.h" />
     <ClInclude Include="sCore\SStringList.h" />
     <ClInclude Include="sCore\SThread.h" />
@@ -181,7 +184,9 @@
     <ClCompile Include="sCore\SNumber.cpp" />
     <ClCompile Include="sCore\SObject.cpp" />
     <ClCompile Include="sCore\SRunnable.cpp" />
-    <ClCompile Include="sCore\SSharedPtr.cpp" />
+    <ClCompile Include="sCore\SSharedPtr.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="sCore\SString.cpp" />
     <ClCompile Include="sCore\SStringList.cpp" />
     <ClCompile Include="sCore\SThread.cpp" />

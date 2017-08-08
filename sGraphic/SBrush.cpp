@@ -37,7 +37,7 @@ LOGBRUSH SBrush::GetBrushStruct()
 	return lb;
 }
 
-	//创建具有指定风格、颜色和模式的逻辑刷子
+//创建具有指定风格、颜色和模式的逻辑刷子
 BOOL SBrush::CreateIndirect(LOGBRUSH lBrush)
 {
 	m_hGdiObj = (HBRUSH)::CreateBrushIndirect(&lBrush);

@@ -1,6 +1,6 @@
 /**
 *	SMedia类
-*	基于WinAPI 多媒体组件开发的音效
+*	基于WinAPI 多媒体组件(MCI)开发的音效
 *	多余实时响应不是很好,慎用
 *	@author ZeroX
 *	@version v1.0 22/07/2017(03/12/2016)

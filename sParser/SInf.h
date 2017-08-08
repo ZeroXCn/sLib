@@ -58,8 +58,11 @@ public:
 //节点-允许重复节点
 class SInfSection :public SObject
 {
+	friend class SInfDocument;
 private:
-	string m_szName;				//节点名称
+	static SInfSection g_nullptr_section;
+private:
+	string m_szName;					//节点名称
 	map<string, SInfValue> m_mKeyMap;	//键值对
 public:
 	string GetName();
@@ -80,9 +83,11 @@ public:
 //Inf值-用于对值进行转换
 class SInfValue :public SObject
 {
+	friend class SInfSection;
 	friend ostream& operator <<(ostream&, SInfValue&);
 	friend istream& operator >>(istream&, SInfValue&);
-
+private:
+	static SInfValue g_nullptr_value;
 private:
 	string m_szValue;
 public:
