@@ -1,4 +1,5 @@
 #include "SStringList.h"
+using namespace std;
 
 SStringList::SStringList(){}
 SStringList::SStringList(char ch){

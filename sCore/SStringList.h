@@ -13,12 +13,12 @@
 #define _SSTRINGLIST_H_
 #include <iostream>
 #include <vector>
-using namespace std;
+
 
 
 class SStringList :
 	public SObject,
-	public vector<SString> 
+	public std::vector<SString> 
 {
 	friend tostream& operator <<(tostream&, SStringList&);
 	friend tistream& operator >>(tistream&, SStringList&);
@@ -27,7 +27,7 @@ public:
 	SStringList(char ch);
 	SStringList(SString str);
 	SStringList(const SStringList &strlist);
-	SStringList(const vector<SString> &vec);
+	SStringList(const std::vector<SString> &vec);
 
 	//
 

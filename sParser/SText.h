@@ -11,13 +11,12 @@
 #define _STEXT_H_
 #include<iostream>
 #include<fstream>
-using namespace std;
 
 class SText :public SObject
 {
 private:
-	fstream File;
-	string Path;
+	std::fstream File;
+	std::string Path;
 public:
 	SText(char *Path);
 	~SText();
@@ -34,22 +33,22 @@ public:
 	bool Eof();
 public:
 	//重写
-	bool WriteNew(string Str);
+	bool WriteNew(std::string Str);
 
 	//追加
-	bool WriteAdd(string Str);
+	bool WriteAdd(std::string Str);
 
 	//追加新一行
-	bool WriteLine(string Str);
+	bool WriteLine(std::string Str);
 
 	//读取整篇
-	string Read();
+	std::string Read();
 
 	//插入一行
-	bool SetLine(string Str, int post);
+	bool SetLine(std::string Str, int post);
 
 	//取得一行
-	string GetLine();
+	std::string GetLine();
 	char *GetStrLine();
 
 	//取得一个字符

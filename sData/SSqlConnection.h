@@ -1,26 +1,28 @@
 /**
-* SSqlConnection接口类
-* 封装SQL一些通用操作-数据库驱动类
+* SSqlConnection类
+* 封装连接指针,自动释放
 * @author ZeroX
 * @version v1.0 08/08/2017
 */
 
-#include "SSqlStatement.h"
+#include "SSqlConnectionImpl.h"
 #ifndef _SSQLCONNECTION_H_
 #define _SSQLCONNECTION_H_
 
+#include <memory>
+
 class SSqlConnection
 {
+private:
+	std::shared_ptr<SSqlConnectionImpl> m_Ptr;
 public:
-	//析构
-	virtual ~SSqlConnection(){ Close(); }
+	SSqlConnection(SSqlConnectionImpl *pConnectionImpl);
+	~SSqlConnection();
+public:
+	//生成状态集
+	SSqlStatementImpl *CreateStatement();
 
-	virtual SSqlStatement CreateStatement() = 0 ;
-
-
-
-	//关闭链接
-	virtual void Close() = 0;
+	void Close();
 };
 
 #endif

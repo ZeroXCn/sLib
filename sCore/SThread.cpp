@@ -5,7 +5,7 @@ void SThread::Sleep(DWORD dwMilliseconds)
 	::Sleep(dwMilliseconds);
 }
 
-SThread *SThread::Run(function<void(void)> callback)
+SThread *SThread::Run(std::function<void(void)> callback)
 {
 	//TODO:执行线程,并在结束时释放自己-这里并不能做到自我释放,慎用
 	SThread *temp = new SThread(new SRunnableImpl(callback));

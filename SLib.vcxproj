@@ -64,7 +64,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\..\..\079.[C++]SQLite轻型数据库\类\1大改\SQLite\sqlite3.h" />
+    <ClInclude Include="sData\extern\SMySql.hpp" />
+    <ClInclude Include="sData\extern\SSqlite.hpp" />
     <ClInclude Include="sData\SSql.h" />
+    <ClInclude Include="sData\SSqlConnectionImpl.h" />
+    <ClInclude Include="sData\SSqlResultSetImpl.h" />
+    <ClInclude Include="sData\SSqlStatementImpl.h" />
     <ClInclude Include="sHelper\SDllHelper.hpp" />
     <ClInclude Include="sCore\SAbstractClock.h" />
     <ClInclude Include="sCore\SAny.hpp" />
@@ -81,7 +87,7 @@
     <ClInclude Include="sData\SSqlException.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="sData\SSqlDriver.h">
+    <ClInclude Include="sData\SSqlDriverManager.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="sData\SSqlStatement.h">
@@ -106,9 +112,6 @@
     <ClInclude Include="sCore\SMediaClock.h" />
     <ClInclude Include="sCore\SObject.h" />
     <ClInclude Include="sCore\SRunnable.h" />
-    <ClInclude Include="sCore\SSharedPtr.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="sCore\SString.h" />
     <ClInclude Include="sCore\SStringList.h" />
     <ClInclude Include="sCore\SThread.h" />
@@ -184,13 +187,14 @@
     <ClCompile Include="sCore\SNumber.cpp" />
     <ClCompile Include="sCore\SObject.cpp" />
     <ClCompile Include="sCore\SRunnable.cpp" />
-    <ClCompile Include="sCore\SSharedPtr.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="sCore\SString.cpp" />
     <ClCompile Include="sCore\SStringList.cpp" />
     <ClCompile Include="sCore\SThread.cpp" />
     <ClCompile Include="sCore\STimer.cpp" />
+    <ClCompile Include="sData\SSqlConnection.cpp" />
+    <ClCompile Include="sData\SSqlDriverManager.cpp" />
+    <ClCompile Include="sData\SSqlResultSet.cpp" />
+    <ClCompile Include="sData\SSqlStatement.cpp" />
     <ClCompile Include="sGraphic\SBitmap.cpp" />
     <ClCompile Include="sGraphic\SBrush.cpp" />
     <ClCompile Include="sGraphic\SBufferDC.cpp" />
@@ -227,6 +231,15 @@
     <ClCompile Include="sUi\SWindowInputEvent.cpp" />
     <ClCompile Include="sUi\SWnd.cpp" />
     <ClCompile Include="test.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="test\sData\test1.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="test\sParser\Sinf_test.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="test\sUI\Sbuttom_test.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
   </ItemGroup>

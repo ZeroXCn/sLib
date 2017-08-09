@@ -14,7 +14,6 @@
 #define _SREGEX_H_
 
 #include <regex>
-using namespace std;
 #ifdef _UNICODE
 typedef wregex tregex;
 typedef wsmatch tsmatch;

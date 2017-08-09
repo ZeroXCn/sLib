@@ -10,9 +10,9 @@
 #ifndef _SBYTEARRAY_H_
 #define _SBYTEARRAY_H_
 #include <vector>
-using namespace std;
+
 
 //TODO:´ý²¹³ä
-typedef vector<byte> SByteArray;
+typedef std::vector<byte> SByteArray;
 
 #endif

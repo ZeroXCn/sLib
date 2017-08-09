@@ -1,5 +1,5 @@
 #include "SSubject.h"
-
+using namespace std;
 
 ////
 void SSubject::AddObserver(SObserver *pObserver)

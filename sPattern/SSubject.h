@@ -9,12 +9,12 @@
 #include "SObserver.h"
 
 #include <vector>
-using namespace std;
+
 
 class SSubject
 {
 private:
-	vector<SObserver *> m_Obs;
+	std::vector<SObserver *> m_Obs;
 	bool m_bChanged;
 public:
 	//Ìí¼Ó,É¾³ý¹Û²ìÕß

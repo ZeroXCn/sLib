@@ -12,7 +12,7 @@
 
 #include <Windows.h>
 #include <hash_map>
-using namespace std;
+
 
 //typedef LRESULT(CALLBACK *WNDPROC)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 class SMessageHandler
@@ -46,7 +46,7 @@ private:
 		wnd_msg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) :
 			hWnd(hWnd), message(message), wParam(wParam), lParam(lParam){}
 	};
-	typedef hash_map<HWND, SMessageHandler *, wnd_hash> WndHandlerMap;
+	typedef std::hash_map<HWND, SMessageHandler *, wnd_hash> WndHandlerMap;
 
 public:
 	//ÆÕÍ¨º¯Êý

@@ -24,7 +24,7 @@
 #include <vector>
 
 #include <regex>
-using namespace std;
+
 
 #ifndef _INC_TCHAR
 
@@ -115,33 +115,33 @@ typedef char TCHAR;
 #endif
 
 #ifdef _UNICODE
-typedef string rtstring;
-typedef wstring tstring;
-typedef wostream tostream;
-typedef wistream tistream;
+typedef std::string rtstring;
+typedef std::wstring tstring;
+typedef std::wostream tostream;
+typedef std::wistream tistream;
 typedef char RTCHAR;
-typedef wregex tregex;
-typedef wsmatch tsmatch;
-#define tcout wcout
-#define tcin win
+typedef std::wregex tregex;
+typedef std::wsmatch tsmatch;
+#define tcout std::wcout
+#define tcin std::win
 #define rtcstotcs mbstowcs_s
 #define tcstortcs wcstombs_s
 #else
-typedef wstring rtstring;
-typedef string tstring;
-typedef ostream tostream;
-typedef istream tistream;
+typedef std::wstring rtstring;
+typedef std::string tstring;
+typedef std::ostream tostream;
+typedef std::istream tistream;
 typedef wchar_t RTCHAR
-typedef regex tregex;
-typedef smatch tsmatch;
-#define tcout cout
-#define tcin cin
+typedef std::regex tregex;
+typedef std::smatch tsmatch;
+#define tcout std::cout
+#define tcin std::cin
 #define rtcstotcs wcstombs_s
 #define tcstortcs mbstowcs_s
 #endif
 
 class SString:
-	public SObject,
+	private SObject,
 	public tstring{
 public:
 	friend tostream& operator <<(tostream&, SString&);
@@ -152,6 +152,7 @@ public:
 	static tstring Parse(rtstring OStr);
 public:
 	//原构造函数
+
 	SString() :tstring(){};
 	SString(const tstring &str) :tstring(str){};
 	SString(const tstring &str, size_t pos, size_t n = npos) :tstring(str,pos,n){};
@@ -159,7 +160,7 @@ public:
 	SString(const TCHAR *s) :tstring(s){};
 	SString(size_t n, char c) :tstring(n,c){};
 	template<class InputIterator>SString(InputIterator begin, InputIterator end) :tstring(begin, end){};
-
+	
 	//新增构造函数
 	SString(TCHAR ch);
 	SString(int x);
@@ -173,10 +174,10 @@ public:
 public:
 	SString &arg(SString str);
 	SString& trim();
-	void split(SString &s, SString &delim, vector<SString> *ret);
-	vector<SString> split(SString &s, SString &delim);
-	void split(SString &s, tregex expression, vector<SString> *ret);
-	vector<SString> split(SString &s, tregex expression);
+	void split(SString &s, SString &delim, std::vector<SString> *ret);
+	std::vector<SString> split(SString &s, SString &delim);
+	void split(SString &s, tregex expression, std::vector<SString> *ret);
+	std::vector<SString> split(SString &s, tregex expression);
 
 	SString &upper();
 	SString &lower();
@@ -194,12 +195,14 @@ public:
 	SString toLower();
 public:
 	/*更新对正则表达式的支持*/
-	/* 为了防止重载隐藏,不能与父类重载同名 */
+	/* 为了防止重载隐藏,不能与父类重载同名,或者使用using关键字 */
+	using tstring::find;
 	//查找
-	size_t indexOf(tregex expression, size_t pos = 0) const;
-	size_t indexOf(tregex expression, size_t pos,int *matchLength) const;	//返回匹配长度
+	size_t find(tregex expression, size_t pos = 0) const;
+	size_t find(tregex expression, size_t pos, int *matchLength) const;	//返回匹配长度
 	//替换
-	SString &replaceAll(tregex expression, SString des);
+	using tstring::replace;
+	SString &replace(tregex expression, SString des);
 public:
 	//比较
 	bool equals(SString str);

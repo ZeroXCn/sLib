@@ -10,17 +10,16 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-using namespace std;
 
 namespace SFileHelper
 {
-	static string ReadText(string path)
+	static std::string ReadText(std::string path)
 	{
-		string result = "";
+		std::string result = "";
 		try
 		{
 			//1.创建流管道
-			ifstream in(path.c_str(), ios::in);
+			std::ifstream in(path.c_str(), std::ios::in);
 			if (!in)throw in;
 
 			//2.创建缓冲区
@@ -32,7 +31,7 @@ namespace SFileHelper
 			{
 				in.read(buffer, 1024);
 				readCount = in.gcount();
-				result += string(buffer, readCount);
+				result += std::string(buffer, readCount);
 			}
 			//4.关闭流管道
 			in.close();
@@ -44,12 +43,12 @@ namespace SFileHelper
 		return result;
 	}
 
-	static bool WriteText(string path, string text)
+	static bool WriteText(std::string path, std::string text)
 	{
 		try
 		{
 			//1.创建流管道
-			ofstream out(path.c_str(), ios::ate);     //ios::app为追加
+			std::ofstream out(path.c_str(), std::ios::ate);     //ios::app为追加
 			if (!out)throw out;
 
 			//2.创建缓冲区
@@ -61,7 +60,7 @@ namespace SFileHelper
 			out.close();
 		}
 		catch (...){
-			cout << "Can't Open File" << endl;
+			std::cout << "Can't Open File" << std::endl;
 			return;
 		}
 

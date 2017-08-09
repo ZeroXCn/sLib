@@ -1,4 +1,5 @@
 #include "SBigInteger.h"
+using namespace std;
 
 const SBigInteger SBigInteger::ZERO = SBigInteger(0);
 const SBigInteger SBigInteger::ONE = SBigInteger(1);

@@ -108,9 +108,6 @@
     <ClInclude Include="sUi\SMessageHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sCore\SSharedPtr.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sUi\SWindowInputEvent.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -297,7 +294,25 @@
     <ClInclude Include="sData\SSql.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sData\SSqlDriver.h">
+    <ClInclude Include="sData\extern\SMySql.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\extern\SSqlite.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\..\079.[C++]SQLite轻型数据库\类\1大改\SQLite\sqlite3.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlDriverManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlResultSetImpl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlStatementImpl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sData\SSqlConnectionImpl.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -354,9 +369,6 @@
       <Filter>sLib\sCore\source</Filter>
     </ClCompile>
     <ClCompile Include="sUi\SMessageHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SSharedPtr.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sUi\SWindowActivityEvent.cpp">
@@ -471,6 +483,27 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sCore\SNumber.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sData\SSqlDriverManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sData\SSqlConnection.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sData\SSqlResultSet.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sData\SSqlStatement.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test\sData\test1.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test\sParser\Sinf_test.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="test\sUI\Sbuttom_test.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

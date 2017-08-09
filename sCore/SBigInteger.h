@@ -16,28 +16,27 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
-using namespace std;
 
 class DividedByZeroException :public SException{};
 
 class SBigInteger :public SObject
 {
 private:
-	vector<char> digits;
+	std::vector<char> digits;
 	bool sign;          //  true for positive, false for negitive
 	void trim();        //  remove zeros in tail, but if the value is 0, keep only one:)
 public:
 	SBigInteger(int);    // construct with a int integer
-	SBigInteger(string);
+	SBigInteger(std::string);
 	SBigInteger();
 	SBigInteger(const SBigInteger&);
 	SBigInteger operator=(const SBigInteger& op2);
-	SBigInteger operator=(string num);
+	SBigInteger operator=(std::string num);
 
 	SBigInteger    abs() const;
 	SBigInteger    pow(int a);
 
-	string toString() const;
+	std::string toString() const;
 
 	//binary operators
 
@@ -69,8 +68,8 @@ public:
 	friend bool operator>=(const SBigInteger&, const SBigInteger&);
 	friend bool operator<=(const SBigInteger&, const SBigInteger&);
 
-	friend ostream& operator<<(ostream&, const SBigInteger&);    //print the SBigInteger
-	friend istream& operator>>(istream&, SBigInteger&);         // input the SBigInteger
+	friend std::ostream& operator<<(std::ostream&, const SBigInteger&);    //print the SBigInteger
+	friend std::istream& operator>>(std::istream&, SBigInteger&);         // input the SBigInteger
 
 public:
 	static const SBigInteger ZERO;

@@ -8,14 +8,14 @@
 #ifndef _SSQLEXCEPTION_H_
 #define _SSQLEXCEPTION_H_
 #include <string>
-using namespace std;
+
 class SSqlException
 {
 protected:
-	string m_szDesc;
+	std::string m_szDesc;
 public:
-	SSqlException(string szDesc = "") :m_szDesc(szDesc){}
-	string GetDesc(){ return m_szDesc; }
+	SSqlException(std::string szDesc = "") :m_szDesc(szDesc){}
+	std::string GetDesc(){ return m_szDesc; }
 };
 
 #endif

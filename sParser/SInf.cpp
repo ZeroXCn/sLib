@@ -1,4 +1,5 @@
 #include "SInf.h"
+using namespace std;
 
 //定义两个空引用
 SInfSection SInfSection::g_nullptr_section;

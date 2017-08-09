@@ -1,4 +1,5 @@
 #include "SApplication.h"
+using namespace std;
 
 SApplication *SApplication::g_pApp = NULL;
 

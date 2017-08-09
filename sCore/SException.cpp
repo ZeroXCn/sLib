@@ -2,6 +2,8 @@
 #include "stdarg.h"
 #include "windows.h"
 
+using namespace std;
+
 SException::SException(){
 	m_nTime = GetTickCount();
 	m_strOri = TEXT("Unknown Origin");

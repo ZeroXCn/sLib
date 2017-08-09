@@ -12,7 +12,6 @@
 #include <set>
 
 #include "SWidget.h"
-using namespace std;
 
 
 class SApplication :public SObject
@@ -26,7 +25,7 @@ protected:
 	PSTR m_lpCmdline;						//启动的附加命令
 	int m_nCmdShow;							//启动模式
 
-	set<SWidget *>	m_winset;				//窗口集合
+	std::set<SWidget *>	m_winset;				//窗口集合
 public:
 
 public:
@@ -46,7 +45,7 @@ public:
 	int GetCmdShow();
 
 	//取得窗口集合
-	set<SWidget *> *GetWidgetSet();
+	std::set<SWidget *> *GetWidgetSet();
 
 public:
 	//注册窗体

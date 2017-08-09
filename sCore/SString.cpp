@@ -5,6 +5,7 @@
 * @version v1.0 21/07/2017
 *************************************/
 #include "SString.h"
+using namespace std;
 
 SString SString::Format(const TCHAR *pszFormat, ...)
 {
@@ -99,7 +100,7 @@ SString &SString::arg(SString str)
 {
 	//仿qt的string,这里采用查找,替换的方法
 	//TODO:有待改进(04/08/2017)
-	SString result;
+	SString result(_T(""));
 	bool flag = false;
 	int size = tstring::size();
 	for (int i = 0; i < size; i++)
@@ -282,7 +283,7 @@ SString SString::toLower()
 }
 ////
 
-size_t SString::indexOf(tregex expression, size_t pos , int *matchLength) const
+size_t SString::find(tregex expression, size_t pos, int *matchLength) const
 {
 	tsmatch what;
 	tstring::const_iterator start = tstring::begin();
@@ -297,12 +298,12 @@ size_t SString::indexOf(tregex expression, size_t pos , int *matchLength) const
 
 }
 
-size_t SString::indexOf(tregex expression, size_t pos) const
+size_t SString::find(tregex expression, size_t pos) const
 {
-	return indexOf(expression, pos, NULL);
+	return find(expression, pos, NULL);
 }
 
-SString &SString::replaceAll(tregex expression, SString des)
+SString &SString::replace(tregex expression, SString des)
 {
 	regex_replace(*this, expression, des);
 	return *this;

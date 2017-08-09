@@ -10,7 +10,7 @@
 #ifndef _SRUNNABLE_H_
 #define _SRUNNABLE_H_
 #include <functional>
-using namespace std;
+
 class SRunnable
 {
 public:
@@ -23,9 +23,9 @@ public:
 class SRunnableImpl :public SRunnable
 {
 public:
-	function<void(void)> m_callback;
+	std::function<void(void)> m_callback;
 public:
-	SRunnableImpl(function<void(void)> callback);
+	SRunnableImpl(std::function<void(void)> callback);
 public:
 	virtual void Run();
 };

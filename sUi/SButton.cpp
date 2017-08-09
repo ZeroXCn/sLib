@@ -1,4 +1,5 @@
 #include "SButton.h"
+using namespace std;
 
 
 SButton::SButton(SWidget *parent,LPTSTR name) :

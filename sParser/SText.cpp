@@ -1,4 +1,5 @@
 #include "SText.h"
+using namespace std;
 
 SText::SText(char *Path) :File(Path)
 {

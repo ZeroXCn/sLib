@@ -15,8 +15,6 @@
 #include <vector>
 #include <algorithm>
 
-using namespace std;
-
 class SInfDocument;
 class SInfSection;
 class SInfValue;
@@ -25,18 +23,18 @@ class SInfValue;
 class SInfDocument:public SObject
 {
 private:
-	vector<SInfSection *> m_vSections;		//结点列表
+	std::vector<SInfSection *> m_vSections;		//结点列表
 public:
 	SInfDocument();
 	~SInfDocument();
 public:
 	/*数据获取,设置*/
-	SInfValue GetValue(string szSection, string szKey);
-	SInfValue GetValue(string szSection, string szKey, SInfValue def );
-	bool SetValue(string szSection, string szKey, SInfValue value);
+	SInfValue GetValue(std::string szSection, std::string szKey);
+	SInfValue GetValue(std::string szSection, std::string szKey, SInfValue def);
+	bool SetValue(std::string szSection, std::string szKey, SInfValue value);
 
-	SInfSection *GetSection(string szSection);
-	vector<SInfSection *> *GetList();
+	SInfSection *GetSection(std::string szSection);
+	std::vector<SInfSection *> *GetList();
 
 	//列表长度
 	int GetSize();
@@ -45,12 +43,12 @@ public:
 	bool Insert(SInfSection *pSection);
 	bool Insert(SInfSection &section);
 
-	SInfSection &operator [](string szSection);
+	SInfSection &operator [](std::string szSection);
 	SInfSection &operator [](int index);
 public:
 	/* 读写操作 */
-	bool Load(string path);
-	bool Save(string path);
+	bool Load(std::string path);
+	bool Save(std::string path);
 
 
 };
@@ -62,34 +60,34 @@ class SInfSection :public SObject
 private:
 	static SInfSection g_nullptr_section;
 private:
-	string m_szName;					//节点名称
-	map<string, SInfValue> m_mKeyMap;	//键值对
+	std::string m_szName;					//节点名称
+	std::map<std::string, SInfValue> m_mKeyMap;	//键值对
 public:
-	string GetName();
-	void SetName(string szName);
+	std::string GetName();
+	void SetName(std::string szName);
 
-	map<string, SInfValue> *GetMap();
+	std::map<std::string, SInfValue> *GetMap();
 
-	SInfValue GetValue(string key);
-	SInfValue GetValue(string key, SInfValue def);
-	void SetValue(string key, SInfValue value);
+	SInfValue GetValue(std::string key);
+	SInfValue GetValue(std::string key, SInfValue def);
+	void SetValue(std::string key, SInfValue value);
 
-	bool Insert(string key, SInfValue value);
-	bool Remove(string key);
+	bool Insert(std::string key, SInfValue value);
+	bool Remove(std::string key);
 
-	SInfValue &operator [](string szkey);
+	SInfValue &operator [](std::string szkey);
 };
 
 //Inf值-用于对值进行转换
 class SInfValue :public SObject
 {
 	friend class SInfSection;
-	friend ostream& operator <<(ostream&, SInfValue&);
-	friend istream& operator >>(istream&, SInfValue&);
+	friend std::ostream& operator <<(std::ostream&, SInfValue&);
+	friend std::istream& operator >>(std::istream&, SInfValue&);
 private:
 	static SInfValue g_nullptr_value;
 private:
-	string m_szValue;
+	std::string m_szValue;
 public:
 	SInfValue();
 	SInfValue(const char ch);
@@ -100,11 +98,11 @@ public:
 	SInfValue(float value);
 	SInfValue(bool value);
 	SInfValue(long value);
-	SInfValue(string szValue);
+	SInfValue(std::string szValue);
 
 	SInfValue &operator = (const char * szValue);
 	SInfValue &operator = (const char Value);
-	SInfValue &operator = (string szValue);
+	SInfValue &operator = (std::string szValue);
 	SInfValue &operator = (int Value);
 	SInfValue &operator = (double Value);
 	SInfValue &operator = (float Value);
@@ -115,7 +113,7 @@ public:
 	float ToFloat();
 	double ToDouble();
 	bool ToBool();
-	string ToStrString();
+	std::string ToStrString();
 	SString ToString();
 	long ToLong();
 };

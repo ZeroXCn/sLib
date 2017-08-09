@@ -1,4 +1,6 @@
 #include "SMessageHandler.h"
+using namespace std;
+
 //记录对象消息函数的MAP
 SMessageHandler::WndHandlerMap SMessageHandler::s_WndHandlerMap;
 

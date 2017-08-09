@@ -14,7 +14,7 @@
 #include <string>
 #include <map>
 #include <functional>
-using namespace std;
+
 
 class SDllHelper
 {
@@ -29,7 +29,7 @@ public:
 		UnLoad();
 	}
 
-	bool Load(const string& dllPath)
+	bool Load(const std::string& dllPath)
 	{
 		m_hMod = LoadLibraryA(dllPath.data());
 		if (nullptr == m_hMod)
@@ -55,7 +55,7 @@ public:
 	}
 
 	template <typename T>
-	std::function<T> GetFunction(const string& funcName)
+	std::function<T> GetFunction(const std::string& funcName)
 	{
 		auto it = m_map.find(funcName);
 		if (it == m_map.end())
@@ -71,7 +71,7 @@ public:
 	}
 
 	template <typename T, typename... Args>
-	typename std::result_of<std::function<T>(Args...)>::type ExcecuteFunc(const string& funcName, Args&&... args)
+	typename std::result_of<std::function<T>(Args...)>::type ExcecuteFunc(const std::string& funcName, Args&&... args)
 	{
 		auto f = GetFunction<T>(funcName);
 		if (f == nullptr)
@@ -85,6 +85,6 @@ public:
 
 private:
 	HMODULE m_hMod;
-	std::map<string, FARPROC> m_map;
+	std::map<std::string, FARPROC> m_map;
 };
 #endif

@@ -12,7 +12,6 @@
 #ifndef SEXCEPTION_H
 #define SEXCEPTION_H
 
-using namespace std;
 class SException:public SObject
 {
 private:

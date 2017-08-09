@@ -9,12 +9,11 @@
 #ifndef _SBUTTON_H_
 #define _SBUTTON_H_
 #include <functional>
-using namespace std;
 
 class SButton :public SWidget
 {
 protected:
-	function<void(void)> m_fClicked;		//点击回调
+	std::function<void(void)> m_fClicked;		//点击回调
 public:
 
 	SButton(SWidget *parent = NULL, LPTSTR name = TEXT("button"));
@@ -33,7 +32,7 @@ public:
 public:
 	//回调
 	virtual void OnClicked();
-	void OnClicked(function<void(void)> callback);
+	void OnClicked(std::function<void(void)> callback);
 };
 
 #endif

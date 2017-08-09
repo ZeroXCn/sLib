@@ -4,14 +4,22 @@
 * @author ZeroX
 * @version v1.0 08/08/2017
 */
-#include "SSqlResultSet.h"
+#include "SSqlStatementImpl.h"
+
 #ifndef _SSQLSTATEMENT_H_
 #define _SSQLSTATEMENT_H_
+#include <memory>
+
 class SSqlStatement
 {
+private:
+	std::shared_ptr<SSqlStatementImpl> m_Ptr;
 public:
-	//查询,返回结果集
-	virtual SSqlResultSet ExcuteQuery(const char* lpSq) = 0;
-	virtual int Excute(const char* lpSq) = 0;
+	SSqlStatement(SSqlStatementImpl *pSqlStatement);
+public:
+	SSqlResultSetImpl *ExcuteQuery(const char* lpSql);
+	int Excute(const char* lpSql);
+
+
 };
 #endif
