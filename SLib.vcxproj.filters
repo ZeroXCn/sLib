@@ -57,9 +57,6 @@
     <ClInclude Include="sCore\SBoolean.h">
       <Filter>sLib\sCore\head</Filter>
     </ClInclude>
-    <ClInclude Include="sCore\SCalendar.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
     <ClInclude Include="sCore\SCharacter.h">
       <Filter>sLib\sCore\head</Filter>
     </ClInclude>
@@ -315,6 +312,27 @@
     <ClInclude Include="sData\SSqlConnectionImpl.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sCore\SStringBuilder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SStringRef.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SDuration.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\STime.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SDate.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sMisc\SCalendarInfo.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sHelper\SCodeHelper.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SAsyncTask.cpp">
@@ -504,6 +522,21 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="test\sUI\Sbuttom_test.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SStringBuilder.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SStringRef.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SDuration.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\STime.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SDate.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -31,3 +31,8 @@
 2.使用using关键字重载基类构造函数,减少冗余
 3.支持mysql,sqlite数据库的使用-不稳定
 4.增加Example文件夹,增加演示用例
+
+
+10/08/2017:
+1.增加SStringBuilder,SStringRef类
+2.增加日期类SDuration,SDate,STime

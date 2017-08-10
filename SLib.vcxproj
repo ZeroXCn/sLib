@@ -65,12 +65,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\..\..\079.[C++]SQLite轻型数据库\类\1大改\SQLite\sqlite3.h" />
+    <ClInclude Include="sCore\SDate.h" />
+    <ClInclude Include="sCore\SDuration.h" />
+    <ClInclude Include="sCore\SStringBuilder.h" />
+    <ClInclude Include="sCore\SStringRef.h" />
+    <ClInclude Include="sCore\STime.h" />
     <ClInclude Include="sData\extern\SMySql.hpp" />
     <ClInclude Include="sData\extern\SSqlite.hpp" />
     <ClInclude Include="sData\SSql.h" />
     <ClInclude Include="sData\SSqlConnectionImpl.h" />
     <ClInclude Include="sData\SSqlResultSetImpl.h" />
     <ClInclude Include="sData\SSqlStatementImpl.h" />
+    <ClInclude Include="sHelper\SCodeHelper.hpp" />
     <ClInclude Include="sHelper\SDllHelper.hpp" />
     <ClInclude Include="sCore\SAbstractClock.h" />
     <ClInclude Include="sCore\SAny.hpp" />
@@ -100,7 +106,6 @@
     <ClInclude Include="sGraphic\SColor.hpp" />
     <ClInclude Include="sCore\SAsyncTask.h" />
     <ClInclude Include="sCore\SBoolean.h" />
-    <ClInclude Include="sCore\SCalendar.h" />
     <ClInclude Include="sCore\SCharacter.h" />
     <ClInclude Include="sCore\SDebug.h" />
     <ClInclude Include="sCore\SDelayClock.h" />
@@ -130,6 +135,7 @@
     <ClInclude Include="sHelper\SStringHelper.h" />
     <ClInclude Include="sCore\SBigInteger.h" />
     <ClInclude Include="sMedia\SMedia.h" />
+    <ClInclude Include="sMisc\SCalendarInfo.hpp" />
     <ClInclude Include="sMisc\SFileInfo.hpp" />
     <ClInclude Include="sParser\extern\inifile2\inifile.h" />
     <ClInclude Include="sParser\extern\jsoncpp\allocator.h" />
@@ -174,10 +180,14 @@
     <ClCompile Include="sCore\SAsyncTask.cpp" />
     <ClCompile Include="sCore\SBoolean.cpp" />
     <ClCompile Include="sCore\SByteArray.cpp" />
-    <ClCompile Include="sCore\SCharacter.cpp" />
+    <ClCompile Include="sCore\SCharacter.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="sCore\SDate.cpp" />
     <ClCompile Include="sCore\SDebug.cpp" />
     <ClCompile Include="sCore\SDelayClock.cpp" />
     <ClCompile Include="sCore\SDouble.cpp" />
+    <ClCompile Include="sCore\SDuration.cpp" />
     <ClCompile Include="sCore\SException.cpp" />
     <ClCompile Include="sCore\SFloat.cpp" />
     <ClCompile Include="sCore\SFrequencyClock.cpp" />
@@ -188,8 +198,11 @@
     <ClCompile Include="sCore\SObject.cpp" />
     <ClCompile Include="sCore\SRunnable.cpp" />
     <ClCompile Include="sCore\SString.cpp" />
+    <ClCompile Include="sCore\SStringBuilder.cpp" />
     <ClCompile Include="sCore\SStringList.cpp" />
+    <ClCompile Include="sCore\SStringRef.cpp" />
     <ClCompile Include="sCore\SThread.cpp" />
+    <ClCompile Include="sCore\STime.cpp" />
     <ClCompile Include="sCore\STimer.cpp" />
     <ClCompile Include="sData\SSqlConnection.cpp" />
     <ClCompile Include="sData\SSqlDriverManager.cpp" />
