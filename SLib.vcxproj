@@ -64,21 +64,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\..\079.[C++]SQLite轻型数据库\类\1大改\SQLite\sqlite3.h" />
+    <ClInclude Include="sCore\SAbstractClock.h" />
+    <ClInclude Include="sCore\SAsyncTask.h" />
+    <ClInclude Include="sCore\SBoolean.h" />
+    <ClInclude Include="sCore\SCharacter.h" />
     <ClInclude Include="sCore\SDate.h" />
+    <ClInclude Include="sCore\SDebug.h" />
+    <ClInclude Include="sCore\SDelayClock.h" />
+    <ClInclude Include="sCore\SDouble.h" />
     <ClInclude Include="sCore\SDuration.h" />
+    <ClInclude Include="sCore\SException.h" />
+    <ClInclude Include="sCore\SFloat.h" />
+    <ClInclude Include="sCore\SFrequencyClock.h" />
+    <ClInclude Include="sCore\SInteger.h" />
+    <ClInclude Include="sCore\SMediaClock.h" />
+    <ClInclude Include="sCore\SObject.h" />
+    <ClInclude Include="sCore\SRunnable.h" />
+    <ClInclude Include="sCore\SString.h" />
     <ClInclude Include="sCore\SStringBuilder.h" />
+    <ClInclude Include="sCore\SStringList.h" />
     <ClInclude Include="sCore\SStringRef.h" />
+    <ClInclude Include="sCore\SThread.h" />
     <ClInclude Include="sCore\STime.h" />
+    <ClInclude Include="sCore\STimer.h" />
     <ClInclude Include="sData\extern\SMySql.hpp" />
     <ClInclude Include="sData\extern\SSqlite.hpp" />
     <ClInclude Include="sData\SSql.h" />
     <ClInclude Include="sData\SSqlConnectionImpl.h" />
     <ClInclude Include="sData\SSqlResultSetImpl.h" />
     <ClInclude Include="sData\SSqlStatementImpl.h" />
+    <ClInclude Include="sGraphic\SColor.hpp" />
     <ClInclude Include="sHelper\SCodeHelper.hpp" />
     <ClInclude Include="sHelper\SDllHelper.hpp" />
-    <ClInclude Include="sCore\SAbstractClock.h" />
     <ClInclude Include="sCore\SAny.hpp" />
     <ClInclude Include="sCore\SBaseType.h" />
     <ClInclude Include="sCore\SByteArray.h" />
@@ -103,24 +120,6 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="sGraphic\SBufferDC.h" />
-    <ClInclude Include="sGraphic\SColor.hpp" />
-    <ClInclude Include="sCore\SAsyncTask.h" />
-    <ClInclude Include="sCore\SBoolean.h" />
-    <ClInclude Include="sCore\SCharacter.h" />
-    <ClInclude Include="sCore\SDebug.h" />
-    <ClInclude Include="sCore\SDelayClock.h" />
-    <ClInclude Include="sCore\SDouble.h" />
-    <ClInclude Include="sCore\SException.h" />
-    <ClInclude Include="sCore\SFloat.h" />
-    <ClInclude Include="sCore\SFrequencyClock.h" />
-    <ClInclude Include="sCore\SInteger.h" />
-    <ClInclude Include="sCore\SMediaClock.h" />
-    <ClInclude Include="sCore\SObject.h" />
-    <ClInclude Include="sCore\SRunnable.h" />
-    <ClInclude Include="sCore\SString.h" />
-    <ClInclude Include="sCore\SStringList.h" />
-    <ClInclude Include="sCore\SThread.h" />
-    <ClInclude Include="sCore\STimer.h" />
     <ClInclude Include="sGraphic\SBitmap.h" />
     <ClInclude Include="sGraphic\SBrush.h" />
     <ClInclude Include="sGraphic\SCursor.h" />
@@ -164,8 +163,8 @@
     <ClInclude Include="sPattern\SProduct.h" />
     <ClInclude Include="sPattern\SSingleton.h" />
     <ClInclude Include="sPattern\SSubject.h" />
-    <ClInclude Include="sUi\SDialog.h" />
     <ClInclude Include="sUi\SApplication.h" />
+    <ClInclude Include="sUi\SDialog.h" />
     <ClInclude Include="sUi\SButton.h" />
     <ClInclude Include="sUi\SLabel.h" />
     <ClInclude Include="sUi\SMessageBox.h" />
@@ -232,8 +231,8 @@
     <ClCompile Include="sPattern\SProduct.cpp" />
     <ClCompile Include="sPattern\SSingleton.cpp" />
     <ClCompile Include="sPattern\SSubject.cpp" />
-    <ClCompile Include="sUi\SDialog.cpp" />
     <ClCompile Include="sUi\SApplication.cpp" />
+    <ClCompile Include="sUi\SDialog.cpp" />
     <ClCompile Include="sUi\SButton.cpp" />
     <ClCompile Include="sUi\SLabel.cpp" />
     <ClCompile Include="sUi\SMessageBox.cpp" />
@@ -243,9 +242,6 @@
     <ClCompile Include="sUi\SWindowActivityEvent.cpp" />
     <ClCompile Include="sUi\SWindowInputEvent.cpp" />
     <ClCompile Include="sUi\SWnd.cpp" />
-    <ClCompile Include="test.cpp">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="test\sData\test1.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>

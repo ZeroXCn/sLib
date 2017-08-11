@@ -17,8 +17,8 @@ public:
 	SCursor(HCURSOR hCursor);
 	virtual ~SCursor();
 public:
-	void SetCursor(HCURSOR hCursor);
-	HCURSOR GetCursor();
+	void SetHandle(HCURSOR hCursor);
+	HCURSOR GetHandle();
 public:
 	//创建一个指定大小、位模式和热点的光标
 	BOOL Create(HINSTANCE htnst, int xHotSpot, int yHotSpot, int nWidth, int nHeight, CONST VOID *pvANDPlane, CONST VOID *pvXORPlane);

@@ -13,11 +13,11 @@ SCursor::~SCursor()
 
 }
 
-void SCursor::SetCursor(HCURSOR hCursor)
+void SCursor::SetHandle(HCURSOR hCursor)
 {
 	m_hCursor = hCursor;
 }
-HCURSOR SCursor::GetCursor()
+HCURSOR SCursor::GetHandle()
 {
 	return m_hCursor;
 }

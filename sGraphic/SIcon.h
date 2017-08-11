@@ -17,8 +17,8 @@ public:
 	SIcon(HICON hIcon);
 	virtual ~SIcon();
 public:
-	void SetIcon(HICON hIcon);
-	HICON GetIcon();
+	void SetHandle(HICON hIcon);
+	HICON GetHandle();
 
 public:
 	/*

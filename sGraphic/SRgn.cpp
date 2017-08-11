@@ -7,7 +7,7 @@ SRgn::SRgn()
 
 SRgn::SRgn(SGdiObject Obj)
 {
-	m_hGdiObj = (HRGN)Obj.Get();
+	m_hGdiObj = (HRGN)Obj.GetHandle();
 }
 SRgn::SRgn(HRGN hRgn)
 {
@@ -18,11 +18,11 @@ SRgn::~SRgn()
 
 }
 
-void SRgn::SetRgn(HRGN hRgn)
+void SRgn::SetHandle(HRGN hRgn)
 {
 	m_hGdiObj = (HRGN)hRgn;
 }
-HRGN SRgn::GetRgn()
+HRGN SRgn::GetHandle()
 {
 	return (HRGN)m_hGdiObj;
 }

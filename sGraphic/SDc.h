@@ -47,10 +47,10 @@ public:
 
 public:
 	//设置绘图上下文
-	void SetDC(HDC hDC);
+	void SetHandle(HDC hDC);
 
 	//取得当前绘图上下文
-	HDC GetDC();
+	HDC GetHandle();
 
 public:
 	//创建设备上下文环境

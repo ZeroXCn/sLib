@@ -94,8 +94,8 @@ SWnd SWidget::GetWnd()
 SDc SWidget::GetDC()
 {
 	SDc dc;
-	if (m_Wnd.GetWnd())
-		dc.SetDC(m_Wnd.GetDC());
+	if (m_Wnd.GetHandle())
+		dc.SetHandle(m_Wnd.GetDC());
 	return dc;
 }
 
@@ -119,7 +119,7 @@ LPTSTR SWidget::GetClassName()
 void SWidget::SetTitle(LPTSTR szTitle)
 {
 	lstrcpy(m_szTitle, szTitle);					//将标题赋给m_szTitle
-	if (m_Wnd.GetWnd())
+	if (m_Wnd.GetHandle())
 		m_Wnd.SetWindowText(m_szTitle);
 }
 LPTSTR SWidget::GetTitle()
@@ -128,7 +128,7 @@ LPTSTR SWidget::GetTitle()
 }
 LPTSTR SWidget::GetTitle(LPTSTR szTitle, int iCount)
 {
-	if (m_Wnd.GetWnd()){
+	if (m_Wnd.GetHandle()){
 		m_Wnd.GetWindowText(szTitle, iCount);
 		return szTitle;
 	}
@@ -139,7 +139,7 @@ LPTSTR SWidget::GetTitle(LPTSTR szTitle, int iCount)
 /* 设置控件样式 */
 void SWidget::SetStyle(DWORD dwStyle)
 {
-	if (m_Wnd.GetWnd()){
+	if (m_Wnd.GetHandle()){
 		m_Wnd.SetWindowLong(m_dwStyle, dwStyle);
 	}
 	m_dwStyle = dwStyle;
@@ -153,7 +153,7 @@ DWORD SWidget::GetStyle()
 POINT SWidget::GetPos()
 {
 	POINT pt{ m_nPosX, m_nPosY };
-	if (m_Wnd.GetWnd()){
+	if (m_Wnd.GetHandle()){
 		RECT rt{ 0, 0, 0, 0 };
 		m_Wnd.GetWindowRect(&rt); //获得window区域
 		/**/
@@ -176,7 +176,7 @@ void SWidget::SetPos(int x, int y)
 {
 	m_nPosX = x;
 	m_nPosY = y;
-	if (m_Wnd.GetWnd()){
+	if (m_Wnd.GetHandle()){
 		m_Wnd.SetWindowPos( NULL, m_nPosX, m_nPosY, m_nWidth, m_nHeight, 0);
 	}
 }
@@ -185,7 +185,7 @@ void SWidget::MovePos(int x, int y)
 {
 	m_nPosX = x;
 	m_nPosY = y;
-	if (m_Wnd.GetWnd()){
+	if (m_Wnd.GetHandle()){
 		m_Wnd.MoveWindow(x, y, m_nWidth, m_nHeight, FALSE);
 	}
 }
@@ -216,7 +216,7 @@ RECT SWidget::GetRect()
 {
 	RECT rt;
 
-	if (m_Wnd.GetWnd()){
+	if (m_Wnd.GetHandle()){
 		m_Wnd.GetWindowRect(&rt);
 	}
 	else{
@@ -289,7 +289,7 @@ HWND SWidget::SetFocus()
 
 BOOL SWidget::IsCreated()
 {
-	return m_Wnd.GetWnd() ? TRUE : FALSE;
+	return m_Wnd.GetHandle() ? TRUE : FALSE;
 }
 
 void SWidget::SetRunning(BOOL bRunning)
@@ -369,7 +369,7 @@ LRESULT CALLBACK SWidget::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 	{
 	case WM_NCCREATE:
 		//TODO:感觉此处的hWnd可能与Create()返回的hWnd不一致
-		m_Wnd.SetWnd(hWnd);
+		m_Wnd.SetHandle(hWnd);
 		//NOTE:必须返回默认操作
 		return SMessageHandler::OnProc(hWnd, message, wParam, lParam);
 		break;
@@ -418,7 +418,7 @@ void SWidget::OnRunning()
 void SWidget::OnRan()
 {
 	//TODO:处理OnRun()结束的事
-	UnSubClass(m_Wnd.GetWnd());									//解除绑定消息函数
+	UnSubClass(m_Wnd.GetHandle());									//解除绑定消息函数
 	SApplication::GetApp()->DestroyWidget(this);				//通知主线程,线程结束
 }
 ////////////
@@ -426,7 +426,7 @@ void SWidget::OnRan()
 void SWidget::Run()
 {
 	if (Create()){
-		SubClass(m_Wnd.GetWnd());
+		SubClass(m_Wnd.GetHandle());
 		m_Wnd.SetParent(NULL);
 		ShowWindow();
 		OnRun();
@@ -476,7 +476,7 @@ BOOL SWidget::Create()
 		m_nPosY,									//设置窗口左上角Y坐标	
 		m_nWidth,									//设置窗口宽度
 		m_nHeight,									//设置窗口高度
-		m_pParent ? m_pParent->GetWnd().GetWnd() : NULL ,//父窗口句柄
+		m_pParent ? m_pParent->GetWnd().GetHandle() : NULL,//父窗口句柄
 		m_hMenu,									//菜单的句柄
 		m_hInstance,								//程序实例句柄
 		m_lpParam);									//传递给消息函数的指针
@@ -487,7 +487,7 @@ BOOL SWidget::Create()
 		return FALSE;
 	}else{
 	
-		m_Wnd.SetWnd(hWnd);								//设置句柄
+		m_Wnd.SetHandle(hWnd);								//设置句柄
 		//DOUBT(02/08/17)TODO:自定义的窗口返回的hWnd居然没有设置parent???????
 		//NOTE:这里如果手动SetParent(),则会内嵌到主窗口(子控件可以这么做,但子窗口不能这样)
 		//TODO:需要添加判断-如果是自定义子控件,需要手动SetParent(),否则不用
@@ -496,7 +496,7 @@ BOOL SWidget::Create()
 		//TODO:目前解决方法:子窗口交由全局消息处理--问题是与父窗口同处一线程,子窗口退出父窗口也完蛋??
 
 
-		m_Wnd.SetParent(m_pParent ? m_pParent->GetWnd().GetWnd() : NULL);
+		m_Wnd.SetParent(m_pParent ? m_pParent->GetWnd().GetHandle() : NULL);
 
 		return TRUE;
 	}
@@ -506,7 +506,7 @@ BOOL SWidget::Create()
 //销毁控件
 void SWidget::Destroy(){
 	//销毁窗口
-	DestroyWindow(m_Wnd.GetWnd());
+	DestroyWindow(m_Wnd.GetHandle());
 }
 
 //模态显示
@@ -518,19 +518,19 @@ int SWidget::DoModal()
 			//如果是父窗口,将消息托管给全局
 			//如果是自定义消息,则还必须注册到消息管理接收消息
 			SWnd parent = m_pParent ? m_pParent->GetWnd() : NULL;
-			SubClass(m_Wnd.GetWnd());
+			SubClass(m_Wnd.GetHandle());
 			m_Wnd.SetParent(NULL);
 
 			{
 				//将父窗口的消息交接给子窗口
-				::EnableWindow(parent.GetWnd(), FALSE);  //锁定父窗口
+				::EnableWindow(parent.GetHandle(), FALSE);  //锁定父窗口
 
 				ShowWindow();
 				OnRun();
 				OnRan();	//出口
 
 
-				::EnableWindow(parent.GetWnd(), TRUE);//释放父窗口
+				::EnableWindow(parent.GetHandle(), TRUE);//释放父窗口
 				HideWindow();//隐藏自己
 			}
 

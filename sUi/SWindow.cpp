@@ -73,7 +73,7 @@ void SWindow::SetAttribute(LPTSTR szTitle, int nWidth, int nHeight)
 long SWindow::SetCursorIcon(HCURSOR hIcon){
 	
 	long lCur = (long)hIcon;
-	if (m_Wnd.GetWnd()){
+	if (m_Wnd.GetHandle()){
 		m_Wnd.SetClassLong(GCL_HCURSOR, lCur);
 		return lCur;
 	}
@@ -119,12 +119,14 @@ void SWindow::RePaint()
 //设置窗口活动
 void SWindow::SetWindowInputEvent(SWindowInputEvent *pEvent)
 {
+	/* TODO:会造成内存泄漏,由用户自己判断释放 */
 	m_pInputEvent = pEvent;
 }
 
 //设置窗口输入事件
 void SWindow::SetWindowActivityEvent(SWindowActivityEvent *pEvent)
 {
+	/* TODO:会造成内存泄漏,由用户自己判断释放 */
 	m_pActivityEvent = pEvent;
 }
 
@@ -157,7 +159,7 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 	case WM_PAINT:					//窗口重绘消息
 		//NOTE:不写BeginPaint程序将会进入死循环,一直处理一个接一个的WM_PAINT消息
-		dc.SetDC(m_Wnd.BeginPaint(&ps));
+		dc.SetHandle(m_Wnd.BeginPaint(&ps));
 
 		//TODO:负责窗口绘制工作,并且绘制其下子控件
 		m_pActivityEvent->OnPaint(dc);
@@ -213,13 +215,13 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 	case WM_CLOSE:					//窗口关闭消息
 		if (m_pActivityEvent->OnClose(acParam))				//窗口关闭前的处理
-			DestroyWindow(hWnd);	//发出销毁窗口消息
+			::DestroyWindow(hWnd);	//发出销毁窗口消息
 		break;
 
 	case WM_DESTROY:				//程序销毁消息
 		m_pActivityEvent->OnDestory(acParam);
 		//TODO:此消息发送时,要求只退出子窗口而不影响父窗口
-		PostQuitMessage(0);			//DOUBT:不靠谱,并不是退出自身的,会造成接收不到WM_QUIT消息
+		::PostQuitMessage(0);			//DOUBT:不靠谱,并不是退出自身的,会造成接收不到WM_QUIT消息
 		break;
 		//case	WM_SYSCOMMAND //系统菜单命令：最大化按钮，最小化按，复原按钮，关闭按钮;与用户菜单命令WM_COMMAND有区别哦
 
@@ -259,7 +261,7 @@ void SWindow::OnRunning()
 void SWindow::OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	//TODO:处理子控件消息
-	//事件交由子控件自身处理
+	//事件交由子控件自身处理-这里处理没有受到注册控件的消息
 
 		
 }

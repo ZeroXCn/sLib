@@ -15,9 +15,14 @@ SGdiObject::~SGdiObject()
 }
 
 /////
-HGDIOBJ SGdiObject::Get()
+HGDIOBJ SGdiObject::GetHandle()
 {
 	return m_hGdiObj;
+}
+
+void SGdiObject::SetHandle(HGDIOBJ hGdiObj)
+{
+	m_hGdiObj = hGdiObj;
 }
 
 int SGdiObject::GetObject(int cbBuffer, LPVOID lpvObject)

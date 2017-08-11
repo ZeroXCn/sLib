@@ -19,6 +19,12 @@ public:
 
 	virtual ~SWnd();
 public:
+	/* 设置控件句柄 */
+	void SetHandle(HWND hWnd);
+
+	//获取控件句柄
+	HWND GetHandle();
+public:
 	//替换指定窗口所属类的WNDCLASSEX结构
 	DWORD SetClassLong(int nlndex, LONG dwNewLong);
 
@@ -76,12 +82,6 @@ public:
 
 	//释放设备上下文环境（DC）供其他应用程序使用--与GetDC和GetWindowDC配合使用
 	int ReleaseDC(HDC hdc);
-
-	/* 设置控件句柄 */
-	void SetWnd(HWND hWnd);
-
-	//获取控件句柄
-	HWND GetWnd();
 
 	//为指定窗口进行绘图工作的准备
 	HDC BeginPaint(LPPAINTSTRUCT lpPaint);

@@ -18,9 +18,9 @@ public:
 	SFont(HFONT hFont);
 	virtual ~SFont();
 public:
-	void SetFont(HFONT hFont);
+	void SetHandle(HFONT hFont);
 
-	HFONT GetFont();
+	HFONT GetHandle();
 
 	LOGFONT GetFontStruct();
 public:

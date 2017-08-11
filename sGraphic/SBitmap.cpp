@@ -6,7 +6,7 @@ SBitmap::SBitmap()
 }
 SBitmap::SBitmap(SGdiObject Obj)
 {
-	m_hGdiObj = (HBITMAP)Obj.Get();
+	m_hGdiObj = (HBITMAP)Obj.GetHandle();
 }
 
 SBitmap::SBitmap(HBITMAP hBitmap)
@@ -19,18 +19,18 @@ SBitmap::~SBitmap()
 }
 
 ///////////
-void SBitmap::SetBitmap(HBITMAP hBitmap)
+void SBitmap::SetHandle(HBITMAP hBitmap)
 {
 	m_hGdiObj = (HBITMAP)hBitmap;
 }
 
-HBITMAP SBitmap::GetBitmap()
+HBITMAP SBitmap::GetHandle()
 {
 	return (HBITMAP)m_hGdiObj;
 }
 
 //获取位图结构
-BITMAP SBitmap::GetBitmapStruct()
+BITMAP SBitmap::GetHandleStruct()
 {
 	BITMAP  bm;
 	SGdiObject::GetObject(sizeof(BITMAP), &bm);
@@ -54,7 +54,7 @@ SIZE SBitmap::GetSize()
 {
 	SIZE size{ 0, 0 };
 
-	BITMAP bit = GetBitmapStruct();
+	BITMAP bit = GetHandleStruct();
 	size.cx = bit.bmWidth;
 	size.cy = bit.bmHeight;
 	

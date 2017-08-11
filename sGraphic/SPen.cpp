@@ -8,7 +8,7 @@ SPen::SPen()
 
 SPen::SPen(SGdiObject Obj)
 {
-	m_hGdiObj = (HPEN)Obj.Get();
+	m_hGdiObj = (HPEN)Obj.GetHandle();
 }
 
 SPen::SPen(HPEN hPen)
@@ -21,12 +21,12 @@ SPen::~SPen()
 }
 
 
-void SPen::SetPen(HPEN hPen)
+void SPen::SetHandle(HPEN hPen)
 {
 	m_hGdiObj = (HPEN)hPen;
 }
 
-HPEN SPen::GetPen()
+HPEN SPen::GetHandle()
 {
 	return (HPEN)m_hGdiObj;
 }

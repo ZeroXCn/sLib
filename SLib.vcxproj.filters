@@ -13,102 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="sLib">
-      <UniqueIdentifier>{2cd9f8a2-ad82-405f-8841-e3a2b40f7860}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sLib\sCore">
-      <UniqueIdentifier>{8fa65b0c-a20d-4420-ad71-9df9b40baf23}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sLib\sCore\head">
-      <UniqueIdentifier>{3ce13655-53e1-478e-8df7-475e7ee31061}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sLib\sCore\source">
-      <UniqueIdentifier>{2dd605de-c39b-4803-868b-1ce79d73246c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sLib\sUi">
-      <UniqueIdentifier>{c2107838-c932-4204-81e5-bfeb8aa2311f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sLib\sUi\head">
-      <UniqueIdentifier>{d8f18fbd-292e-4315-b3a5-7c0a2696cbae}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="sLib\sUi\source">
-      <UniqueIdentifier>{f8a46039-551c-4b3a-9698-c76ef131254e}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="sUi\SApplication.h">
-      <Filter>sLib\sUi\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sUi\SLabel.h">
-      <Filter>sLib\sUi\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sUi\SWidget.h">
-      <Filter>sLib\sUi\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sUi\SWindow.h">
-      <Filter>sLib\sUi\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SAbstractClock.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SAsyncTask.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SBoolean.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SCharacter.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SDebug.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SDelayClock.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SDouble.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SException.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SFloat.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SFrequencyClock.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SInteger.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SMediaClock.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SObject.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SRunnable.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SString.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SStringList.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SThread.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\STimer.h">
-      <Filter>sLib\sCore\head</Filter>
-    </ClInclude>
     <ClInclude Include="sUi\SMessageHandler.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sUi\SWindowInputEvent.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sUi\SWindowActivityEvent.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sGraphic\SFont.h">
@@ -134,9 +41,6 @@
     </ClInclude>
     <ClInclude Include="sGraphic\SDc.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SColor.hpp">
-      <Filter>sLib\sCore\head</Filter>
     </ClInclude>
     <ClInclude Include="sGraphic\SRgn.h">
       <Filter>头文件</Filter>
@@ -297,9 +201,6 @@
     <ClInclude Include="sData\extern\SSqlite.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\..\079.[C++]SQLite轻型数据库\类\1大改\SQLite\sqlite3.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sData\SSqlDriverManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -333,66 +234,84 @@
     <ClInclude Include="sHelper\SCodeHelper.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sUi\SWindowInputEvent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SWindowActivityEvent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\STimer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SThread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SStringList.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SString.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SRunnable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SMediaClock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SInteger.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SFrequencyClock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SFloat.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SException.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SDouble.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SDelayClock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SDebug.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SCharacter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SBoolean.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SAsyncTask.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SAbstractClock.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SColor.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SWindow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SWidget.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SLabel.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SApplication.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sCore\SAsyncTask.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SDebug.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SDelayClock.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SFrequencyClock.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SMediaClock.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SRunnable.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SString.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SStringList.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SThread.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\STimer.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="test.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sUi\SApplication.cpp">
-      <Filter>sLib\sUi\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sUi\SLabel.cpp">
-      <Filter>sLib\sUi\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sUi\SWidget.cpp">
-      <Filter>sLib\sUi\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sUi\SWindow.cpp">
-      <Filter>sLib\sUi\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SException.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SObject.cpp">
-      <Filter>sLib\sCore\source</Filter>
-    </ClCompile>
     <ClCompile Include="sUi\SMessageHandler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sUi\SWindowActivityEvent.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sUi\SWindowInputEvent.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sGraphic\SFont.cpp">
@@ -537,6 +456,60 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sCore\SDate.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SWindowInputEvent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SWindowActivityEvent.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\STimer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SThread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SStringList.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SRunnable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SString.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SMediaClock.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SFrequencyClock.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SException.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SDelayClock.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SDebug.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SAsyncTask.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SWidget.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SWindow.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SLabel.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SApplication.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

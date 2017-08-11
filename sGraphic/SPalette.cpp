@@ -6,7 +6,7 @@ SPalette::SPalette()
 
 SPalette::SPalette(SGdiObject Obj)
 {
-	m_hGdiObj = (HPALETTE)Obj.Get();
+	m_hGdiObj = (HPALETTE)Obj.GetHandle();
 }
 
 SPalette::SPalette(HPALETTE hPalette)
@@ -18,11 +18,11 @@ SPalette::~SPalette()
 
 }
 
-void SPalette::SetPalette(HPALETTE hPalette)
+void SPalette::SetHandle(HPALETTE hPalette)
 {
 	m_hGdiObj = (HPALETTE)hPalette;
 }
-HPALETTE SPalette::GetPalette()
+HPALETTE SPalette::GetHandle()
 {
 	return (HPALETTE)m_hGdiObj;
 

@@ -16,18 +16,18 @@ SWnd::~SWnd()
 
 }
 
+//获取控件句柄
+HWND SWnd::GetHandle()
+{
+	return m_hWnd;
+}
 /* 设置控件句柄 */
-void SWnd::SetWnd(HWND hWnd)
+void SWnd::SetHandle(HWND hWnd)
 {
 	m_hWnd = hWnd;
 }
 
-//获取控件句柄
-HWND SWnd::GetWnd()
-{
-	return m_hWnd;
-}
-
+/////////////////
 //获取设备上下文
 HDC SWnd::GetDC()
 {

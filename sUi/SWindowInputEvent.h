@@ -40,8 +40,6 @@ public:
 
 	};
 public:
-	//活动控制
-	virtual void OnKeyEvent();
 	//键盘按下
 	virtual void OnKeyDown(HWND hWnd, WPARAM wParam);
 	//键盘弹起

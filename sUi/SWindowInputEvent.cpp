@@ -44,11 +44,6 @@ void SWindowInputEvent::InputParam::SetLParam(LPARAM &lParam)
 
 ///////////////////////////////
 
-//活动控制
-void SWindowInputEvent::OnKeyEvent()
-{
-
-}
 //键盘按下
 void SWindowInputEvent::OnKeyDown(HWND hWnd, WPARAM wParam)
 {

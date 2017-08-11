@@ -31,7 +31,7 @@ SDc &SDc::CreateDC(LPTSTR lpszDriver, LPTSTR lpszDevice , LPTSTR lpszPort , cons
 SDc &SDc::CreateCompatibleDC(SDc dc)
 {
 
-	m_hDC = ::CreateCompatibleDC(dc.GetDC());
+	m_hDC = ::CreateCompatibleDC(dc.GetHandle());
 
 	return *this;
 }
@@ -61,13 +61,13 @@ BOOL SDc::RestoreDC(int nSavedDc)
 
 ///////////////////
 //设置绘图上下文
-void SDc::SetDC(HDC hDC)
+void SDc::SetHandle(HDC hDC)
 {
 	m_hDC = hDC;
 }
 
 //取得当前绘图上下文
-HDC SDc::GetDC()
+HDC SDc::GetHandle()
 {
 	return m_hDC;
 }
@@ -79,7 +79,7 @@ HGDIOBJ SDc::SelectObject(HGDIOBJ hgdiobj)
 
 SGdiObject SDc::SelectObject(SGdiObject Obj)
 {
-	return SGdiObject(::SelectObject(m_hDC, Obj.Get()));
+	return SGdiObject(::SelectObject(m_hDC, Obj.GetHandle()));
 }
 
 //获取当前DC对象
@@ -101,14 +101,14 @@ BOOL SDc::DeleteObject(HGDIOBJ hObject)
 
 BOOL SDc::DeleteObject(SGdiObject Obj)
 {
-	return ::DeleteObject(Obj.Get());
+	return ::DeleteObject(Obj.GetHandle());
 }
 
 
 //选择字体
 SFont SDc::SetFont(SFont ofont)
 {
-	return SFont((HFONT)::SelectObject(m_hDC, ofont.GetFont()));
+	return SFont((HFONT)::SelectObject(m_hDC, ofont.GetHandle()));
 }
 SFont SDc::GetFont()
 {
@@ -118,7 +118,7 @@ SFont SDc::GetFont()
 //选择位图
 SBitmap SDc::SetBitmap(SBitmap bitmap)
 {
-	return SBitmap((HBITMAP)::SelectObject(m_hDC, bitmap.GetBitmap()));
+	return SBitmap((HBITMAP)::SelectObject(m_hDC, bitmap.GetHandle()));
 }
 
 SBitmap SDc::GetBitmap()
@@ -129,7 +129,7 @@ SBitmap SDc::GetBitmap()
 //选择画刷
 SBrush SDc::SetBrush(SBrush brush)
 {
-	return SBrush((HBRUSH)::SelectObject(m_hDC, brush.GetBrush()));
+	return SBrush((HBRUSH)::SelectObject(m_hDC, brush.GetHandle()));
 }
 SBrush SDc::GetBrush()
 {
@@ -140,7 +140,7 @@ SBrush SDc::GetBrush()
 //选择画笔
 SPen SDc::SetPen(SPen pen)
 {
-	return SPen((HPEN)::SelectObject(m_hDC, pen.GetPen()));
+	return SPen((HPEN)::SelectObject(m_hDC, pen.GetHandle()));
 }
 
 SPen SDc::GetPen()
@@ -152,7 +152,7 @@ SPen SDc::GetPen()
 //选择区域
 SRgn SDc::SetRgn(SRgn rgn)
 {
-	return SRgn((HRGN)::SelectObject(m_hDC, rgn.GetRgn()));
+	return SRgn((HRGN)::SelectObject(m_hDC, rgn.GetHandle()));
 }
 
 
@@ -383,24 +383,24 @@ BOOL SDc::DrawImage(SBitmap sbm, int x, int y, DWORD dwRop)
 {
 	SIZE size{ 0, 0 };
 	BITMAP  bm;
-	::GetObject(sbm.GetBitmap(), sizeof(BITMAP), &bm);
+	::GetObject(sbm.GetHandle(), sizeof(BITMAP), &bm);
 	size.cx = bm.bmWidth; size.cy = bm.bmHeight;
-	return DrawImage(sbm.GetBitmap(), x, y, size.cx, size.cy, 0, 0, size.cx, size.cy, dwRop);
+	return DrawImage(sbm.GetHandle(), x, y, size.cx, size.cy, 0, 0, size.cx, size.cy, dwRop);
 }
 
 BOOL SDc::DrawImage(SBitmap sbm, int x, int y, UINT crTransparent)
 {
 	SIZE size{ 0, 0 };
 	BITMAP  bm;
-	::GetObject(sbm.GetBitmap(), sizeof(BITMAP), &bm);
+	::GetObject(sbm.GetHandle(), sizeof(BITMAP), &bm);
 	size.cx = bm.bmWidth; size.cy = bm.bmHeight;
-	return DrawImage(sbm.GetBitmap(), x, y, size.cx, size.cy, 0, 0, crTransparent);
+	return DrawImage(sbm.GetHandle(), x, y, size.cx, size.cy, 0, 0, crTransparent);
 }
 
 BOOL SDc::DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, DWORD dwRop)
 {
 	HDC hdcMem = ::CreateCompatibleDC(m_hDC);					//创建兼容设备
-	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, sbm.GetBitmap());	//将位图选入兼容设备，并记录下旧的句柄
+	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, sbm.GetHandle());	//将位图选入兼容设备，并记录下旧的句柄
 	//输出不透明位图
 	BOOL result = ::BitBlt(m_hDC, x, y, nWidth, nHeight, hdcMem, xSrc, ySrc, dwRop);
 	// 清理临时对象，释放资源
@@ -414,7 +414,7 @@ BOOL SDc::DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc
 BOOL SDc::DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, int xSrcWidth, int ySrcHeight, DWORD dwRop)
 {
 	HDC hdcMem = ::CreateCompatibleDC(m_hDC);		//创建兼容设备
-	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, sbm.GetBitmap());	//将位图选入兼容设备，并记录下旧的句柄
+	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, sbm.GetHandle());	//将位图选入兼容设备，并记录下旧的句柄
 
 	BOOL result = ::StretchBlt(m_hDC, x, y, nWidth, nHeight, hdcMem, xSrc, ySrc, xSrcWidth, ySrcHeight, dwRop);
 
@@ -429,14 +429,14 @@ BOOL SDc::DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc
 {
 	SIZE size{ 0, 0 };
 	BITMAP  bm;
-	::GetObject(sbm.GetBitmap(), sizeof(BITMAP), &bm);
+	::GetObject(sbm.GetHandle(), sizeof(BITMAP), &bm);
 	size.cx = bm.bmWidth; size.cy = bm.bmHeight;
-	return DrawImage(sbm.GetBitmap(), x, y, nWidth, nHeight, xSrc, ySrc, size.cx, size.cy, crTransparent);
+	return DrawImage(sbm.GetHandle(), x, y, nWidth, nHeight, xSrc, ySrc, size.cx, size.cy, crTransparent);
 }
 BOOL SDc::DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, int xSrcWidth, int ySrcHeight, UINT crTransparent)
 {
 	HDC hdcMem = ::CreateCompatibleDC(m_hDC);		//创建兼容设备
-	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, sbm.GetBitmap());	//将位图选入兼容设备，并记录下旧的句柄
+	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, sbm.GetHandle());	//将位图选入兼容设备，并记录下旧的句柄
 
 	BOOL result = ::TransparentBlt(m_hDC, x, y, nWidth, nHeight, hdcMem, xSrc, ySrc, xSrcWidth, ySrcHeight, crTransparent);
 
@@ -449,12 +449,12 @@ BOOL SDc::DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc
 
 BOOL SDc::DrawDC(SDc sdcSrc, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, DWORD dwRop)
 {
-	return ::StretchBlt(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, sdcSrc.GetDC(), nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, dwRop);
+	return ::StretchBlt(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, sdcSrc.GetHandle(), nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, dwRop);
 
 }
 BOOL SDc::DrawDC(SDc sdcSrc, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, int nXOriginSrc, int nYOriginSrc, DWORD dwRop)
 {
-	return ::BitBlt(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, sdcSrc.GetDC(), nXOriginSrc, nYOriginSrc, dwRop);
+	return ::BitBlt(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, sdcSrc.GetHandle(), nXOriginSrc, nYOriginSrc, dwRop);
 }
 ///////////////
 int SDc::SetTransform(CONST XFORM *lpXform)

@@ -15,8 +15,8 @@ public:
 	SRgn(HRGN hRgn);
 	virtual ~SRgn();
 public:
-	void SetRgn(HRGN hRgn);
-	HRGN GetRgn();
+	void SetHandle(HRGN hRgn);
+	HRGN GetHandle();
 public:
 	//¥¥Ω®Õ÷‘≤«¯”Ú
 	BOOL CreateElliptic( int nLeft,  int nTop,  int nRight,  int nBottom);

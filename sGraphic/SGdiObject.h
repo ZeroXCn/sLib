@@ -20,8 +20,10 @@ public:
 	virtual ~SGdiObject();
 public:
 	//取的封装内容
-	HGDIOBJ Get();
+	HGDIOBJ GetHandle();
+	void SetHandle(HGDIOBJ hGdiObj);
 
+////
 	//到指定图形对象的信息
 	int GetObject(int cbBuffer, LPVOID lpvObject);
 

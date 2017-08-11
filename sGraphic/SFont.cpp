@@ -7,7 +7,7 @@ SFont::SFont()
 
 SFont::SFont(SGdiObject Obj)
 {
-	m_hGdiObj = (HFONT)Obj.Get();
+	m_hGdiObj = (HFONT)Obj.GetHandle();
 }
 
 
@@ -21,12 +21,12 @@ SFont::~SFont()
 	
 }
 ////////
-void SFont::SetFont(HFONT hFont)
+void SFont::SetHandle(HFONT hFont)
 {
 	m_hGdiObj = (HFONT)hFont;
 }
 
-HFONT SFont::GetFont()
+HFONT SFont::GetHandle()
 {
 	return (HFONT)m_hGdiObj;
 }

@@ -36,3 +36,6 @@
 10/08/2017:
 1.增加SStringBuilder,SStringRef类
 2.增加日期类SDuration,SDate,STime
+
+11/08/2017:
+1.修正几个函数命名

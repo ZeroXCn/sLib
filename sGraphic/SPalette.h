@@ -15,8 +15,8 @@ public:
 	SPalette(HPALETTE hPalette);
 	virtual ~SPalette();
 public:
-	void SetPalette(HPALETTE hPalette);
-	HPALETTE GetPalette();
+	void SetHandle(HPALETTE hPalette);
+	HPALETTE GetHandle();
 	LOGPALETTE GetPaletteStruct();
 public:
 	BOOL Create(LOGPALETTE lplgpl);

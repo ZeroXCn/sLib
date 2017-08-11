@@ -95,7 +95,10 @@ SString::~SString()
 
 }
 ///
-
+/* 有多种方式实现:可变参模板 - 但是使用时需要包含cpp文件*/
+/* link https://github.com/qicosmos/cosmos/blob/master/Format.hpp */
+/* boost::format.hpp */
+/* 基本原理都是查找,替换, */
 SString &SString::arg(SString str)
 {
 	//仿qt的string,这里采用查找,替换的方法

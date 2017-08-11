@@ -23,12 +23,12 @@ public:
 	SBitmap(HBITMAP hBitmap);
 	virtual ~SBitmap();
 public:
-	void SetBitmap(HBITMAP hBitmap);
+	void SetHandle(HBITMAP hBitmap);
 
-	HBITMAP GetBitmap();
+	HBITMAP GetHandle();
 
 	//获取位图结构
-	BITMAP GetBitmapStruct();
+	BITMAP GetHandleStruct();
 public:
 	//创建一个带有特定宽度、高度和颜色格式的位图。
 	BOOL Create(int nWidth, int nHeight, UINT cPlanes, UINT cBitsPeral, CONST VOID *lpvBits);

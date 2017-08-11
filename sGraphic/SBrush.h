@@ -16,11 +16,11 @@ public:
 	virtual ~SBrush();
 
 public:
-	void SetBrush(HBRUSH hBrush);
+	void SetHandle(HBRUSH hBrush);
 
-	HBRUSH GetBrush();
+	HBRUSH GetHandle();
 
-	LOGBRUSH GetBrushStruct();
+	LOGBRUSH GetHandleStruct();
 public:
 	//创建具有指定风格、颜色和模式的逻辑刷子
 	BOOL CreateIndirect(LOGBRUSH lBrush);

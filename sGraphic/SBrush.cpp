@@ -7,7 +7,7 @@ SBrush::SBrush()
 
 SBrush::SBrush(SGdiObject Obj)
 {
-	m_hGdiObj = (HBRUSH)Obj.Get();;
+	m_hGdiObj = (HBRUSH)Obj.GetHandle();;
 }
 
 SBrush::SBrush(HBRUSH hBrush)
@@ -20,17 +20,17 @@ SBrush::~SBrush()
 }
 
 
-void SBrush::SetBrush(HBRUSH hBrush)
+void SBrush::SetHandle(HBRUSH hBrush)
 {
 	m_hGdiObj = (HBRUSH)hBrush;
 }
 
-HBRUSH SBrush::GetBrush()
+HBRUSH SBrush::GetHandle()
 {
 	return (HBRUSH)m_hGdiObj;
 }
 
-LOGBRUSH SBrush::GetBrushStruct()
+LOGBRUSH SBrush::GetHandleStruct()
 {
 	LOGBRUSH lb;
 	SGdiObject::GetObject(sizeof(LOGBRUSH), &lb);

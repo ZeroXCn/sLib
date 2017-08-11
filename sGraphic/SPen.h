@@ -18,9 +18,9 @@ public:
 	virtual ~SPen();
 
 public:
-	void SetPen(HPEN hPen);
+	void SetHandle(HPEN hPen);
 
-	HPEN GetPen();
+	HPEN GetHandle();
 
 	LOGPEN GetPenStruct();
 public:

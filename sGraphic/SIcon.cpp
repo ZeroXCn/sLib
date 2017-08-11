@@ -13,11 +13,11 @@ SIcon::~SIcon()
 
 }
 
-void SIcon::SetIcon(HICON hIcon)
+void SIcon::SetHandle(HICON hIcon)
 {
 	m_hIcon = hIcon;
 }
-HICON SIcon::GetIcon()
+HICON SIcon::GetHandle()
 {
 	return m_hIcon;
 }
