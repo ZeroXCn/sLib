@@ -25,67 +25,80 @@ LPARAM &SWindowInputEvent::InputParam::GetLParam()
 	return this->lParam;
 }
 
-void SWindowInputEvent::InputParam::SetWnd(HWND &hWnd)
+
+int SWindowInputEvent::InputParam::GetMouseX()
 {
-	this->hWnd = hWnd;
+	return LOWORD(lParam);
 }
-void SWindowInputEvent::InputParam::SetMessage(UINT &message)
+int SWindowInputEvent::InputParam::GetMouseY()
 {
-	this->message = message;
+	return HIWORD(lParam);
 }
-void SWindowInputEvent::InputParam::SetWParam(WPARAM &wParam)
+
+//指定虚拟键的状态的一个函数 > 0 没按下|< 0被按下
+SHORT SWindowInputEvent::InputParam::GetKeyState(int nVirtKey)
 {
-	this->wParam = wParam;
+	return ::GetKeyState(nVirtKey);
 }
-void SWindowInputEvent::InputParam::SetLParam(LPARAM &lParam)
+
+//确定用户当前是否按下了键盘上的一个键
+//如键已被按过，则位0设为1；否则设为0
+//如键目前处于按下状态，则位15设为1；如抬起，则为0。
+SHORT SWindowInputEvent::InputParam::GetAsyncKeyState(int nVirtKey)
 {
-	this->lParam = lParam;
+	return ::GetAsyncKeyState(nVirtKey);
+}
+
+//判断虚拟按键是否被按下
+BOOL SWindowInputEvent::InputParam::GetKeyboardState(PBYTE lpKeyState)
+{
+	return ::GetKeyboardState(lpKeyState);
 }
 
 ///////////////////////////////
 
 //键盘按下
-void SWindowInputEvent::OnKeyDown(HWND hWnd, WPARAM wParam)
+void SWindowInputEvent::OnKeyDown(InputParam &param)
 {
 
 }
 //键盘弹起
-void SWindowInputEvent::OnKeyUp(HWND hWnd, WPARAM wParam)
+void SWindowInputEvent::OnKeyUp(InputParam &param)
 {
 
 }
 //鼠标左键按下
-void SWindowInputEvent::OnMouseLButtonDown(HWND hWnd, int x, int y, WPARAM wParam)
+void SWindowInputEvent::OnMouseLButtonDown(InputParam &param)
 {
 
 }
 //鼠标左键弹起
-void SWindowInputEvent::OnMouseLButtonUp(HWND hWnd, int x, int y, WPARAM wParam)
+void SWindowInputEvent::OnMouseLButtonUp(InputParam &param)
 {
 
 }
 //鼠标滚轮
-void SWindowInputEvent::OnMouseWheel(HWND hWnd, WPARAM wParam)
+void SWindowInputEvent::OnMouseWheel(InputParam &param)
 {
 
 }
 //鼠标左键双击
-void SWindowInputEvent::OnMouseDoubleClick(HWND hWnd, int x, int y, WPARAM wParam)
+void SWindowInputEvent::OnMouseDoubleClick(InputParam &param)
 {
 
 }
 //鼠标右键按下
-void SWindowInputEvent::OnMouseRButtonDown(HWND hWnd, int x, int y, WPARAM wParam)
+void SWindowInputEvent::OnMouseRButtonDown(InputParam &param)
 {
 
 }
 //鼠标右键按下
-void SWindowInputEvent::OnMouseRButtonUp(HWND hWnd, int x, int y, WPARAM wParam)
+void SWindowInputEvent::OnMouseRButtonUp(InputParam &param)
 {
 
 }
 //鼠标移动
-void SWindowInputEvent::OnMouseMove(HWND hWnd, int x, int y, WPARAM wParam)
+void SWindowInputEvent::OnMouseMove(InputParam &param)
 {
 
 }

@@ -27,10 +27,6 @@ public:
 		WPARAM &GetWParam();
 		LPARAM &GetLParam();
 
-		void SetWnd(HWND &hWnd);
-		void SetMessage(UINT &message);
-		void SetWParam(WPARAM &wParam);
-		void SetLParam(LPARAM &lParam);
 
 	};
 public:

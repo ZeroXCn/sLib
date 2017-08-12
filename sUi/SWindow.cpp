@@ -172,37 +172,37 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		break;
 
 	case WM_KEYDOWN:				//按键消息  
-		m_pInputEvent->OnKeyDown(hWnd, wParam);
+		m_pInputEvent->OnKeyDown(inParam);
 		break;
 	case WM_KEYUP:					//按键消息  
-		m_pInputEvent->OnKeyUp(hWnd, wParam);
+		m_pInputEvent->OnKeyUp(inParam);
 		break;
 
 	case WM_LBUTTONDOWN:			//鼠标左键按下消息
-		m_pInputEvent->OnMouseLButtonDown(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseLButtonDown(inParam);
 		break;
 
 	case WM_LBUTTONUP:				//鼠标左键弹起消息
-		m_pInputEvent->OnMouseLButtonUp(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseLButtonUp(inParam);
 		break;
 
 	case WM_MOUSEWHEEL:				//鼠标滚轮事件
-		m_pInputEvent->OnMouseWheel(hWnd, wParam);
+		m_pInputEvent->OnMouseWheel(inParam);
 		break;
 
 	case WM_LBUTTONDBLCLK:			//鼠标左键双击消息
-		m_pInputEvent->OnMouseDoubleClick(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseDoubleClick(inParam);
 		break;
 
 	case WM_RBUTTONDOWN:			//鼠标右键按下消息
-		m_pInputEvent->OnMouseRButtonDown(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseRButtonDown(inParam);
 		break;
 	case WM_RBUTTONUP:				//鼠标右键弹起消息
-		m_pInputEvent->OnMouseLButtonUp(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseLButtonUp(inParam);
 		break;
 
 	case WM_MOUSEMOVE:				//鼠标移动消息
-		m_pInputEvent->OnMouseMove(hWnd, LOWORD(lParam), HIWORD(lParam), wParam);
+		m_pInputEvent->OnMouseMove(inParam);
 		break;
 
 	case WM_SETFOCUS:				//游戏窗口得到焦点消息

@@ -32,32 +32,42 @@ public:
 		WPARAM &GetWParam();
 		LPARAM &GetLParam();
 
-		void SetWnd(HWND &hWnd);
-		void SetMessage(UINT &message);
-		void SetWParam(WPARAM &wParam);
-		void SetLParam(LPARAM &lParam);
-	public:
 
+	public:
+		//取得鼠标X,Y坐标
+		int GetMouseX();
+		int GetMouseY();
+	public:
+		//指定虚拟键的状态的一个函数 > 0 没按下|< 0被按下
+		static SHORT GetKeyState(int nVirtKey);
+
+		//确定用户当前是否按下了键盘上的一个键
+		//如键已被按过，则位0设为1；否则设为0
+		//如键目前处于按下状态，则位15设为1；如抬起，则为0。
+		static SHORT GetAsyncKeyState(int nVirtKey);
+
+		//判断虚拟按键是否被按下
+		static BOOL GetKeyboardState(PBYTE lpKeyState);
 	};
 public:
 	//键盘按下
-	virtual void OnKeyDown(HWND hWnd, WPARAM wParam);
+	virtual void OnKeyDown(InputParam &param);
 	//键盘弹起
-	virtual void OnKeyUp(HWND hWnd, WPARAM wParam);
+	virtual void OnKeyUp(InputParam &param);
 	//鼠标左键按下
-	virtual void OnMouseLButtonDown(HWND hWnd, int x, int y, WPARAM wParam);
+	virtual void OnMouseLButtonDown(InputParam &param);
 	//鼠标左键弹起
-	virtual void OnMouseLButtonUp(HWND hWnd, int x, int y, WPARAM wParam);
+	virtual void OnMouseLButtonUp(InputParam &param);
 	//鼠标滚轮
-	virtual void OnMouseWheel(HWND hWnd, WPARAM wParam);
+	virtual void OnMouseWheel(InputParam &param);
 	//鼠标左键双击
-	virtual void OnMouseDoubleClick(HWND hWnd, int x, int y, WPARAM wParam);
+	virtual void OnMouseDoubleClick(InputParam &param);
 	//鼠标右键按下
-	virtual void OnMouseRButtonDown(HWND hWnd, int x, int y, WPARAM wParam);
+	virtual void OnMouseRButtonDown(InputParam &param);
 	//鼠标右键按下
-	virtual void OnMouseRButtonUp(HWND hWnd, int x, int y, WPARAM wParam);
+	virtual void OnMouseRButtonUp(InputParam &param);
 	//鼠标移动
-	virtual void OnMouseMove(HWND hWnd, int x, int y, WPARAM wParam);
+	virtual void OnMouseMove(InputParam &param);
 
 };
 

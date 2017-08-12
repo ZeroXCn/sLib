@@ -24,22 +24,6 @@ LPARAM &SWindowActivityEvent::ActivityParam::GetLParam()
 	return this->lParam;
 }
 
-void SWindowActivityEvent::ActivityParam::SetWnd(HWND &hWnd)
-{
-	this->hWnd = hWnd;
-}
-void SWindowActivityEvent::ActivityParam::SetMessage(UINT &message)
-{
-	this->message = message;
-}
-void SWindowActivityEvent::ActivityParam::SetWParam(WPARAM &wParam)
-{
-	this->wParam = wParam;
-}
-void SWindowActivityEvent::ActivityParam::SetLParam(LPARAM &lParam)
-{
-	this->lParam = lParam;
-}
 
 ///////////////////////////////
 //控件创建之前

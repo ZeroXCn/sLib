@@ -5,9 +5,12 @@
 #include "../sCore/SStringList.h"
 #ifndef SSTRINGHELPER_H
 #define SSTRINGHELPER_H
-
+#include <windows.h>
+#include <time.h> 
+#include <string>
 namespace SStringHelper
 {
+	using namespace std;
 	//×Ö·û´®½ØÈ¡
 	SStringList SubString(SString org, SString left, SString right)
 	{
@@ -46,10 +49,10 @@ namespace SStringHelper
 		int leftmatchLength, rightmatchLength;
 		while (1)
 		{
-			leftpos = org.indexOf(left, leftpos, &leftmatchLength);
+			leftpos = org.find(left, leftpos, &leftmatchLength);
 			if (leftpos != -1)
 			{
-				rightpos = org.indexOf(right, leftpos + leftmatchLength, &rightmatchLength);
+				rightpos = org.find(right, leftpos + leftmatchLength, &rightmatchLength);
 				if (rightpos != -1){
 					list << org.substr(leftpos + leftmatchLength, rightpos - leftpos - leftmatchLength);
 					leftpos = rightpos + rightmatchLength;
@@ -61,7 +64,7 @@ namespace SStringHelper
 		return list;
 	}
 
-	static wstring StringToWstring(const string str)
+	std::wstring StringToWstring(const std::string str)
 	{
 		unsigned len = str.size() * 2;// Ô¤Áô×Ö½ÚÊý
 		size_t converted = 0;
@@ -72,7 +75,7 @@ namespace SStringHelper
 		delete[] p;// ÊÍ·ÅÉêÇëµÄÄÚ´æ
 		return str1;
 	}
-	static string WStringToString(const wstring str)
+	std::string WStringToString(const std::wstring str)
 	{
 		unsigned len = str.size() * 4;
 		size_t converted = 0;
@@ -82,6 +85,221 @@ namespace SStringHelper
 		std::string str1(p);
 		delete[] p;
 		return str1;
+	}
+
+
+	/**
+	*   @brief ½«utf-8±àÂëµÄ×Ö·û´®×ª»»Îªunicode±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	utf-8±àÂëµÄ×Ö·û´®
+	*   @param[out] content	unicode±àÂëµÄ×Ö·û´®
+	*   @retval true£º³É¹¦£¬false£»Ê§°Ü
+	*/
+	bool Utf8ToUnicode(const char* str, wstring& content)
+	{
+		int textlen;
+		wchar_t * result;
+		textlen = MultiByteToWideChar(CP_UTF8, 0, str, -1, NULL, 0);
+		result = (wchar_t *)malloc((textlen + 1)*sizeof(wchar_t));
+		::memset(result, 0, (textlen + 1)*sizeof(wchar_t));
+		MultiByteToWideChar(CP_UTF8, 0, str, -1, (LPWSTR)result, textlen);
+
+		content = result;
+		free(result);
+
+		return true;
+	}
+
+	/**
+	*   @brief ½«utf-8±àÂëµÄ×Ö·û´®×ª»»Îªunicode±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	utf-8±àÂëµÄ×Ö·û´®
+	*   @retval unicode±àÂëµÄ×Ö·û´®
+	*   @note Èç¹ûÊ§°Ü£¬·µ»Ø""
+	*/
+	wstring Utf8ToUnicode(const char* str)
+	{
+		wstring temp;
+		if (Utf8ToUnicode(str, temp))
+		{
+			return temp;
+		}
+
+		return L"";
+	}
+
+
+	/**
+	*   @brief ½«unicode±àÂëµÄ×Ö·û´®×ª»»Îªansi±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	unicode±àÂëµÄ×Ö·û´®
+	*   @param[out] content	ansi±àÂëµÄ×Ö·û´®
+	*   @retval true£º³É¹¦£¬false£»Ê§°Ü
+	*/
+	bool UnicodeToAscii(const wchar_t* str, string& content)
+	{
+		char* result;
+		int textlen;
+		textlen = WideCharToMultiByte(CP_ACP, 0, str, -1, NULL, 0, NULL, NULL);
+		result = (char *)malloc((textlen + 1)*sizeof(char));
+		memset(result, 0, sizeof(char)* (textlen + 1));
+		WideCharToMultiByte(CP_ACP, 0, str, -1, result, textlen, NULL, NULL);
+
+		content = result;
+		free(result);
+
+		return true;
+	}
+
+	/**
+	*   @brief ½«utf-8±àÂëµÄ×Ö·û´®×ª»»Îªansi±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	utf-8±àÂëµÄ×Ö·û´®
+	*   @retval ansi±àÂëµÄ×Ö·û´®
+	*   @note Èç¹ûÊ§°Ü£¬·µ»Ø""
+	*/
+	string UnicodeToAscii(const wchar_t* str)
+	{
+		string temp;
+		if (UnicodeToAscii(str, temp))
+		{
+			return temp;
+		}
+
+		return "";
+	}
+
+	/**
+	*   @brief ½«utf-8±àÂëµÄ×Ö·û´®×ª»»Îªansi±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	utf-8±àÂëµÄ×Ö·û´®
+	*   @param[out] content	ansi±àÂëµÄ×Ö·û´®
+	*   @retval true£º³É¹¦£¬false£»Ê§°Ü
+	*/
+	bool Utf8ToAscii(const char* str, string& content)
+	{
+		wstring temp;
+		Utf8ToUnicode(str, temp);
+		return UnicodeToAscii(temp.c_str(), content);
+	}
+
+	/**
+	*   @brief ½«utf-8±àÂëµÄ×Ö·û´®×ª»»Îªansi±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	utf-8±àÂëµÄ×Ö·û´®
+	*   @retval ansi±àÂëµÄ×Ö·û´®
+	*   @note Èç¹ûÊ§°Ü£¬·µ»Ø""
+	*/
+	string Utf8ToAscii(const char* str)
+	{
+		string temp;
+		if (Utf8ToAscii(str, temp))
+		{
+			return temp;
+		}
+
+		return "";
+	}
+
+	/**
+	*   @brief ½«ansi±àÂëµÄ×Ö·û´®×ª»»Îªunicode±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	ansi±àÂëµÄ×Ö·û´®
+	*   @param[out] content	unicode±àÂëµÄ×Ö·û´®
+	*   @retval true£º³É¹¦£¬false£»Ê§°Ü
+	*/
+	bool AsciiToUnicode(const char* str, wstring& content)
+	{
+		int textlen;
+		wchar_t * result;
+		textlen = MultiByteToWideChar(CP_ACP, 0, str, -1, NULL, 0);
+		result = (wchar_t *)malloc((textlen + 1)*sizeof(wchar_t));
+		::memset(result, 0, (textlen + 1)*sizeof(wchar_t));
+		MultiByteToWideChar(CP_ACP, 0, str, -1, (LPWSTR)result, textlen);
+
+		content = result;
+		free(result);
+		return true;
+	}
+
+	/**
+	*   @brief ½«ansi±àÂëµÄ×Ö·û´®×ª»»Îªunicode±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	ansi±àÂëµÄ×Ö·û´®
+	*   @retval unicode±àÂëµÄ×Ö·û´®
+	*   @note Èç¹ûÊ§°Ü£¬·µ»Ø""
+	*/
+	wstring AsciiToUnicode(const char* str)
+	{
+		wstring temp;
+		if (AsciiToUnicode(str, temp))
+		{
+			return temp;
+		}
+
+		return L"";
+	}
+
+
+	/**
+	*   @brief ½«unicode±àÂëµÄ×Ö·û´®×ª»»Îªutf-8±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	unicode±àÂëµÄ×Ö·û´®
+	*   @param[out] content	utf-8±àÂëµÄ×Ö·û´®
+	*   @retval true£º³É¹¦£¬false£»Ê§°Ü
+	*/
+	bool UnicodeToUtf8(const wchar_t* str, string& content)
+	{
+		char* result;
+		int textlen;
+		textlen = WideCharToMultiByte(CP_UTF8, 0, str, -1, NULL, 0, NULL, NULL);
+		result = (char *)malloc((textlen + 1)*sizeof(char));
+		memset(result, 0, sizeof(char)* (textlen + 1));
+		WideCharToMultiByte(CP_UTF8, 0, str, -1, result, textlen, NULL, NULL);
+
+		content = result;
+		free(result);
+
+		return true;
+	}
+
+	/**
+	*   @brief ½«unicode±àÂëµÄ×Ö·û´®×ª»»Îªutf-8±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	ansi±àÂëµÄ×Ö·û´®
+	*   @retval utf-8±àÂëµÄ×Ö·û´®
+	*   @note Èç¹ûÊ§°Ü£¬·µ»Ø""
+	*/
+	string UnicodeToUtf8(const wchar_t* str)
+	{
+		string temp;
+		if (UnicodeToUtf8(str, temp))
+		{
+			return temp;
+		}
+
+		return "";
+	}
+
+
+	/**
+	*   @brief ½«utf-8±àÂëµÄ×Ö·û´®×ª»»Îªunicode±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	utf-8±àÂëµÄ×Ö·û´®
+	*   @param[out] content	unicode±àÂëµÄ×Ö·û´®
+	*   @retval true£º³É¹¦£¬false£»Ê§°Ü
+	*/
+	bool AsciiToUtf8(const char* str, string& content)
+	{
+		wstring temp;
+		AsciiToUnicode(str, temp);
+		return UnicodeToUtf8(temp.c_str(), content);
+	}
+
+	/**
+	*   @brief ½«ansi±àÂëµÄ×Ö·û´®×ª»»Îªutf-8±àÂëµÄ×Ö·û´®¡£
+	*   @param[in] str	ansi±àÂëµÄ×Ö·û´®
+	*   @retval utf-8±àÂëµÄ×Ö·û´®
+	*   @note Èç¹ûÊ§°Ü£¬·µ»Ø""
+	*/
+	string AsciiToUtf8(const char* str)
+	{
+		string temp;
+		if (AsciiToUtf8(str, temp))
+		{
+			return temp;
+		}
+
+		return "";
 	}
 
 };
