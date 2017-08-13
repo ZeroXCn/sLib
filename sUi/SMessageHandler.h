@@ -17,6 +17,20 @@
 //typedef LRESULT(CALLBACK *WNDPROC)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
 class SMessageHandler
 {
+protected:
+	class MessageParam
+	{
+		public:
+			HWND hWnd;
+			UINT uMsg;
+			WPARAM wParam;
+			LPARAM lParam;
+	public:
+		MessageParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam);
+	public:
+
+		WORD GetCommand();
+	};
 private:
 	class wnd_hash
 	{
@@ -26,28 +40,12 @@ private:
 			bucket_size = 4,
 			min_buckets = 8
 		};
-		wnd_hash()
-		{
-		}
-		size_t operator()(const HWND& hwnd) const
-		{
-			return size_t(hwnd);
-		}
-		bool operator()(const HWND& hwnd1, const HWND& hwnd2) const
-		{
-			return   hwnd1 != hwnd2;
-		}
-	};
-	class wnd_msg
-	{
-	public:
-		HWND hWnd; UINT message; WPARAM wParam; LPARAM lParam;
-	public:
-		wnd_msg(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) :
-			hWnd(hWnd), message(message), wParam(wParam), lParam(lParam){}
+		wnd_hash();
+		size_t operator()(const HWND& hwnd) const;
+		bool operator()(const HWND& hwnd1, const HWND& hwnd2) const;
 	};
 	typedef std::hash_map<HWND, SMessageHandler *, wnd_hash> WndHandlerMap;
-
+	typedef MessageParam wnd_msg;
 public:
 	//普通函数
 	static LRESULT CALLBACK MessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -63,7 +61,7 @@ protected:
 
 protected:
 	//对象方法
-	virtual LRESULT CALLBACK OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT CALLBACK OnProc(MessageParam param);
 
 public:
 	SMessageHandler();
@@ -82,6 +80,7 @@ public:
 	WNDPROC ChangeMessageProv(HWND hWnd, WNDPROC pWndProc);
 
 	//公开的消息处理回调函数
+	LRESULT CALLBACK Proc(MessageParam param);
 	LRESULT CALLBACK Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 public:
 	/*以下操作适合父窗口*/

@@ -2,8 +2,8 @@
 using namespace std;
 
 
-SButton::SButton(SWidget *parent,LPTSTR name) :
-SWidget(parent)
+SButton::SButton(SWidget *parent, LPTSTR name) :
+SControl(parent)
 {
 	SetTitle(name);
 	SetStyle(WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON);
@@ -11,10 +11,6 @@ SWidget(parent)
 	//以下长宽必须按照文本要求
 	SetWidth(100);
 	SetHeight(20);
-
-	SetParent(parent);
-	SetMenu((HMENU)DEFAULT_MENU_VALUE);	//应该自动分配ID
-	SetInstance((HINSTANCE)::GetModuleHandle(NULL));
 
 	//回调初始化
 	m_fClicked = [=]{};
@@ -27,13 +23,13 @@ SButton::~SButton()
 
 BOOL SButton::OnPreCreate()
 {
-	return SWidget::Register(TEXT("button"),NULL);
+	return SControl::Register(TEXT("button"), NULL);
 }
 
-LRESULT CALLBACK SButton::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK SButton::OnProc(MessageParam param)
 {
 	//使用Lamdba表达式进行消息处理
-	WORD command = HIWORD(wParam);
+	WORD command = HIWORD(param.wParam);
 	switch (command)
 	{
 	case BN_CLICKED:
@@ -41,18 +37,18 @@ LRESULT CALLBACK SButton::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 		OnClicked();
 		break;
 	default:
-		return SMessageHandler::OnProc(hWnd, message, wParam, lParam);
+		return SControl::OnProc(param);
 	}
 	return 0;
 }
 ////
 void SButton::SetText(SString str)
 {
-	SWidget::SetTitle((LPTSTR)str.c_str());
+	SControl::SetTitle((LPTSTR)str.c_str());
 }
 SString SButton::GetText()
 {
-	return SWidget::GetTitle();
+	return SControl::GetTitle();
 }
 
 

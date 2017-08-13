@@ -4,6 +4,38 @@ using namespace std;
 //记录对象消息函数的MAP
 SMessageHandler::WndHandlerMap SMessageHandler::s_WndHandlerMap;
 
+
+/////
+
+
+
+SMessageHandler::MessageParam::MessageParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam) :
+hWnd(hWnd), uMsg(message), wParam(wParam), lParam(lParam)
+{
+
+}
+
+
+WORD SMessageHandler::MessageParam::GetCommand()
+{
+	return HIWORD(wParam);
+}
+///
+SMessageHandler::wnd_hash::wnd_hash()
+{
+
+}
+
+size_t SMessageHandler::wnd_hash::operator()(const HWND& hwnd) const
+{
+	return size_t(hwnd);
+}
+
+bool SMessageHandler::wnd_hash::operator()(const HWND& hwnd1, const HWND& hwnd2) const
+{
+	return   hwnd1 != hwnd2;
+}
+///
 WNDPROC SMessageHandler::GetMessageHandlerProc()
 {
 	return MessageHandlerProc;
@@ -45,9 +77,16 @@ WNDPROC SMessageHandler::ChangeMessageProv(HWND hWnd, WNDPROC pWndProc)
 	SubClass(hWnd);
 	return (WNDPROC)::SetWindowLongW(hWnd, GWL_WNDPROC, (long)pWndProc);
 }
+
+LRESULT CALLBACK SMessageHandler::Proc(MessageParam param)
+{
+	return OnProc(param);
+}
+
+
 LRESULT CALLBACK SMessageHandler::Proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	return OnProc(hWnd, message, wParam, lParam);
+	return OnProc(MessageParam(hWnd, message, wParam, lParam));
 }
 
 
@@ -112,9 +151,10 @@ void SMessageHandler::UnSubChildClass(HWND hwnd, SMessageHandler *parent)
 }
 
 //默认处理
-LRESULT CALLBACK SMessageHandler::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK SMessageHandler::OnProc(MessageParam param)
 {
-	return ::DefWindowProc(hWnd, message, wParam, lParam);
+	//最后两个参数不能颠倒
+	return ::DefWindowProc(param.hWnd, param.uMsg, param.wParam, param.lParam);
 }
 
 /////////////////
@@ -124,13 +164,13 @@ LRESULT CALLBACK SMessageHandler::MessageHandlerProc(HWND hWnd,		//窗口句柄
 	LPARAM lParam)		//消息参数
 {
 	//NOTE:使用GetParent()无法判断自定义的子窗口,只能判断系统的默认子窗口
+	//NOTE:使用SetParent()会对自定义子窗口造成影响,变成子控件
 	HWND parent = ::GetParent(hWnd);
 	if (parent == NULL){
 		//TODO:还要判断是否只是一个控件,否则子窗口事件开线程让子窗口自行处理,模态窗口交由父窗口处理
 		return SMessageHandler::ParentMessageHandlerProc(hWnd, message, wParam, lParam);
 	}
 	else{
-		//DOUBT:?子窗口没有执行到这里??????
 		return SMessageHandler::ChildMessageHandlerProc(hWnd, message, wParam, lParam);
 	}
 }
@@ -139,7 +179,6 @@ LRESULT CALLBACK SMessageHandler::MessageHandlerProc(HWND hWnd,		//窗口句柄
 LRESULT CALLBACK SMessageHandler::ParentMessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	//NOTD:这里如果没有找到必须返回DefWindowProc(),否则可能无法成功创建窗体
-
 	SMessageHandler* handler = NULL;
 	WndHandlerMap::const_iterator itr = s_WndHandlerMap.find(hWnd);
 	if (itr == s_WndHandlerMap.end()){
@@ -151,7 +190,7 @@ LRESULT CALLBACK SMessageHandler::ParentMessageHandlerProc(HWND hWnd, UINT messa
 			//TODO:应该判断以下指针属于那个对象的static_cast或dynamic_cast
 
 			if (handler != NULL)
-				return handler->OnProc(hWnd, message, wParam, lParam);
+				return handler->OnProc(MessageParam(hWnd, message, wParam, lParam));
 		}
 		return ::DefWindowProc(hWnd, message, wParam, lParam);
 
@@ -168,19 +207,19 @@ LRESULT CALLBACK SMessageHandler::ParentMessageHandlerProc(HWND hWnd, UINT messa
 				wnd_msg *msg= reinterpret_cast<wnd_msg *>(lParam);
 				itb = pChildMap->find(msg->hWnd);
 				if (itb != pChildMap->end()){
-					return itb->second->OnProc(msg->hWnd, msg->message, msg->wParam, msg->lParam);
+					return itb->second->OnProc(MessageParam(msg->hWnd, msg->uMsg, msg->wParam, msg->lParam));
 				}
 				delete msg;
 			}else{//系统消息
 				HWND childhWnd = reinterpret_cast<HWND>(lParam);
 				itb = pChildMap->find(childhWnd);
 				if (itb != pChildMap->end()){
-					return itb->second->OnProc(hWnd, message, wParam, lParam);
+					return itb->second->OnProc(MessageParam(hWnd, message, wParam, lParam));
 				}
 			}	
 		}
 
-		return handler->OnProc(hWnd, message, wParam, lParam);
+		return handler->OnProc(MessageParam(hWnd, message, wParam, lParam));
 	
 	}
 

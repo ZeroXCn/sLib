@@ -2,32 +2,15 @@
 
 
 SWindowActivityEvent::ActivityParam::ActivityParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam) :
-hWnd(hWnd), message(message), wParam(wParam), lParam(lParam)
+hWnd(hWnd), uMsg(message), wParam(wParam), lParam(lParam)
 {
 		
 };
 
-HWND &SWindowActivityEvent::ActivityParam::GetWnd()
-{
-	return this->hWnd;
-}
-UINT &SWindowActivityEvent::ActivityParam::GetMessage()
-{
-	return this->message;
-}
-WPARAM &SWindowActivityEvent::ActivityParam::GetWParam()
-{
-	return this->wParam;
-}
-LPARAM &SWindowActivityEvent::ActivityParam::GetLParam()
-{
-	return this->lParam;
-}
-
 
 ///////////////////////////////
 //控件创建之前
-BOOL SWindowActivityEvent::OnCreate(ActivityParam &param)
+BOOL SWindowActivityEvent::OnCreate(ActivityParam param)
 {
 	return TRUE;
 }
@@ -44,13 +27,13 @@ void SWindowActivityEvent::OnEvent()
 
 }
 
-void SWindowActivityEvent::OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+void SWindowActivityEvent::OnCommand(ActivityParam param)
 {
 
 }
 
 //关闭窗口
-BOOL SWindowActivityEvent::OnClose(ActivityParam &param)
+BOOL SWindowActivityEvent::OnClose(ActivityParam param)
 {
 	//DOUBT:这里的MessageBox无法正常显示,待解决
 	/*
@@ -63,19 +46,19 @@ BOOL SWindowActivityEvent::OnClose(ActivityParam &param)
 }
 
 //销毁窗口
-void SWindowActivityEvent::OnDestory(ActivityParam &param)
+void SWindowActivityEvent::OnDestory(ActivityParam param)
 {
 	//TODO:做销毁前最后的操作
 }
 
 //取得窗口焦点
-void SWindowActivityEvent::OnGetFocus(ActivityParam &param)
+void SWindowActivityEvent::OnGetFocus(ActivityParam param)
 {
 
 }
 
 //失去焦点
-void SWindowActivityEvent::OnLostFocus(ActivityParam &param)
+void SWindowActivityEvent::OnLostFocus(ActivityParam param)
 {
 
 }

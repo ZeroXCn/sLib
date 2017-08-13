@@ -309,6 +309,12 @@
     <ClInclude Include="sUi\SApplication.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sUi\SControl.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SEditText.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sUi\SMessageHandler.cpp">
@@ -510,6 +516,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sUi\SApplication.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SControl.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SEditText.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

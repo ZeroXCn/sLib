@@ -3,27 +3,10 @@
 
 
 SWindowInputEvent::InputParam::InputParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam) :
-hWnd(hWnd), message(message), wParam(wParam), lParam(lParam)
+hWnd(hWnd), uMsg(message), wParam(wParam), lParam(lParam)
 {
 
 };
-
-HWND &SWindowInputEvent::InputParam::GetWnd()
-{
-	return this->hWnd;
-}
-UINT &SWindowInputEvent::InputParam::GetMessage()
-{
-	return this->message;
-}
-WPARAM &SWindowInputEvent::InputParam::GetWParam()
-{
-	return this->wParam;
-}
-LPARAM &SWindowInputEvent::InputParam::GetLParam()
-{
-	return this->lParam;
-}
 
 
 int SWindowInputEvent::InputParam::GetMouseX()
@@ -58,47 +41,47 @@ BOOL SWindowInputEvent::InputParam::GetKeyboardState(PBYTE lpKeyState)
 ///////////////////////////////
 
 //键盘按下
-void SWindowInputEvent::OnKeyDown(InputParam &param)
+void SWindowInputEvent::OnKeyDown(InputParam param)
 {
 
 }
 //键盘弹起
-void SWindowInputEvent::OnKeyUp(InputParam &param)
+void SWindowInputEvent::OnKeyUp(InputParam param)
 {
 
 }
 //鼠标左键按下
-void SWindowInputEvent::OnMouseLButtonDown(InputParam &param)
+void SWindowInputEvent::OnMouseLButtonDown(InputParam param)
 {
 
 }
 //鼠标左键弹起
-void SWindowInputEvent::OnMouseLButtonUp(InputParam &param)
+void SWindowInputEvent::OnMouseLButtonUp(InputParam param)
 {
 
 }
 //鼠标滚轮
-void SWindowInputEvent::OnMouseWheel(InputParam &param)
+void SWindowInputEvent::OnMouseWheel(InputParam param)
 {
 
 }
 //鼠标左键双击
-void SWindowInputEvent::OnMouseDoubleClick(InputParam &param)
+void SWindowInputEvent::OnMouseDoubleClick(InputParam param)
 {
 
 }
 //鼠标右键按下
-void SWindowInputEvent::OnMouseRButtonDown(InputParam &param)
+void SWindowInputEvent::OnMouseRButtonDown(InputParam param)
 {
 
 }
 //鼠标右键按下
-void SWindowInputEvent::OnMouseRButtonUp(InputParam &param)
+void SWindowInputEvent::OnMouseRButtonUp(InputParam param)
 {
 
 }
 //鼠标移动
-void SWindowInputEvent::OnMouseMove(InputParam &param)
+void SWindowInputEvent::OnMouseMove(InputParam param)
 {
 
 }

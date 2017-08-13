@@ -40,6 +40,7 @@ public:
 
 	//返回指定窗口的边框矩形的尺寸
 	BOOL GetWindowRect(LPRECT lpRect);
+	RECT GetWindowRect();
 
 	//获取窗口客户区的大小。注意一下：窗口的客户区为窗口中除标题栏、菜单栏之外的地方
 	BOOL GetClientRect(LPRECT lpRect);

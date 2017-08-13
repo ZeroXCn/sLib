@@ -78,7 +78,12 @@ BOOL SWnd::GetWindowRect(LPRECT lpRect)
 {
 	return ::GetWindowRect(m_hWnd, lpRect);
 }
-
+RECT SWnd::GetWindowRect()
+{
+	RECT rt = { 0, 0, 0, 0 };
+	GetWindowRect(&rt);
+	return rt;
+}
 
 BOOL SWnd::GetClientRect(LPRECT lpRect)
 {

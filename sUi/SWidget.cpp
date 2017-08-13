@@ -1,6 +1,5 @@
 #include "SWidget.h"
 
-int SWidget::g_nWidgetId = 100;
 ///
 SWidget::SWidget(SWidget *parent)
 {
@@ -18,9 +17,6 @@ SWidget::SWidget(SWidget *parent)
 	m_bEnabled = TRUE;
 	m_bVisible = TRUE;
 	m_bIsRunning = TRUE;
-	m_bSysClass = FALSE;
-
-	g_nWidgetId++;
 
 	lstrcpy(m_szTitle, TEXT("Widget"));
 	lstrcpy(m_szTip, TEXT(""));
@@ -359,25 +355,38 @@ BOOL SWidget::OnPreCreate()
 	wcApp.hbrBackground = (HBRUSH)(COLOR_WINDOW);				//设置窗口背景色
 	wcApp.lpszMenuName = NULL;									//设置窗口没有菜单
 
+	SApplication::GetApp()->RegisterWidget(this);
 	return Register(TEXT("swidget"), &wcApp);
 }
 
-//控件消息处理
-LRESULT CALLBACK SWidget::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+BOOL SWidget::OnAftCreate(SWnd sWnd)
 {
-	switch (message)
+	if (sWnd.GetHandle()){
+		
+		return TRUE;
+	}
+	else {
+		SApplication::GetApp()->UnRegisterWidget(this);		//反注册
+		return FALSE;
+	}
+}
+
+//控件消息处理
+LRESULT CALLBACK SWidget::OnProc(MessageParam param)
+{
+	switch (param.uMsg)
 	{
 	case WM_NCCREATE:
 		//TODO:感觉此处的hWnd可能与Create()返回的hWnd不一致
-		m_Wnd.SetHandle(hWnd);
+		m_Wnd.SetHandle(param.hWnd);
 		//NOTE:必须返回默认操作
-		return SMessageHandler::OnProc(hWnd, message, wParam, lParam);
+		return SMessageHandler::OnProc(param);
 		break;
 	case WM_DESTROY:				//程序销毁消息
 		PostQuitMessage(0);			//DOUBT:不靠谱,并不是退出自身的,会造成接收不到WM_QUIT消息
 		break;
 	default:
-		return SMessageHandler::OnProc(hWnd, message, wParam, lParam);
+		return SMessageHandler::OnProc(param);
 	}
 	return 0;
 }
@@ -440,15 +449,13 @@ BOOL SWidget::Register(LPTSTR szName, WNDCLASSEX *wcApp)
 {
 	//注册窗口类
 	if (szName){
-		BOOL result = TRUE;
 		if (wcApp){
-			m_bSysClass = FALSE;
 			SetParam((SMessageHandler *)this);		//设置参数,让消息顺序能正确执行到对象消息,必须带上类型
 			wcApp->lpszClassName = szName;
 			wcApp->lpfnWndProc = m_pWndProc;		//指定消息处理函数
-			result = RegisterClassEx(wcApp);
+			if (!RegisterClassEx(wcApp))
+				return FALSE;
 		}
-		else m_bSysClass = TRUE;
 
 		SetClassName(szName);
 		return TRUE;
@@ -481,26 +488,11 @@ BOOL SWidget::Create()
 		m_hInstance,								//程序实例句柄
 		m_lpParam);									//传递给消息函数的指针
 
-	if (!hWnd){										//如果窗口建立失败则返回FALSE
-		::MessageBox(NULL, TEXT("注册窗口失败"), TEXT("error"), 0);
-		SApplication::GetApp()->UnRegisterWidget(this);	//反注册
+	if (!OnAftCreate(hWnd)){
 		return FALSE;
-	}else{
-	
-		m_Wnd.SetHandle(hWnd);								//设置句柄
-		//DOUBT(02/08/17)TODO:自定义的窗口返回的hWnd居然没有设置parent???????
-		//NOTE:这里如果手动SetParent(),则会内嵌到主窗口(子控件可以这么做,但子窗口不能这样)
-		//TODO:需要添加判断-如果是自定义子控件,需要手动SetParent(),否则不用
-		//TODO:如何判断是子控件还是子窗口???
-		//TODO:但问题是只有SetParent()的控件才能接收自定义消息
-		//TODO:目前解决方法:子窗口交由全局消息处理--问题是与父窗口同处一线程,子窗口退出父窗口也完蛋??
-
-
-		m_Wnd.SetParent(m_pParent ? m_pParent->GetWnd().GetHandle() : NULL);
-
-		return TRUE;
 	}
-	
+	m_Wnd.SetHandle(hWnd);					//设置句柄
+	return TRUE;
 }
 
 //销毁控件

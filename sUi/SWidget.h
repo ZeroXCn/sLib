@@ -1,6 +1,6 @@
 /**
 * SWidget类
-* 所有控件的基类
+* 所有部件的基类
 * @author ZeroX
 * @version v1.0 21/07/2017
 */
@@ -13,8 +13,25 @@
 #ifndef _SWIDGET_H_
 #define _SWIDGET_H_
 
-#define DEFAULT_MENU_VALUE g_nWidgetId
 #include <Windows.h>
+
+//用于创建win的属性表
+typedef struct tagWindowAttribute
+{
+	LPCTSTR lpClassName;
+	LPCTSTR lpWindowName;
+	DWORD dwStyle;
+	int x;
+	int y;
+	int nWidth;
+	int nHeight;
+	HWND hWndParent;
+	HMENU hMenu;
+	HANDLE hlnstance;
+	LPVOID lpParam;
+}WINDOWATTRIBUTE;
+
+
 
 class SWidget:
 	public SObject,
@@ -23,10 +40,8 @@ class SWidget:
 {
 	friend class SApplication;
 protected:
-	static int g_nWidgetId;			//记录控件ID的自增
-protected:
 	SWidget *m_pParent;				//父类控件
-
+	
 	SWnd m_Wnd;						//控件句柄
 
 	HINSTANCE m_hInstance;			//当前控件实例句柄
@@ -43,8 +58,6 @@ protected:
 	BOOL m_bVisible;				//是否可见
 
 	TCHAR m_szTip[64];				//提示
-
-	BOOL m_bSysClass;				//是否为系统类
 
 	BOOL m_bIsRunning;				//循环标记
 
@@ -158,10 +171,13 @@ protected:
 	//IMPORTMENT:父类不能调用子类函数,必须将以下方法写成接口
 	/*//IMPORTMENT:考虑到可设置静态消息回调函数,以下函数必须public,否则静态函数可能无法调用*/
 	//消息回调函数
-	virtual LRESULT CALLBACK OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT CALLBACK OnProc(MessageParam param);
 
-	//注册一个类-用来标记控件类型
+	//创建部件之前-用来标记控件类型
 	virtual BOOL OnPreCreate();
+
+	//创建部件之后
+	virtual BOOL OnAftCreate(SWnd sWnd);
 
 	//线程主循环部分
 	virtual void OnRun();

@@ -21,7 +21,7 @@ void SWindow::Init()
 	m_pInputEvent = (SWindowInputEvent *) this;
 	m_pActivityEvent = (SWindowActivityEvent *) this;
 
-	SApplication::GetApp()->RegisterWidget(this);
+	
 
 }
 
@@ -144,14 +144,15 @@ SWindowActivityEvent *SWindow::GetWindowActivityEvent()
 
 
 
-LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK SWindow::OnProc(MessageParam param)
 {
 	PAINTSTRUCT ps;					//定义，无初始化,由BeginPaint初始化
 	SDc dc;
-	SWindowActivityEvent::ActivityParam acParam(hWnd, message, wParam, lParam);
-	SWindowInputEvent::InputParam inParam(hWnd, message, wParam, lParam);
+	SWindowActivityEvent::ActivityParam acParam(param.hWnd, param.uMsg, param.wParam, param.lParam);
+	SWindowInputEvent::InputParam inParam(param.hWnd, param.uMsg, param.wParam, param.lParam);
 
-	switch (message)
+	//TODO:相同参数数量过多,会影响速度
+	switch (param.uMsg)
 	{
 	case WM_CREATE:					//窗口建立消息:CreateWindow函数请求创建窗口时发送此消息
 		m_pActivityEvent->OnCreate(acParam);
@@ -168,7 +169,7 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 		break;
 	case WM_COMMAND:
-		m_pActivityEvent->OnCommand(hWnd, message, wParam, lParam);
+		m_pActivityEvent->OnCommand(acParam);
 		break;
 
 	case WM_KEYDOWN:				//按键消息  
@@ -215,7 +216,7 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 	case WM_CLOSE:					//窗口关闭消息
 		if (m_pActivityEvent->OnClose(acParam))				//窗口关闭前的处理
-			::DestroyWindow(hWnd);	//发出销毁窗口消息
+			::DestroyWindow(param.hWnd);	//发出销毁窗口消息
 		break;
 
 	case WM_DESTROY:				//程序销毁消息
@@ -227,7 +228,7 @@ LRESULT CALLBACK SWindow::OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM 
 
 	default:
 		//调用父类的函数处理
-		return SWidget::OnProc(hWnd, message, wParam, lParam);
+		return SWidget::OnProc(param);
 	
 	}
 	return 0;
@@ -249,28 +250,10 @@ BOOL SWindow::OnPreCreate()
 	wcApp.lpszMenuName = NULL;									//设置窗口没有菜单
 
 	//注册窗口类
-	return SWidget::Register(TEXT("swindow"), &wcApp);
-}
+	if (!SWidget::Register(TEXT("swindow"), &wcApp))
+		return FALSE;
+	
 
-void SWindow::OnRunning()
-{
-	m_pActivityEvent->OnEvent();
-	SWidget::OnRunning();
-}
-
-void SWindow::OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	//TODO:处理子控件消息
-	//事件交由子控件自身处理-这里处理没有受到注册控件的消息
-
-		
-}
-
-////////////////////////
-
-//创建控件
-BOOL SWindow::Create()
-{
 	/*使用DEVMODE结构设置屏幕显示模式*/
 	DEVMODE DevMode;
 	ZeroMemory(&DevMode, sizeof(DevMode));					//将结构DevMode的内存清零
@@ -342,7 +325,35 @@ BOOL SWindow::Create()
 	m_nWidth += 10;
 	m_nHeight += 8;
 
-	return SWidget::Create();
-	
+	SApplication::GetApp()->RegisterWidget(this);
+
+	return TRUE;
+}
+
+BOOL SWindow::OnAftCreate(SWnd sWnd)
+{
+	if (!sWnd.GetHandle()){	
+		SApplication::GetApp()->UnRegisterWidget(this);									//如果窗口建立失败则返回FALSE
+		::MessageBox(NULL, TEXT("注册窗口失败"), TEXT("error"), 0);
+		
+		return FALSE;
+	}
+	return TRUE;
+
+}
+
+//
+void SWindow::OnRunning()
+{
+	m_pActivityEvent->OnEvent();
+	SWidget::OnRunning();
+}
+
+void SWindow::OnCommand(ActivityParam &param)
+{
+	//TODO:处理子控件消息
+	//事件交由子控件自身处理-这里处理没有受到注册控件的消息
+
+		
 }
 

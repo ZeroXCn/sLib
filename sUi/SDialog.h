@@ -7,8 +7,10 @@
 #include "SWindow.h"
 #ifndef _SDIALOG_H_
 #define _SDIALOG_H_
+
 class SDialog :public SWindow
 {
-
+public:
+	SDialog(SWidget *parent = NULL);
 };
 #endif

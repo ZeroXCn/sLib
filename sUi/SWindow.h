@@ -99,21 +99,20 @@ protected:
 	/* 以下函数为接口重写函数 */
 
 	//消息回调函数
-	virtual LRESULT CALLBACK OnProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	virtual LRESULT CALLBACK OnProc(MessageParam param);
 
-	//注册一个窗口类
+	//部件创建之前
 	virtual BOOL OnPreCreate();
+
+	//部件创建之后
+	virtual BOOL OnAftCreate(SWnd sWnd);
 
 	//线程空闲运行执行函数
 	virtual void OnRunning();
 
 	//处理子控件消息
-	virtual void OnCommand(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+	virtual void OnCommand(ActivityParam &param);
 
-
-public:
-	//创建控件
-	virtual BOOL Create();
 	
 };
 #endif

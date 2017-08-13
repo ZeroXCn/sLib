@@ -6,14 +6,14 @@
 */
 #include "../sCore/SString.h"
 #include "../sGraphic/SFont.h"
-#include "SWidget.h"
+#include "SControl.h"
 #ifndef _SLABEL_H_
 #define _SLABEL_H_
 
-class SLabel :public SWidget
+class SLabel :public SControl
 {
 public:
-	SLabel(SWidget *parent = NULL,LPTSTR name = TEXT("This is a Label") );
+	SLabel(SWidget *parent = NULL, LPTSTR name = TEXT("This is a Label"));
 	virtual ~SLabel();
 protected:
 	//注册一个类-用来标记控件类型

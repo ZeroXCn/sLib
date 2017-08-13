@@ -20,18 +20,12 @@ public:
 	class InputParam
 	{
 	public:
-		HWND &hWnd;			//句柄
-		UINT &message;		//消息
-		WPARAM &wParam;		//参数1
-		LPARAM &lParam;		//参数2
+		HWND hWnd;			//句柄
+		UINT uMsg;		//消息
+		WPARAM wParam;		//参数1
+		LPARAM lParam;		//参数2
 	public:
 		InputParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam);
-	public:
-		HWND &GetWnd();
-		UINT &GetMessage();
-		WPARAM &GetWParam();
-		LPARAM &GetLParam();
-
 
 	public:
 		//取得鼠标X,Y坐标
@@ -51,23 +45,23 @@ public:
 	};
 public:
 	//键盘按下
-	virtual void OnKeyDown(InputParam &param);
+	virtual void OnKeyDown(InputParam param);
 	//键盘弹起
-	virtual void OnKeyUp(InputParam &param);
+	virtual void OnKeyUp(InputParam param);
 	//鼠标左键按下
-	virtual void OnMouseLButtonDown(InputParam &param);
+	virtual void OnMouseLButtonDown(InputParam param);
 	//鼠标左键弹起
-	virtual void OnMouseLButtonUp(InputParam &param);
+	virtual void OnMouseLButtonUp(InputParam param);
 	//鼠标滚轮
-	virtual void OnMouseWheel(InputParam &param);
+	virtual void OnMouseWheel(InputParam param);
 	//鼠标左键双击
-	virtual void OnMouseDoubleClick(InputParam &param);
+	virtual void OnMouseDoubleClick(InputParam param);
 	//鼠标右键按下
-	virtual void OnMouseRButtonDown(InputParam &param);
+	virtual void OnMouseRButtonDown(InputParam param);
 	//鼠标右键按下
-	virtual void OnMouseRButtonUp(InputParam &param);
+	virtual void OnMouseRButtonUp(InputParam param);
 	//鼠标移动
-	virtual void OnMouseMove(InputParam &param);
+	virtual void OnMouseMove(InputParam param);
 
 };
 
