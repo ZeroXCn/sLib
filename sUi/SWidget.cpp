@@ -12,8 +12,8 @@ SWidget::SWidget(SWidget *parent)
 
 	m_nPosX = 0;
 	m_nPosY = 0;
-	m_nWidth = 0;
-	m_nHeight = 0;
+	m_nWidth = 800;
+	m_nHeight = 600;
 	m_bEnabled = TRUE;
 	m_bVisible = TRUE;
 	m_bIsRunning = TRUE;
@@ -376,6 +376,8 @@ LRESULT CALLBACK SWidget::OnProc(MessageParam param)
 {
 	switch (param.uMsg)
 	{
+		/* NOTE:非常重要,为OnCreate()函数提供m_Wnd */
+		/* TODO:WM_NCCREATE执行应该有消息类处理,放在此处出处理不妥当 */
 	case WM_NCCREATE:
 		//TODO:感觉此处的hWnd可能与Create()返回的hWnd不一致
 		m_Wnd.SetHandle(param.hWnd);
@@ -456,7 +458,7 @@ BOOL SWidget::Register(LPTSTR szName, WNDCLASSEX *wcApp)
 			if (!RegisterClassEx(wcApp))
 				return FALSE;
 		}
-
+		/* TODO:最好将系统类的消息回调也改为自定义的-比较好控制 */
 		SetClassName(szName);
 		return TRUE;
 	}
@@ -491,7 +493,7 @@ BOOL SWidget::Create()
 	if (!OnAftCreate(hWnd)){
 		return FALSE;
 	}
-	m_Wnd.SetHandle(hWnd);					//设置句柄
+
 	return TRUE;
 }
 

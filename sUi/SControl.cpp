@@ -15,10 +15,17 @@ SControl::SControl(SWidget *parent) :SWidget(parent)
 	g_nControlId++;
 }
 
+BOOL SControl::OnPreCreate()
+{
+	/* 通用操作 */
+	return TRUE;
+}
+
 BOOL SControl::OnAftCreate(SWnd sWnd)
 {
 	//所有控件都必须SetParent();并且加入父类的自控列表
 	//TODO:需要添加判断
+	m_Wnd.SetHandle(sWnd.GetHandle());						//系统控件的消息不执行WM_NCCREATE自定义内容,只能在此在进行一次
 	m_Wnd.SetParent(GetParent() ? GetParent()->GetWnd().GetHandle() : NULL);
 	SubChildClass(sWnd.GetHandle(), (SMessageHandler *)GetParent());
 

@@ -17,6 +17,8 @@ protected:
 protected:
 	SControl(SWidget *parent = NULL);
 protected:
+	//创建成功前
+	virtual BOOL OnPreCreate();
 	//创建成功后
 	virtual BOOL OnAftCreate(SWnd sWnd);
 	//消息处理

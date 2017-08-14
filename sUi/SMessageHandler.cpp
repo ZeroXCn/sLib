@@ -184,6 +184,10 @@ LRESULT CALLBACK SMessageHandler::ParentMessageHandlerProc(HWND hWnd, UINT messa
 	if (itr == s_WndHandlerMap.end()){
 		//NOTE:窗体未返回hWnd时的消息顺序WM_GETMINMAXINFO,WM_NCCREATE,WM_NCCALCSIZE,WM_CREATE
 		//TODO:拦截消息,使返回hWnd之前能正确执行到子类的回调函数
+
+		/*以下内容有待修正,必须在此类中完成*/
+		/* 必须在WM_CREATE之前将hWnd值赋给handler,否则无法从类中获取hWnd */
+
 		if (message == WM_NCCREATE || message == WM_CREATE) {
 			LPCREATESTRUCT lpcs = reinterpret_cast<LPCREATESTRUCT>(lParam);
 			handler = static_cast<SMessageHandler*>(lpcs->lpCreateParams);

@@ -8,20 +8,17 @@ void SWindow::Init()
 {
 	//NOTE:这里的m_szTitle不允许出现重复,因为按标题查找可能会查到多个窗口
 
-	_stprintf_s(m_szTitle, TEXT("Window"));
-
-	//NOTO:仅当加载 WIN 预设图标时 Instance 为NULL
-	m_hIcon = LoadIcon(NULL, IDI_APPLICATION);
-	m_hSmallIcon = LoadIcon(NULL, IDI_APPLICATION);
-	m_hCursor = LoadCursor(NULL, IDC_ARROW);
-
-	m_bFullScreen = FALSE;
-	m_nColorbit = 32;
+	SetTitle(TEXT("Window"));
+	SetBigIcon(LoadIcon(NULL, IDI_APPLICATION));
+	SetSmallIcon(LoadIcon(NULL, IDI_APPLICATION));
+	SetCursorIcon(LoadCursor(NULL, IDC_ARROW));
+	SetFullScreen(FALSE);
+	SetColorbit(32);
+	SetWidth(800);
+	SetHeight(600);
 
 	m_pInputEvent = (SWindowInputEvent *) this;
 	m_pActivityEvent = (SWindowActivityEvent *) this;
-
-	
 
 }
 

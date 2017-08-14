@@ -16,7 +16,7 @@
 #include <Windows.h>
 
 //用于创建win的属性表
-typedef struct tagWindowAttribute
+typedef struct tagWINATTRIBUTE
 {
 	LPCTSTR lpClassName;
 	LPCTSTR lpWindowName;
@@ -29,7 +29,7 @@ typedef struct tagWindowAttribute
 	HMENU hMenu;
 	HANDLE hlnstance;
 	LPVOID lpParam;
-}WINDOWATTRIBUTE;
+}WINATTRIBUTE;
 
 
 
@@ -44,6 +44,15 @@ protected:
 	
 	SWnd m_Wnd;						//控件句柄
 
+	BOOL m_bEnabled;				//控件是否可用
+	BOOL m_bVisible;				//是否可见
+
+	TCHAR m_szTip[64];				//提示
+
+	BOOL m_bIsRunning;				//循环标记
+
+	SThread *m_pThread;				//线程
+	/* TODO:以下属性项过于冗余 */
 	HINSTANCE m_hInstance;			//当前控件实例句柄
 	HMENU m_hMenu;					//菜单实例句柄或者记录控件ID
 	LPVOID m_lpParam;				//传递给消息函数的参数指针
@@ -54,14 +63,7 @@ protected:
 
 	int	m_nPosX, m_nPosY;			//控件位置
 	int	m_nWidth, m_nHeight;		//控件宽度和高度
-	BOOL m_bEnabled;				//控件是否可用
-	BOOL m_bVisible;				//是否可见
 
-	TCHAR m_szTip[64];				//提示
-
-	BOOL m_bIsRunning;				//循环标记
-
-	SThread *m_pThread;				//线程
 
 public:
 	SWidget(SWidget *parent = NULL);

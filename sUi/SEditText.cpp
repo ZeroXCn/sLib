@@ -49,7 +49,7 @@ void SEditText::SetCurrentText(SString str)
 }
 SString SEditText::GetCurrentText()
 {
-	TCHAR ret[256];
+	TCHAR ret[256] = { 0 };
 	GetWnd().SendMessage(WM_GETTEXT, 256, (LPARAM)ret);
 	return ret;
 }
