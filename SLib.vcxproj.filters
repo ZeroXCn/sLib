@@ -141,9 +141,6 @@
     <ClInclude Include="sParser\extern\inifile2\inifile.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sHelper\SStringHelper.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sCore\SRegex.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -313,6 +310,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sUi\SEditText.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sHelper\SMathHelper.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sHelper\SStringHelper.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SInstance.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -522,6 +528,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sUi\SEditText.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SInstance.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

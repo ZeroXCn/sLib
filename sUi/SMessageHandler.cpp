@@ -70,7 +70,7 @@ void SMessageHandler::SetMessageProc(WNDPROC pWndProc)
 
 }
 
-WNDPROC SMessageHandler::ChangeMessageProv(HWND hWnd, WNDPROC pWndProc)
+WNDPROC SMessageHandler::ChangeMessageProc(HWND hWnd, WNDPROC pWndProc)
 {
 	UnSubClass(hWnd);
 	SetMessageProc(pWndProc);
@@ -211,18 +211,18 @@ LRESULT CALLBACK SMessageHandler::ParentMessageHandlerProc(HWND hWnd, UINT messa
 				wnd_msg *msg= reinterpret_cast<wnd_msg *>(lParam);
 				itb = pChildMap->find(msg->hWnd);
 				if (itb != pChildMap->end()){
-					return itb->second->OnProc(MessageParam(msg->hWnd, msg->uMsg, msg->wParam, msg->lParam));
+					itb->second->OnProc(MessageParam(msg->hWnd, msg->uMsg, msg->wParam, msg->lParam));
 				}
 				delete msg;
 			}else{//系统消息
 				HWND childhWnd = reinterpret_cast<HWND>(lParam);
 				itb = pChildMap->find(childhWnd);
 				if (itb != pChildMap->end()){
-					return itb->second->OnProc(MessageParam(hWnd, message, wParam, lParam));
+					itb->second->OnProc(MessageParam(hWnd, message, wParam, lParam));
 				}
 			}	
 		}
-
+		//最后任交由父窗口处理
 		return handler->OnProc(MessageParam(hWnd, message, wParam, lParam));
 	
 	}

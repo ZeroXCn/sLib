@@ -6,18 +6,26 @@ SControl::SControl(SWidget *parent) :SWidget(parent)
 {
 	/* 无论是否重载此类,都必须加入父类的控件列表 */
 	/* 另外,如果存在父类则为控件,否则变为窗口 */
+	GetWndClassEx()->style = CS_HREDRAW;	//没有关闭窗口的样式
 
-	SetMenu((HMENU)DEFAULT_MENU_VALUE);	//应该自动分配ID
-	SetInstance((HINSTANCE)::GetModuleHandle(NULL));
+	GetWindowAttribute()->hMenu = (HMENU)DEFAULT_MENU_VALUE;
+	GetWindowAttribute()->hInstance = (HINSTANCE)::GetModuleHandle(NULL);
+	
 
+	m_pWndClassEx->lpszClassName = NULL;
 	//控件样式都含有WS_CHILD | WS_VISIBLE
 
 	g_nControlId++;
 }
+SControl::~SControl()
+{
 
-BOOL SControl::OnPreCreate()
+}
+
+BOOL SControl::OnPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute)
 {
 	/* 通用操作 */
+	
 	return TRUE;
 }
 

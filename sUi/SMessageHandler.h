@@ -77,7 +77,7 @@ public:
 	void SetMessageProc(WNDPROC pWndProc);
 
 	//改变消息处理函数
-	WNDPROC ChangeMessageProv(HWND hWnd, WNDPROC pWndProc);
+	WNDPROC ChangeMessageProc(HWND hWnd, WNDPROC pWndProc);
 
 	//公开的消息处理回调函数
 	LRESULT CALLBACK Proc(MessageParam param);

@@ -8,6 +8,7 @@
 #include "../sCore/SThread.h"
 #include "../sGraphic/SDc.h"
 #include "SWnd.h"
+#include "SInstance.h"
 #include "SApplication.h"
 #include "SMessageHandler.h"
 #ifndef _SWIDGET_H_
@@ -21,15 +22,20 @@ typedef struct tagWINATTRIBUTE
 	LPCTSTR lpClassName;
 	LPCTSTR lpWindowName;
 	DWORD dwStyle;
-	int x;
-	int y;
+	int nPosX;
+	int nPosY;
 	int nWidth;
 	int nHeight;
 	HWND hWndParent;
 	HMENU hMenu;
-	HANDLE hlnstance;
+	HINSTANCE hInstance;
 	LPVOID lpParam;
-}WINATTRIBUTE;
+
+	//附加项
+	BOOL bEnabled;
+	BOOL bVisible;
+
+}WINATTRIBUTE, *LPWINATTRIBUTE;
 
 
 
@@ -39,65 +45,61 @@ class SWidget:
 	public SMessageHandler
 {
 	friend class SApplication;
+public:
+	//注册一个类
+	static ATOM SWidget::RegisterWidget(const WNDCLASSEX *wxClassEx);
+	//创建一个窗口
+	static HWND SWidget::CreateWidget(const WINATTRIBUTE *waWinAttribute);
 protected:
 	SWidget *m_pParent;				//父类控件
 	
 	SWnd m_Wnd;						//控件句柄
-
-	BOOL m_bEnabled;				//控件是否可用
-	BOOL m_bVisible;				//是否可见
-
-	TCHAR m_szTip[64];				//提示
-
-	BOOL m_bIsRunning;				//循环标记
-
 	SThread *m_pThread;				//线程
-	/* TODO:以下属性项过于冗余 */
-	HINSTANCE m_hInstance;			//当前控件实例句柄
-	HMENU m_hMenu;					//菜单实例句柄或者记录控件ID
-	LPVOID m_lpParam;				//传递给消息函数的参数指针
 
-	TCHAR m_szClassName[64];		//控件类型名称
-	TCHAR m_szTitle[128];			//控件标题名称
-	DWORD m_dwStyle;				//声明控件风格变量
-
-	int	m_nPosX, m_nPosY;			//控件位置
-	int	m_nWidth, m_nHeight;		//控件宽度和高度
-
+	/* 以下属性只提供临时使用,Create()完成后自动释放 */
+	WNDCLASSEX *m_pWndClassEx;		//类属性
+	WINATTRIBUTE *m_pWinAttribute;	//窗口属性
 
 public:
 	SWidget(SWidget *parent = NULL);
 	virtual ~SWidget();
-
+private:
+	/* 私有操作 */
+	void InitAttribute();
+	BOOL DoPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute);
+	BOOL DoAftCreate(SWnd sWnd);
 public:
 	/* 控件通用操作 */
+	/* 属性表获取与设置 */
+	LPWNDCLASSEX GetWndClassEx();
+	LPWINATTRIBUTE GetWindowAttribute();
+public:
+	/* 部件的一些通用操作 */
 	//获取设置控件父类
 	SWidget *GetParent();
-	void SetParent(SWidget *parent);
-
-	//获取设置控件实例句柄
-	HINSTANCE GetInstance();
-	void SetInstance(HINSTANCE hInstance);
 
 	//获取设置控件句柄
 	SWnd GetWnd();
-	void SetWnd(SWnd pWnd);
-
-
-	// 设置菜单句柄-或者是控件ID 
-	void SetMenu(HMENU hMenu);
-	HMENU GetMenu();
-
-	// 设置参数 
-	void SetParam(LPVOID lpParam);
-	LPVOID GetParam();
 
 	//获取设备上下文
 	SDc GetDC();
+public:
+	/* 属性设置-包括动态和静态更换 */
+	/* 以下操作针对窗口-GWL_ */
+	// 获取设置控件可用状态 
+	BOOL IsEnabled();
+	void SetEnabled(BOOL bEnabled);
 
-	//设置获取控件类型名称
-	void SetClassName(LPTSTR szClassName);
-	LPTSTR GetClassName();
+	// 获取设置控件可见状态 
+	BOOL IsVisible();
+	void SetVisible(BOOL bVisible);
+
+	void SetInstance(HINSTANCE hInstance);
+	HINSTANCE GetInstance();
+
+	//取得设置文本字体
+	void SetFont(HFONT font);
+	HFONT GetFont();
 
 	// 设置控件标题 
 	void SetTitle(LPTSTR szTitle);
@@ -107,47 +109,49 @@ public:
 	// 设置控件样式 
 	void SetStyle(DWORD dwStyle);
 	DWORD GetStyle();
-	
+	BOOL IsHaveStyle(DWORD dwStyle);
+
 	// 获取设置控件位置 
 	POINT GetPos();
-	void SetPos(int x,int y);
-	void SetPos(POINT pt);
+	int GetPosX();
+	int GetPosY();
+	void SetPos(int x, int y);
+	void SetPosAtCenter();//设置坐标为屏幕中心
 	void MovePos(int x, int y);
-	void MovePos(POINT pt);
 
 	// 获取设置控件宽高 
 	int GetWidth();
 	int GetHeight();
 	void SetWidth(int nWidth);
 	void SetHeight(int nHeight);
+	SIZE GetSize();
 
 	// 获取设置控件矩形 
 	RECT GetRect();
 	void SetRect(RECT rt);
 
-	// 获取设置控件可用状态 
-	BOOL IsEnabled();
-	void SetEnabled(BOOL bEnabled);
+	/* 以下操作针对类-会影响父类的子类类型 */
+	/* WndClass属性变更-只支持静态GCL_ */
+	//替换菜单名
+	void SetMenuName(LPTSTR lpMenuName);
+	LPTSTR GetMenuName();
+	//设置大图标
+	void SetBigIcon(HICON szIcon);
+	HICON GetBigIcon();
+	//设置小图标
+	void SetSmallIcon(HICON szIcon);
+	HICON GetSmallIcon();
+	//设置鼠标指针
+	void SetCursorIcon(HICON szIcon);
+	HICON GetCursorIcon();
+	//替换背景画刷
+	void SetBkBr(HBRUSH hBr);
+	HBRUSH GetBkBr();
 
-	// 获取设置控件可见状态 
-	BOOL IsVisible();
-	void SetVisible(BOOL bVisible);
-
-	// 获取设置控件提示 
-	LPTSTR GetTip();
-	void SetTip(LPTSTR str);
-
-	//取得设置文本字体
-	void SetFont(HFONT font);
-	HFONT GetFont();
 public:
 	/* 窗口是否创建*/
 	BOOL IsCreated();
 
-
-protected: 
-	//退出消息循环-相当于结束线程
-		void SetRunning(BOOL bRunning);
 public:
 	// 置顶窗口
 	BOOL SetForegroundWindow();
@@ -176,7 +180,7 @@ protected:
 	virtual LRESULT CALLBACK OnProc(MessageParam param);
 
 	//创建部件之前-用来标记控件类型
-	virtual BOOL OnPreCreate();
+	virtual BOOL OnPreCreate(WNDCLASSEX *lpWndClassEx,WINATTRIBUTE *lpWinAttribute);
 
 	//创建部件之后
 	virtual BOOL OnAftCreate(SWnd sWnd);
@@ -193,11 +197,8 @@ public:
 	//入口和线程入口
 	virtual void Run() final;
 
-	//注册控件类-WNDCLASSEX *为空则表示使用系统默认(szName不能为空)
-	virtual BOOL Register(LPTSTR szName, WNDCLASSEX *wcApp);
-
 	//创建控件
-	virtual BOOL Create() ;
+	virtual BOOL Create() final;
 
 	//销毁控件
 	virtual void Destroy() ;

@@ -18,15 +18,16 @@ public:
 	SEditText(SWidget *parent = NULL, LPTSTR content = TEXT(""));
 	virtual ~SEditText();
 protected:
-	//注册一个类-用来标记控件类型
-	virtual BOOL OnPreCreate();
-
 	//消息处理
 	virtual LRESULT CALLBACK OnProc(MessageParam param);
 public:
 	//设置取得按钮文本
 	void SetCurrentText(SString str);
 	SString GetCurrentText();
+
+	//设置只读
+	BOOL IsReadOnly();
+	void SetReadOnly(BOOL bReadOnly);
 
 protected:
 	//文本发生改变

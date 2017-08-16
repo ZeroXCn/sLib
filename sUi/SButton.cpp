@@ -5,12 +5,13 @@ using namespace std;
 SButton::SButton(SWidget *parent, LPTSTR name) :
 SControl(parent)
 {
-	SetTitle(name);
-	SetStyle(WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON);
-	SetPos(0, 0);
-	//以下长宽必须按照文本要求
-	SetWidth(100);
-	SetHeight(20);
+	GetWindowAttribute()->lpClassName = TEXT("button");
+	GetWindowAttribute()->lpWindowName = name;
+	GetWindowAttribute()->dwStyle = WS_VISIBLE | WS_CHILD | BS_PUSHBUTTON;
+	GetWindowAttribute()->nPosX = 0; 
+	GetWindowAttribute()->nPosY = 0;
+	GetWindowAttribute()->nWidth = 100; 
+	GetWindowAttribute()->nHeight = 20;
 
 	//回调初始化
 	m_fClicked = [=]{};
@@ -21,10 +22,6 @@ SButton::~SButton()
 
 }
 
-BOOL SButton::OnPreCreate()
-{
-	return SControl::Register(TEXT("button"), NULL);
-}
 
 LRESULT CALLBACK SButton::OnProc(MessageParam param)
 {
@@ -33,7 +30,6 @@ LRESULT CALLBACK SButton::OnProc(MessageParam param)
 	switch (command)
 	{
 	case BN_CLICKED:
-		m_fClicked();
 		OnClicked();
 		break;
 	default:
@@ -60,4 +56,5 @@ void SButton::OnClicked(function<void(void)> callback)
 }
 void SButton::OnClicked()
 {
+	m_fClicked();
 }

@@ -24,9 +24,6 @@ class SWindow:
 {
 	static int s_winnum;					//设置一个用于记录窗口自增的参数
 protected:
-	HICON 		m_hIcon;					//程序图标（大）
-	HICON 		m_hSmallIcon;				//程序图标（小）
-	HCURSOR		m_hCursor;					//鼠标图标
 
 	BOOL		m_bFullScreen;				//是否全屏显示
 	int			m_nColorbit;				//色彩模式（32位、24位或16位）
@@ -35,8 +32,6 @@ protected:
 	SWindowInputEvent *m_pInputEvent;		//输入事件
 	SWindowActivityEvent *m_pActivityEvent;	//活动事件
 
-private:
-	void Init();
 public:
 
 	//声明空构造函数
@@ -61,14 +56,6 @@ public:
 		int nWidth = 800,					//设置窗口宽度，默认为800像素
 		int nHeight = 600);					//设置窗口高度，默认为600像素
 public:
-	/* 设置大图标 */
-	void SetBigIcon(HICON szIcon);
-
-	/* 设置小图标 */
-	void SetSmallIcon(HICON szIcon);
-
-	/* 设置鼠标指针*/
-	long SetCursorIcon(HICON szIcon);
 
 	/* 设置全屏模式 */
 	void SetFullScreen(BOOL bFullScreen);
@@ -103,7 +90,7 @@ protected:
 	virtual LRESULT CALLBACK OnProc(MessageParam param);
 
 	//部件创建之前
-	virtual BOOL OnPreCreate();
+	virtual BOOL OnPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute);
 
 	//部件创建之后
 	virtual BOOL OnAftCreate(SWnd sWnd);
@@ -111,8 +98,6 @@ protected:
 	//线程空闲运行执行函数
 	virtual void OnRunning();
 
-	//处理子控件消息
-	virtual void OnCommand(ActivityParam &param);
 
 	
 };

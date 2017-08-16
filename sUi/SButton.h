@@ -19,9 +19,6 @@ public:
 	SButton(SWidget *parent = NULL, LPTSTR name = TEXT("button"));
 	virtual ~SButton();
 protected:
-	//注册一个类-用来标记控件类型
-	virtual BOOL OnPreCreate();
-
 	//消息处理
 	virtual LRESULT CALLBACK OnProc(MessageParam param);
 

@@ -131,7 +131,8 @@
     <ClInclude Include="sGraphic\SPen.h" />
     <ClInclude Include="sGraphic\SRgn.h" />
     <ClInclude Include="sHelper\SFileHelper.hpp" />
-    <ClInclude Include="sHelper\SStringHelper.h" />
+    <ClInclude Include="sHelper\SMathHelper.hpp" />
+    <ClInclude Include="sHelper\SStringHelper.hpp" />
     <ClInclude Include="sCore\SBigInteger.h" />
     <ClInclude Include="sMedia\SMedia.h" />
     <ClInclude Include="sMisc\SCalendarInfo.hpp" />
@@ -168,6 +169,7 @@
     <ClInclude Include="sUi\SDialog.h" />
     <ClInclude Include="sUi\SButton.h" />
     <ClInclude Include="sUi\SEditText.h" />
+    <ClInclude Include="sUi\SInstance.h" />
     <ClInclude Include="sUi\SLabel.h" />
     <ClInclude Include="sUi\SMessageBox.h" />
     <ClInclude Include="sUi\SMessageHandler.h" />
@@ -238,6 +240,7 @@
     <ClCompile Include="sUi\SDialog.cpp" />
     <ClCompile Include="sUi\SButton.cpp" />
     <ClCompile Include="sUi\SEditText.cpp" />
+    <ClCompile Include="sUi\SInstance.cpp" />
     <ClCompile Include="sUi\SLabel.cpp" />
     <ClCompile Include="sUi\SMessageBox.cpp" />
     <ClCompile Include="sUi\SMessageHandler.cpp" />

@@ -25,8 +25,9 @@ public:
 	//获取控件句柄
 	HWND GetHandle();
 public:
-	//替换指定窗口所属类的WNDCLASSEX结构
+	//替换,获取指定窗口所属类的WNDCLASSEX结构
 	DWORD SetClassLong(int nlndex, LONG dwNewLong);
+	DWORD GetClassLong(int nlndex);
 
 	//改变指定窗口的标题栏的文本内容
 	BOOL SetWindowText(LPCTSTR lpString);
@@ -37,6 +38,7 @@ public:
 	//改变指定窗口的属性-用于改变回调函数-返回旧的回调函数
 	LONG SetWindowLong(int nIndex,LONG dwNewLong);
 	LONG GetWindowLong(int nIndex);
+
 
 	//返回指定窗口的边框矩形的尺寸
 	BOOL GetWindowRect(LPRECT lpRect);
@@ -96,6 +98,13 @@ public:
 	//获取父窗口句柄。
 	HWND GetParent();
 
+	//遍历子控件
+	HWND GetDlgItem(int nIDDDlgItem);
+
+	//将uValue的值设为对话框控件的文本
+	BOOL SetDlgItemInt(int nIDDDlgItem, UINT uValue, BOOL bSigned);
+	BOOL SetDlgItemText(int nIDDDlgItem, LPCTSTR IpString);
+
 	//获取指定窗口的先祖窗口的句柄。
 	HWND GetAncestor(UINT gaFlags);
 
@@ -110,5 +119,10 @@ public:
 
 	//枚举一个父窗口的所有子窗口。
 	BOOL EnumChildWindows(WNDENUMPROC lpEnumFunc, LPARAM lParam);
+
+	//窗口是否被隐藏
+	BOOL IsWindowVisible();
+
+
 };
 #endif

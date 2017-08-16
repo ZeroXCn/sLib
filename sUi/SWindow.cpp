@@ -4,52 +4,54 @@
 #include "SWindow.h"
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void SWindow::Init()
-{
-	//NOTE:这里的m_szTitle不允许出现重复,因为按标题查找可能会查到多个窗口
 
-	SetTitle(TEXT("Window"));
-	SetBigIcon(LoadIcon(NULL, IDI_APPLICATION));
-	SetSmallIcon(LoadIcon(NULL, IDI_APPLICATION));
-	SetCursorIcon(LoadCursor(NULL, IDC_ARROW));
-	SetFullScreen(FALSE);
-	SetColorbit(32);
-	SetWidth(800);
-	SetHeight(600);
-
-	m_pInputEvent = (SWindowInputEvent *) this;
-	m_pActivityEvent = (SWindowActivityEvent *) this;
-
-}
 
 /* 窗口空构造函数 */
 SWindow::SWindow(SWidget *parent, LPTSTR name) :
 	SWidget(parent)
 {
-	_stprintf_s(m_szTitle, name);
-	Init();
+	GetWndClassEx()->lpszClassName = TEXT("swindow");						//所注册的类
+	GetWndClassEx()->style = CS_HREDRAW;									//定义窗口风格
+	GetWndClassEx()->hIcon = LoadIcon(NULL, IDI_APPLICATION);				//加载程序图标（大）
+	GetWndClassEx()->hIconSm = LoadIcon(NULL, IDI_APPLICATION);				//加载程序图标（小）
+	GetWndClassEx()->hCursor = LoadCursor(NULL, IDC_ARROW);					//加载鼠标样式
+	GetWndClassEx()->hbrBackground = (HBRUSH)(COLOR_WINDOW);				//设置窗口背景色
+	GetWndClassEx()->lpszMenuName = NULL;									//设置窗口没有菜单
+
+
+	//NOTE:这里的m_szTitle不允许出现重复,因为按标题查找可能会查到多个窗口
+	GetWindowAttribute()->lpClassName = GetWndClassEx()->lpszClassName;		//所用窗口类
+	GetWindowAttribute()->lpWindowName = name;								//窗口标题
+	GetWindowAttribute()->nWidth = 800;										//窗口宽度
+	GetWindowAttribute()->nHeight = 600;									//窗口高度
+
+
+	m_bFullScreen = FALSE;
+	m_nColorbit = 32;
+	m_pInputEvent = (SWindowInputEvent *) this;
+	m_pActivityEvent = (SWindowActivityEvent *) this;
 }
 
 /* 窗口析构函数 */
 SWindow::~SWindow()
 {
-
 	SApplication::GetApp()->DestroyWidget(this);
 }
 
 void SWindow::SetAttribute(LPTSTR szTitle, HICON hIcon, HICON hSmallIcon, BOOL bFullScreen, int nColorbit, int nWidth, int nHeight)
 {
 	//将标题赋给m_szTitle
-	SetTitle(szTitle);					
+	GetWindowAttribute()->lpWindowName = szTitle;
 
 	/* 设置屏幕模式和大小 */
 	SetFullScreen(bFullScreen);
-	SetWidth(nWidth);
-	SetHeight(nHeight);
+	SetColorbit(nColorbit);
+	GetWindowAttribute()->nWidth = nWidth;
+	GetWindowAttribute()->nHeight = nHeight;
 
 	/*设置图标和光标*/
-	SetBigIcon(hIcon);
-	SetSmallIcon(hSmallIcon);
+	GetWndClassEx()->hIcon = hIcon;
+	GetWndClassEx()->hIconSm = hSmallIcon;
 
 }
 
@@ -57,39 +59,14 @@ void SWindow::SetAttribute(LPTSTR szTitle, int nWidth, int nHeight)
 {
 	SetAttribute(
 		szTitle,
-		m_hIcon,
-		m_hSmallIcon,
+		GetWndClassEx()->hIcon,
+		GetWndClassEx()->hIconSm,
 		m_bFullScreen,
 		m_nColorbit,
 		nWidth,
 		nHeight);
 
 }
-
-
-long SWindow::SetCursorIcon(HCURSOR hIcon){
-	
-	long lCur = (long)hIcon;
-	if (m_Wnd.GetHandle()){
-		m_Wnd.SetClassLong(GCL_HCURSOR, lCur);
-		return lCur;
-	}
-	else m_hCursor = hIcon;
-	return 0;
-}
-
-
-void SWindow::SetBigIcon(HICON hIcon)
-{
-	m_hIcon = hIcon;
-}
-
-
-void SWindow::SetSmallIcon(HICON hIcon)
-{
-	m_hSmallIcon = hIcon;
-}
-
 
 void SWindow::SetFullScreen(BOOL bFullScreen)
 {
@@ -101,6 +78,7 @@ void SWindow::SetColorbit(int nColorbit)
 {
 	m_nColorbit = nColorbit;
 }
+
 ////////////////
 /* 显示鼠标 */
 int SWindow::ShowCursor(BOOL bShow)
@@ -230,26 +208,13 @@ LRESULT CALLBACK SWindow::OnProc(MessageParam param)
 	}
 	return 0;
 }
-BOOL SWindow::OnPreCreate()
+BOOL SWindow::OnPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute)
 {
-	WNDCLASSEX wcApp;											//声明窗口类
-	//给窗口属性赋值
-	wcApp.cbSize = sizeof(wcApp);
-	wcApp.style = CS_HREDRAW;									//定义窗口风格
-	wcApp.lpfnWndProc = m_pWndProc;								//指定消息处理函数
-	wcApp.hInstance = m_hInstance;								//指定义窗口应用程序的句柄
-	wcApp.cbWndExtra = 0;										//指向窗口过程函数的指针. 可以使用 CallWindowProc函数调用窗口过程.
-	wcApp.cbClsExtra = 0;										//指定紧跟在类之后的附加内存空间的字节数. 系统初始化为0.
-	wcApp.hIconSm = m_hIcon;									//加载程序图标（大）
-	wcApp.hIcon = m_hSmallIcon;									//加载程序图标（小）
-	wcApp.hCursor = m_hCursor;									//加载鼠标样式
-	wcApp.hbrBackground = (HBRUSH)(COLOR_WINDOW);				//设置窗口背景色
-	wcApp.lpszMenuName = NULL;									//设置窗口没有菜单
-
-	//注册窗口类
-	if (!SWidget::Register(TEXT("swindow"), &wcApp))
-		return FALSE;
-	
+	int &nPosX = GetWindowAttribute()->nPosX;
+	int &nPosY = GetWindowAttribute()->nPosY;
+	int &nWidth = GetWindowAttribute()->nWidth;
+	int &nHeight = GetWindowAttribute()->nHeight;
+	DWORD &dwStyle = GetWindowAttribute()->dwStyle;
 
 	/*使用DEVMODE结构设置屏幕显示模式*/
 	DEVMODE DevMode;
@@ -269,11 +234,11 @@ BOOL SWindow::OnPreCreate()
 	}
 
 	//如果全屏状态下的屏幕尺寸与窗口不同；或屏幕尺寸小于窗口,都需要重设显示模式
-	if ((m_bFullScreen && m_nWidth != ::GetSystemMetrics(SM_CXSCREEN))
-		|| m_nWidth>GetSystemMetrics(SM_CXSCREEN))
+	if ((m_bFullScreen && nWidth != ::GetSystemMetrics(SM_CXSCREEN))
+		|| nWidth>GetSystemMetrics(SM_CXSCREEN))
 	{
-		DevMode.dmPelsWidth = m_nWidth;						//屏幕宽度
-		DevMode.dmPelsHeight = m_nHeight;					//屏幕高度	
+		DevMode.dmPelsWidth = nWidth;						//屏幕宽度
+		DevMode.dmPelsHeight = nHeight;					//屏幕高度	
 		bDisplayChange = TRUE;
 	}
 
@@ -300,29 +265,27 @@ BOOL SWindow::OnPreCreate()
 	{
 		/* 全屏状态下 */
 		//设置窗口左上角位置
-		m_nPosX = 0;
-		m_nPosY = 0;
-		m_dwStyle = WS_POPUP;			//设置游戏窗口风格为无边框的弹出式窗口
+		nPosX = 0;
+		nPosY = 0;
+		dwStyle = WS_POPUP;			//设置游戏窗口风格为无边框的弹出式窗口
 	}
 	else
 	{
 		/*非全屏状态下，窗口显示在屏幕中心*/
 		//计算加上边框后的窗口大小
-		m_nWidth = m_nWidth + GetSystemMetrics(SM_CXFIXEDFRAME) * 2;
-		m_nHeight = m_nHeight + GetSystemMetrics(SM_CYFIXEDFRAME) * 10;
+		nWidth = nWidth + GetSystemMetrics(SM_CXFIXEDFRAME) * 2;
+		nHeight = nHeight + GetSystemMetrics(SM_CYFIXEDFRAME) * 10;
 
 		//计算在窗口居中时，窗口左上角的位置
-		m_nPosX = (GetSystemMetrics(SM_CXSCREEN) - m_nWidth) / 2;
-		m_nPosY = (GetSystemMetrics(SM_CYSCREEN) - m_nHeight) / 2;
+		nPosX = (GetSystemMetrics(SM_CXSCREEN) - nWidth) / 2;
+		nPosY = (GetSystemMetrics(SM_CYSCREEN) - nHeight) / 2;
 
 		//设置游戏窗口风格为带标题栏和系统菜单和最小化的窗口
-		m_dwStyle = WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX;
+		dwStyle = WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX;
 	}
 
-	m_nWidth += 10;
-	m_nHeight += 8;
-
-	SApplication::GetApp()->RegisterWidget(this);
+	nWidth += 10;
+	nHeight += 8;
 
 	return TRUE;
 }
@@ -330,9 +293,7 @@ BOOL SWindow::OnPreCreate()
 BOOL SWindow::OnAftCreate(SWnd sWnd)
 {
 	if (!sWnd.GetHandle()){	
-		SApplication::GetApp()->UnRegisterWidget(this);									//如果窗口建立失败则返回FALSE
 		::MessageBox(NULL, TEXT("注册窗口失败"), TEXT("error"), 0);
-		
 		return FALSE;
 	}
 	return TRUE;
@@ -344,13 +305,5 @@ void SWindow::OnRunning()
 {
 	m_pActivityEvent->OnEvent();
 	SWidget::OnRunning();
-}
-
-void SWindow::OnCommand(ActivityParam &param)
-{
-	//TODO:处理子控件消息
-	//事件交由子控件自身处理-这里处理没有受到注册控件的消息
-
-		
 }
 

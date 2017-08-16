@@ -3,15 +3,13 @@
 SLabel::SLabel(SWidget *parent, LPTSTR name) :
 SControl(parent)
 {
-	SetTitle(name);
-	SetStyle(WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT );
-	SetPos(0, 0);
-
-	//以下长宽必须按照文本要求
-	SetWidth(100);
-	SetHeight(100);
-
-
+	GetWindowAttribute()->lpClassName = TEXT("static");
+	GetWindowAttribute()->lpWindowName = name;
+	GetWindowAttribute()->dwStyle = WS_CHILD | WS_VISIBLE | WS_TABSTOP | ES_LEFT;
+	GetWindowAttribute()->nPosX = 0; 
+	GetWindowAttribute()->nPosY = 0;
+	GetWindowAttribute()->nWidth = 100; 
+	GetWindowAttribute()->nHeight = 100;
 }
 SLabel::~SLabel()
 {
@@ -27,13 +25,7 @@ SString SLabel::GetText()
 {
 	return SControl::GetTitle();
 }
-
-
-///
-BOOL SLabel::OnPreCreate()
-{
-	return SControl::Register(TEXT("static"), NULL);
-}
+//
 
 //调整到文本大小
 void SLabel::AdjustText()

@@ -53,6 +53,11 @@ DWORD SWnd::SetClassLong(int nlndex, LONG dwNewLong)
 	return ::SetClassLong(m_hWnd, nlndex, dwNewLong);
 }
 
+DWORD SWnd::GetClassLong(int nlndex)
+{
+	return ::GetClassLong(m_hWnd, nlndex);
+}
+
 BOOL SWnd::SetWindowText(LPCTSTR lpString)
 {
 	return ::SetWindowText(m_hWnd, lpString);
@@ -164,6 +169,22 @@ HWND SWnd::GetParent()
 	return ::GetParent(m_hWnd);
 }
 
+//±éÀú×Ó¿Ø¼þ
+HWND SWnd::GetDlgItem(int nIDDDlgItem)
+{
+	return ::GetDlgItem(m_hWnd, nIDDDlgItem);
+}
+
+BOOL SWnd::SetDlgItemInt(int nIDDDlgItem, UINT uValue, BOOL bSigned)
+{
+	return ::SetDlgItemInt(m_hWnd, nIDDDlgItem, uValue, bSigned);
+}
+
+BOOL SWnd::SetDlgItemText(int nIDDDlgItem, LPCTSTR IpString)
+{
+	return ::SetDlgItemText(m_hWnd, nIDDDlgItem, IpString);
+}
+
 HWND SWnd::GetAncestor(UINT gaFlags)
 {
 	return ::GetAncestor(m_hWnd, gaFlags);
@@ -187,4 +208,8 @@ BOOL SWnd::PostMessage(UINT Msg, WPARAM wParam, LPARAM lParam)
 BOOL SWnd::EnumChildWindows(WNDENUMPROC lpEnumFunc, LPARAM lParam)
 {
 	return ::EnumChildWindows(m_hWnd, lpEnumFunc, lParam);
+}
+BOOL SWnd::IsWindowVisible()
+{
+	return ::IsWindowVisible(m_hWnd);
 }

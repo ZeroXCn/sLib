@@ -11,7 +11,7 @@
 
 #ifndef _SWINDOWINPUTEVENT_H_
 #define _SWINDOWINPUTEVENT_H_
-
+#include <functional>
 #include <Windows.h>
 
 class SWindowInputEvent
@@ -43,6 +43,20 @@ public:
 		//判断虚拟按键是否被按下
 		static BOOL GetKeyboardState(PBYTE lpKeyState);
 	};
+private:
+	std::function<void(InputParam)> m_fKeyDown;
+	std::function<void(InputParam)> m_fKeyUp;
+	std::function<void(InputParam)> m_fMouseLButtonDown;
+	std::function<void(InputParam)> m_fMouseLButtonUp;
+	std::function<void(InputParam)> m_fMouseWheel;
+	std::function<void(InputParam)> m_fMouseDoubleClick;
+	std::function<void(InputParam)> m_fMouseRButtonDown;
+	std::function<void(InputParam)> m_fMouseRButtonUp;
+	std::function<void(InputParam)> m_fMouseMove;
+
+public:
+	SWindowInputEvent();
+	virtual ~SWindowInputEvent();
 public:
 	//键盘按下
 	virtual void OnKeyDown(InputParam param);
@@ -62,7 +76,25 @@ public:
 	virtual void OnMouseRButtonUp(InputParam param);
 	//鼠标移动
 	virtual void OnMouseMove(InputParam param);
-
+public:
+	//键盘按下
+	void OnKeyDown(std::function<void(InputParam)> fKeyDowm);
+	//键盘弹起
+	void OnKeyUp(std::function<void(InputParam)> fKeyUp);
+	//鼠标左键按下
+	void OnMouseLButtonDown(std::function<void(InputParam)> fMouseLButtonDown);
+	//鼠标左键弹起
+	void OnMouseLButtonUp(std::function<void(InputParam)> fMouseLButtonUp);
+	//鼠标滚轮
+	void OnMouseWheel(std::function<void(InputParam)> fMouseWheel);
+	//鼠标左键双击
+	void OnMouseDoubleClick(std::function<void(InputParam)> fMouseDoubleClick);
+	//鼠标右键按下
+	void OnMouseRButtonDown(std::function<void(InputParam)> fMouseRButtonDown);
+	//鼠标右键按下
+	void OnMouseRButtonUp(std::function<void(InputParam)> fMouseRButtonUp);
+	//鼠标移动
+	void OnMouseMove(std::function<void(InputParam)> fMouseMove);
 };
 
 #endif

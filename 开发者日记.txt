@@ -49,3 +49,15 @@
 2.对SMessageHandler类进行优化
 3.新增SEditText
 4.sUI库Bug修复
+
+14/08/2017:
+1.优化SWindow,SWidget初始化属性
+2.优化UI库X1
+
+15/08/2017:
+1.优化UI库X2(BUG:类注册一次后可能会出现无法在注册情况)
+
+16/08/2017:
+1.优化UI库X3
+2.更新SDialog,SMessageBox类
+3.更新SmathHelper

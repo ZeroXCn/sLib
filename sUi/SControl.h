@@ -15,10 +15,15 @@ class SControl :public SWidget
 protected:
 	static unsigned int g_nControlId;			//记录控件ID的自增
 protected:
+	/* 父类公开函数隐藏 */
+	using SWidget::GetTitle;
+	using SWidget::SetTitle;
+protected:
 	SControl(SWidget *parent = NULL);
+	virtual ~SControl();
 protected:
 	//创建成功前
-	virtual BOOL OnPreCreate();
+	virtual BOOL OnPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute);
 	//创建成功后
 	virtual BOOL OnAftCreate(SWnd sWnd);
 	//消息处理

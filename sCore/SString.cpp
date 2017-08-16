@@ -58,26 +58,26 @@ SString::SString(TCHAR ch)
 
 SString::SString(int x)
 {
-	TCHAR str[10];
+	TCHAR str[32];
 	_stprintf_s(str, _T("%d"), x);
 	*this = str;
 }
 SString::SString(float x)
 {
-	TCHAR str[10];
+	TCHAR str[128];
 	_stprintf_s(str, _T("%f"), x);
 	*this = str;
 }
 SString::SString(double x)
 {
-	TCHAR str[10];
+	TCHAR str[256];
 	_stprintf_s(str, _T("%lf"), x);
 	*this = str;
 }
 
 SString::SString(long x)
 {
-	TCHAR str[10];
+	TCHAR str[64];
 	_stprintf_s(str, _T("%ld"), x);
 	*this = str;
 }
