@@ -123,6 +123,11 @@ public:
 	//窗口是否被隐藏
 	BOOL IsWindowVisible();
 
+	//设置新菜单
+	BOOL SetMenu(HMENU hMenu);
+
+	//取得菜单
+	HMENU GetMenu();
 
 };
 #endif

@@ -16,10 +16,19 @@ hWnd(hWnd), uMsg(message), wParam(wParam), lParam(lParam)
 }
 
 
-WORD SMessageHandler::MessageParam::GetCommand()
+WORD SMessageHandler::MessageParam::GetItemId()
+{
+	return LOWORD(wParam);
+}
+WORD SMessageHandler::MessageParam::GetCode()
 {
 	return HIWORD(wParam);
 }
+HWND SMessageHandler::MessageParam::GetChildHandle()
+{
+	return reinterpret_cast<HWND>(lParam);
+}
+
 ///
 SMessageHandler::wnd_hash::wnd_hash()
 {
@@ -211,11 +220,21 @@ LRESULT CALLBACK SMessageHandler::ParentMessageHandlerProc(HWND hWnd, UINT messa
 				wnd_msg *msg= reinterpret_cast<wnd_msg *>(lParam);
 				itb = pChildMap->find(msg->hWnd);
 				if (itb != pChildMap->end()){
-					itb->second->OnProc(MessageParam(msg->hWnd, msg->uMsg, msg->wParam, msg->lParam));
+					return itb->second->OnProc(MessageParam(msg->hWnd, msg->uMsg, msg->wParam, msg->lParam));
 				}
 				delete msg;
 			}else{//系统消息
 				HWND childhWnd = reinterpret_cast<HWND>(lParam);
+				if (childhWnd == NULL){
+					//可能是菜单或者是快捷键
+					if (HIWORD(wParam) == 0){//菜单
+
+					}
+					else{//快捷键
+
+					}
+
+				}
 				itb = pChildMap->find(childhWnd);
 				if (itb != pChildMap->end()){
 					itb->second->OnProc(MessageParam(hWnd, message, wParam, lParam));

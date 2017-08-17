@@ -25,6 +25,7 @@ namespace SMathHelper
 	{
 		return (float)((float)x - (int)x);
 	}
+
 	//取得位数
 	int GetBitCount(int num,int radis = 10)
 	{
@@ -45,6 +46,7 @@ namespace SMathHelper
 		if (integer == 0 && flo!=0)bit = 0;
 		else if (integer != 0 && flo == 0)return bit;
 
+		//TODO:存在精度误差,可能不准
 		do
 		{
 			flo *= radis;

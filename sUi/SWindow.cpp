@@ -11,7 +11,7 @@ SWindow::SWindow(SWidget *parent, LPTSTR name) :
 	SWidget(parent)
 {
 	GetWndClassEx()->lpszClassName = TEXT("swindow");						//所注册的类
-	GetWndClassEx()->style = CS_HREDRAW;									//定义窗口风格
+	GetWndClassEx()->style =CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;;			//定义窗口风格
 	GetWndClassEx()->hIcon = LoadIcon(NULL, IDI_APPLICATION);				//加载程序图标（大）
 	GetWndClassEx()->hIconSm = LoadIcon(NULL, IDI_APPLICATION);				//加载程序图标（小）
 	GetWndClassEx()->hCursor = LoadCursor(NULL, IDC_ARROW);					//加载鼠标样式
@@ -22,6 +22,7 @@ SWindow::SWindow(SWidget *parent, LPTSTR name) :
 	//NOTE:这里的m_szTitle不允许出现重复,因为按标题查找可能会查到多个窗口
 	GetWindowAttribute()->lpClassName = GetWndClassEx()->lpszClassName;		//所用窗口类
 	GetWindowAttribute()->lpWindowName = name;								//窗口标题
+	GetWindowAttribute()->dwStyle = WS_SYSMENU;								//窗口标题
 	GetWindowAttribute()->nWidth = 800;										//窗口宽度
 	GetWindowAttribute()->nHeight = 600;									//窗口高度
 
@@ -147,6 +148,10 @@ LRESULT CALLBACK SWindow::OnProc(MessageParam param)
 		m_pActivityEvent->OnCommand(acParam);
 		break;
 
+	case WM_SIZE:
+		m_pActivityEvent->OnSize(acParam);
+		break;
+////////////////
 	case WM_KEYDOWN:				//按键消息  
 		m_pInputEvent->OnKeyDown(inParam);
 		break;

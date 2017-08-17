@@ -57,11 +57,13 @@ protected:
 	SThread *m_pThread;				//线程
 
 	/* 以下属性只提供临时使用,Create()完成后自动释放 */
+	ATOM m_useClass;				//使用的类类型
 	WNDCLASSEX *m_pWndClassEx;		//类属性
 	WINATTRIBUTE *m_pWinAttribute;	//窗口属性
 
 public:
 	SWidget(SWidget *parent = NULL);
+	SWidget(SWidget &obj);	//深拷贝
 	virtual ~SWidget();
 private:
 	/* 私有操作 */
@@ -125,6 +127,10 @@ public:
 	void SetWidth(int nWidth);
 	void SetHeight(int nHeight);
 	SIZE GetSize();
+
+	//设置,获取菜单
+	void SetMenu(HMENU hMenu);
+	HMENU GetMenu();
 
 	// 获取设置控件矩形 
 	RECT GetRect();
@@ -193,12 +199,13 @@ protected:
 
 	//控件退出事件
 	virtual void OnRan();
+
 public:
 	//入口和线程入口
 	virtual void Run() final;
 
 	//创建控件
-	virtual BOOL Create() final;
+	virtual BOOL Create();
 
 	//销毁控件
 	virtual void Destroy() ;

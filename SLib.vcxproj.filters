@@ -321,6 +321,12 @@
     <ClInclude Include="sUi\SInstance.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sUi\SMenu.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SMenuBar.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sUi\SMessageHandler.cpp">
@@ -531,6 +537,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sUi\SInstance.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SMenu.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SMenuBar.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

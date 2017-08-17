@@ -7,6 +7,20 @@ hWnd(hWnd), uMsg(message), wParam(wParam), lParam(lParam)
 
 
 };
+
+WORD SWindowActivityEvent::ActivityParam::GetItemId()
+{
+	return LOWORD(wParam);
+}
+
+WORD SWindowActivityEvent::ActivityParam::GetCode()
+{
+	return HIWORD(wParam);
+}
+HWND SWindowActivityEvent::ActivityParam::GetChildHandle()
+{
+	return reinterpret_cast<HWND>(lParam);
+}
 ///////////////////////////////
 SWindowActivityEvent::SWindowActivityEvent()
 {
@@ -14,6 +28,7 @@ SWindowActivityEvent::SWindowActivityEvent()
 	m_fPaint = [](SDc){};
 	m_fEvent = [](){};
 	m_fCommand = [](ActivityParam){};
+	m_fSize = [](ActivityParam){};
 	m_fClose = [](ActivityParam){
 		/*
 		if (MessageBox(param.hWnd, TEXT("你确定要退出吗？"), TEXT("退出程序"), MB_YESNO | MB_DEFBUTTON2 | MB_ICONASTERISK) == IDYES)
@@ -49,10 +64,15 @@ void SWindowActivityEvent::OnEvent()
 {
 	m_fEvent();
 }
-
+//处理子窗口命令
 void SWindowActivityEvent::OnCommand(ActivityParam param)
 {
 	m_fCommand(param);
+}
+
+void SWindowActivityEvent::OnSize(ActivityParam param)
+{
+	m_fSize(param);
 }
 
 //关闭窗口
@@ -104,6 +124,12 @@ void SWindowActivityEvent::OnCommand(std::function<void(ActivityParam)> fCommand
 {
 	m_fCommand = fCommand;
 }
+//尺寸变化
+void SWindowActivityEvent::OnSize(std::function<void(ActivityParam)> fSize)
+{
+	m_fSize = fSize;
+}
+
 //关闭窗口
 void SWindowActivityEvent::OnClose(std::function<BOOL(ActivityParam)> fClose)
 {

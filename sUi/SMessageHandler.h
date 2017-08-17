@@ -15,8 +15,10 @@
 
 
 //typedef LRESULT(CALLBACK *WNDPROC)(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 class SMessageHandler
 {
+
 protected:
 	class MessageParam
 	{
@@ -29,7 +31,9 @@ protected:
 		MessageParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam);
 	public:
 
-		WORD GetCommand();
+		WORD GetItemId();//取得控件ID
+		WORD GetCode();	//取得通知码
+		HWND GetChildHandle();	//子窗口句柄
 	};
 private:
 	class wnd_hash

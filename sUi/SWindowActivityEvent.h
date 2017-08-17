@@ -22,7 +22,10 @@ public:
 	public:
 		ActivityParam(HWND &hWnd, UINT &message, WPARAM &wParam, LPARAM &lParam);
 
-
+	public:
+		WORD GetItemId();
+		WORD GetCode();	//取得通知码
+		HWND GetChildHandle();	//子窗口句柄
 
 	};
 private:
@@ -30,6 +33,7 @@ private:
 	std::function<void(SDc)> m_fPaint;
 	std::function<void()> m_fEvent;
 	std::function<void(ActivityParam)> m_fCommand;
+	std::function<void(ActivityParam)> m_fSize;
 	std::function<BOOL(ActivityParam)> m_fClose;
 	std::function<void(ActivityParam)> m_fDestory;
 	std::function<void(ActivityParam)> m_fGetFocus;
@@ -51,6 +55,9 @@ public:
 
 	//处理子控件
 	virtual void OnCommand(ActivityParam param);
+
+	//处理窗口大小改变
+	virtual void OnSize(ActivityParam param);
 
 	//关闭窗口
 	virtual BOOL OnClose(ActivityParam param);
@@ -76,6 +83,9 @@ public:
 
 	//处理子控件
 	void OnCommand(std::function<void(ActivityParam)> fCommand);
+
+	//处理窗口尺寸发生变化事件
+	void OnSize(std::function<void(ActivityParam)> fSize);
 
 	//关闭窗口
 	void OnClose(std::function<BOOL(ActivityParam)> fClose);

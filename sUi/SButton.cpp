@@ -26,7 +26,7 @@ SButton::~SButton()
 LRESULT CALLBACK SButton::OnProc(MessageParam param)
 {
 	//使用Lamdba表达式进行消息处理
-	WORD command = HIWORD(param.wParam);
+	WORD command = param.GetCode();
 	switch (command)
 	{
 	case BN_CLICKED:

@@ -21,7 +21,7 @@ SEditText::~SEditText()
 //消息处理
 LRESULT CALLBACK SEditText::OnProc(MessageParam param)
 {
-	WORD command = HIWORD(param.wParam);
+	WORD command = param.GetCode();
 	SDebug::WriteLine(TEXT("%d"), command);
 	switch (command)
 	{
@@ -29,7 +29,7 @@ LRESULT CALLBACK SEditText::OnProc(MessageParam param)
 		OnTextChanged();
 		break;
 	default:
-		SControl::OnProc(param);
+		return SControl::OnProc(param);
 		break;
 	}
 	return 0;

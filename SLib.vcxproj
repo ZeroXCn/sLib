@@ -171,6 +171,8 @@
     <ClInclude Include="sUi\SEditText.h" />
     <ClInclude Include="sUi\SInstance.h" />
     <ClInclude Include="sUi\SLabel.h" />
+    <ClInclude Include="sUi\SMenu.h" />
+    <ClInclude Include="sUi\SMenuBar.h" />
     <ClInclude Include="sUi\SMessageBox.h" />
     <ClInclude Include="sUi\SMessageHandler.h" />
     <ClInclude Include="sUi\SWidget.h" />
@@ -242,6 +244,8 @@
     <ClCompile Include="sUi\SEditText.cpp" />
     <ClCompile Include="sUi\SInstance.cpp" />
     <ClCompile Include="sUi\SLabel.cpp" />
+    <ClCompile Include="sUi\SMenu.cpp" />
+    <ClCompile Include="sUi\SMenuBar.cpp" />
     <ClCompile Include="sUi\SMessageBox.cpp" />
     <ClCompile Include="sUi\SMessageHandler.cpp" />
     <ClCompile Include="sUi\SWidget.cpp" />

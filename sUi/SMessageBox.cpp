@@ -29,7 +29,9 @@ int SMessageBox::About(SWnd sWnd, LPTSTR lpText, LPTSTR lpTitle)
 SMessageBox::SMessageBox(SWidget *parent, LPTSTR lpTitle, LPTSTR lpText, UINT uButtons) :
 SDialog(parent)
 {
-	GetWndClassEx()->style = CS_HREDRAW;	//没有关闭窗口的样式
+	GetWndClassEx()->style = CS_HREDRAW | CS_VREDRAW | CS_NOCLOSE;	//没有关闭窗口的样式
+
+	GetWindowAttribute()->dwStyle = WS_SYSMENU ;
 	GetWindowAttribute()->nWidth = 400;
 	GetWindowAttribute()->nHeight = 200;
 	GetWindowAttribute()->lpWindowName = lpTitle;

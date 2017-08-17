@@ -29,7 +29,7 @@ void SWidget::InitAttribute()
 	//WndClassEx初始化
 	GetWndClassEx()->cbSize = sizeof(WNDCLASSEX);							//长度
 	GetWndClassEx()->lpszClassName = TEXT("swidget");						//设置窗口类名(提供给CreateWindow()使用)
-	GetWndClassEx()->style = WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX;		//定义窗口风格
+	GetWndClassEx()->style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;			//垂直水平重绘,运行双击传递消息;
 	GetWndClassEx()->hInstance = SApplication::GetApp() ? SApplication::GetApp()->GetInstance() : ::GetModuleHandle(NULL);	//指定义窗口应用程序的句柄
 	GetWndClassEx()->cbWndExtra = 0;										//指向窗口过程函数的指针. 可以使用 CallWindowProc函数调用窗口过程.
 	GetWndClassEx()->cbClsExtra = 0;										//指定紧跟在类之后的附加内存空间的字节数. 系统初始化为0.
@@ -37,7 +37,7 @@ void SWidget::InitAttribute()
 	GetWndClassEx()->hIconSm = LoadIcon(NULL, IDI_APPLICATION);				//加载程序图标（大）
 	GetWndClassEx()->hIcon = LoadIcon(NULL, IDI_APPLICATION);				//加载程序图标（小）
 	GetWndClassEx()->hCursor = LoadCursor(NULL, IDC_ARROW);					//加载鼠标样式
-	GetWndClassEx()->hbrBackground = (HBRUSH)(COLOR_WINDOW);				//设置窗口背景色
+	GetWndClassEx()->hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);			//设置窗口背景色
 	GetWndClassEx()->lpszMenuName = NULL;									//设置窗口没有菜单
 	GetWndClassEx()->cbSize = sizeof(WNDCLASSEX);							//长度
 
@@ -45,14 +45,13 @@ void SWidget::InitAttribute()
 	GetWindowAttribute()->lpClassName = GetWndClassEx()->lpszClassName;			//窗口类注册名
 	GetWindowAttribute()->lpWindowName = TEXT("Widget");						//设置窗口标题-必须唯一
 	GetWindowAttribute()->hInstance = GetWndClassEx()->hInstance;				//程序实例句柄
-	GetWindowAttribute()->dwStyle = GetWndClassEx()->style;						//设置窗口风格
+	GetWindowAttribute()->dwStyle = WS_OVERLAPPEDWINDOW;						//定义窗口风格(系统菜单--默认只带一个关闭按钮)
 	GetWindowAttribute()->hMenu = NULL;											//菜单的句柄
-	GetWindowAttribute()->lpParam = NULL;										//传递给消息函数的指针
 	GetWindowAttribute()->hWndParent = GetParent() ? GetParent()->GetWnd().GetHandle() : NULL;
-	GetWindowAttribute()->nPosX = 0;											//设置窗口左上角X坐标	
-	GetWindowAttribute()->nPosY = 0;											//设置窗口左上角Y坐标	
-	GetWindowAttribute()->nWidth = 800;											//设置窗口宽度
-	GetWindowAttribute()->nHeight = 600;										//设置窗口高度
+	GetWindowAttribute()->nPosX = CW_USEDEFAULT;								//设置窗口左上角X坐标	
+	GetWindowAttribute()->nPosY = CW_USEDEFAULT;								//设置窗口左上角Y坐标	
+	GetWindowAttribute()->nWidth = CW_USEDEFAULT;								//设置窗口宽度
+	GetWindowAttribute()->nHeight = CW_USEDEFAULT;								//设置窗口高度
 	GetWindowAttribute()->lpParam = (SMessageHandler *)this;					//设置参数,让消息顺序能正确执行到对象消息,必须带上类型
 
 	GetWindowAttribute()->bEnabled=TRUE;										//初始可用
@@ -70,13 +69,13 @@ BOOL SWidget::DoPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute
 		if (m_pWndClassEx->lpszClassName)	//如果不是系统默认类
 		{
 			/* NEED:应该先判断类是否存在(16/08/2017) */
-			if (!SWidget::RegisterWidget(m_pWndClassEx)){
+			if (!(m_useClass=SWidget::RegisterWidget(m_pWndClassEx))){
+				m_useClass = (ATOM)m_pWndClassEx->lpszClassName;
 				/*::MessageBox(NULL, TEXT("Class registration failed"), TEXT("Error"), 0);
 				return FALSE;*/
 				
 			}
 
-			SApplication::GetApp()->RegisterWidget(this);
 		}
 
 		//样式附加操作
@@ -95,11 +94,6 @@ BOOL SWidget::DoAftCreate(SWnd sWnd)
 {
 	//通用操作
 	{
-		if (!sWnd.GetHandle())
-		{
-			if (m_pWndClassEx->lpszClassName)	//如果不是系统默认类
-				SApplication::GetApp()->UnRegisterWidget(this);		//反注册
-		}
 
 		//释放临时资源
 		delete m_pWndClassEx;
@@ -120,6 +114,27 @@ m_pParent(parent)
 	//初始化属性表
 	InitAttribute();
 }
+//深拷贝
+SWidget::SWidget(SWidget &obj)
+{
+	m_pParent = obj.m_pParent;
+	/* 使用此类生成新窗口 */
+	m_pThread = new SThread((SRunnable *) this);
+	m_pWndClassEx = new WNDCLASSEX();										//类属性
+	m_pWinAttribute = new WINATTRIBUTE();									//窗口属性
+	if (obj.GetWndClassEx()){						
+		*m_pWndClassEx = *obj.GetWndClassEx();								//拷贝
+	}
+	if (obj.GetWindowAttribute()){
+		*m_pWinAttribute = *obj.GetWindowAttribute();
+	}
+	else {
+		//使用已有类名
+		m_pWinAttribute->lpClassName =(LPTSTR) obj.m_useClass;
+		
+	}
+
+}
 
 SWidget::~SWidget()
 {
@@ -127,6 +142,8 @@ SWidget::~SWidget()
 	//TODO:线程结束不代表对被释放,
 
 	delete m_pThread;
+	delete m_pWndClassEx;
+	delete m_pWinAttribute;
 }
 
 ////
@@ -393,6 +410,28 @@ SIZE SWidget::GetSize()
 	return size;
 }
 
+void SWidget::SetMenu(HMENU hMenu)
+{
+	if (m_Wnd.GetHandle()){
+		HMENU old = m_Wnd.GetMenu();
+		if (old) ::DestroyMenu(old);
+		m_Wnd.SetMenu(hMenu);
+		//TODO:需要重绘窗口,但这句话居然无效
+		UpdateWindow();
+	}
+	else{
+		GetWindowAttribute()->hMenu = hMenu;
+	}
+}
+HMENU SWidget::GetMenu()
+{
+	if (m_Wnd.GetHandle()){
+		return m_Wnd.GetMenu();
+	}
+	else{
+		return GetWindowAttribute()->hMenu;
+	}
+}
 
 RECT SWidget::GetRect()
 {
@@ -711,8 +750,6 @@ void SWidget::OnRunning()
 void SWidget::OnRan()
 {
 	//TODO:处理OnRun()结束的事
-	UnSubClass(m_Wnd.GetHandle());									//解除绑定消息函数
-	SApplication::GetApp()->DestroyWidget(this);				//通知主线程,线程结束
 }
 ////////////
 
@@ -720,10 +757,15 @@ void SWidget::Run()
 {
 	if (Create()){
 		SubClass(m_Wnd.GetHandle());
-		m_Wnd.SetParent(NULL);
+		m_Wnd.SetParent(NULL);	//TODO:不符合逻辑
+		SApplication::GetApp()->RegisterWidget(this);
+
 		ShowWindow();
 		OnRun();
 		OnRan();//出口
+
+		UnSubClass(m_Wnd.GetHandle());									//解除绑定消息函数
+		SApplication::GetApp()->DestroyWidget(this);					//通知主线程,线程结束
 	}
 
 }

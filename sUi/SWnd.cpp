@@ -213,3 +213,15 @@ BOOL SWnd::IsWindowVisible()
 {
 	return ::IsWindowVisible(m_hWnd);
 }
+
+//设置新菜单
+BOOL SWnd::SetMenu(HMENU hMenu)
+{
+	return ::SetMenu(m_hWnd, hMenu);
+}
+
+//取得菜单
+HMENU SWnd::GetMenu()
+{
+	return ::GetMenu(m_hWnd);
+}
