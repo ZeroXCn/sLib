@@ -8,10 +8,12 @@
 #include "SMenu.h"
 #ifndef _SMENUBAR_H_
 #define _SMENUBAR_H_
-class SMenuBar :protected SControl
+#include <functional>
+class SMenuBar :
+	public SMenu,
+	protected SControl
 {
 protected:
-	SMenu m_Menu;
 	std::function<void(int nID)> m_fOnProc;
 public:
 	SMenuBar(SWidget *parent);
@@ -23,10 +25,21 @@ protected:
 	virtual LRESULT CALLBACK OnProc(MessageParam param);
 public:
 	void OnProc(std::function<void(int nID)> fOnProc);
-	SMenu AddMenu(LPTSTR lpNewltem, SMenu sMenu, UINT uFlags = MF_POPUP);			//添加菜单
+	SMenu AddMenu(LPTSTR lpNewltem, SMenu sMenu, UINT uFlags = MF_POPUP);				//添加菜单
 
-	SMenu CreateMenu(LPTSTR lpNewltem);												//创建一个子菜单
-	using SControl::Proc;															//公开的消息处理接口
+	SMenu NewMenu(LPTSTR lpNewltem);													//创建一个子菜单
+	SMenu NewMenu(LPTSTR lpNewltem, std::function < void(SMenu) > fOperator);			//创建一个子菜单
+	SMenu NewPopupMenu(LPTSTR lpNewltem);												//创建一个子菜单
+	SMenu NewPopupMenu(LPTSTR lpNewltem, std::function < void(SMenu) > fOperator);		//创建一个子菜单
+
+	using SControl::Proc;																//公开的消息处理接口
+public:
+	BOOL Create();																		//创建这个菜单
+public:
+	//弹出菜单
+	BOOL TrackPopupMenu(SWnd sWnd, int x, int y, UINT uFlags = TPM_LEFTALIGN, CONST RECT* prcRect = NULL, int nReserved = 0);
+	BOOL TrackPopupMenu(int x, int y, UINT uFlags = TPM_LEFTALIGN, CONST RECT* prcRect = NULL, int nReserved = 0);
+
 
 };
 

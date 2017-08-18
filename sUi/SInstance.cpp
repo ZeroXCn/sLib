@@ -1,23 +1,52 @@
 #include "SInstance.h"
 
-SInstance::SInstance()
+SInstance::SInstance(HINSTANCE hInstance) :
+SHandle(hInstance)
 {
-	m_hInstance = NULL;
-}
-SInstance::SInstance(HINSTANCE hInstance)
-{
-	m_hInstance = hInstance;
+	
 }
 SInstance::~SInstance()
 {
 
 }
 
-HINSTANCE SInstance::GetHandle()
+///
+//加载光标
+HCURSOR SInstance::LoadCursor(LPTSTR lpCursorName)
 {
-	return m_hInstance;
+	return ::LoadCursor(GetHandle(), lpCursorName);
 }
-void SInstance::SetHandle(HINSTANCE hInstance)
+
+HCURSOR SInstance::LoadCursor(UINT uRcid)
 {
-	m_hInstance = hInstance;
+	return ::LoadCursor(GetHandle(), MAKEINTRESOURCE(uRcid));
+}
+//加载图标
+HICON SInstance::LoadIcon(LPTSTR lpIconName)
+{
+	return ::LoadIcon(GetHandle(), lpIconName);
+}
+HICON SInstance::LoadIcon(UINT uRcid)
+{
+	return ::LoadIcon(GetHandle(), MAKEINTRESOURCE(uRcid));
+}
+
+//加载图片
+HANDLE SInstance::LoadImage(LPTSTR lpszName,UINT uType,int cxDesired,int cyDesired,UINT fuLoad)
+{
+	return ::LoadImage(GetHandle(), lpszName, uType, cxDesired, cyDesired, fuLoad);
+}
+
+HANDLE SInstance::LoadImage(UINT uRcid, UINT uType, int cxDesired, int cyDesired, UINT fuLoad)
+{
+	return ::LoadImage(GetHandle(), MAKEINTRESOURCE(uRcid), uType, cxDesired, cyDesired, fuLoad);
+}
+
+HMENU SInstance::LoadMenu(LPCTSTR lpMenuName)
+{
+	return ::LoadMenu(GetHandle(), lpMenuName);
+}
+HMENU SInstance::LoadMenu(UINT uRcid)
+{
+	return ::LoadMenu(GetHandle(), MAKEINTRESOURCE(uRcid));
 }

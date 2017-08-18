@@ -9,8 +9,12 @@
 #include "../sGraphic/SDc.h"
 #include "SWnd.h"
 #include "SInstance.h"
+#include "SMenu.h"
+#include "SCursor.h"
+#include "SIcon.h"
 #include "SApplication.h"
 #include "SMessageHandler.h"
+
 #ifndef _SWIDGET_H_
 #define _SWIDGET_H_
 
@@ -96,12 +100,12 @@ public:
 	BOOL IsVisible();
 	void SetVisible(BOOL bVisible);
 
-	void SetInstance(HINSTANCE hInstance);
-	HINSTANCE GetInstance();
+	void SetInstance(SInstance hInstance);
+	SInstance GetInstance();
 
 	//取得设置文本字体
-	void SetFont(HFONT font);
-	HFONT GetFont();
+	void SetFont(SFont font);
+	SFont GetFont();
 
 	// 设置控件标题 
 	void SetTitle(LPTSTR szTitle);
@@ -129,8 +133,8 @@ public:
 	SIZE GetSize();
 
 	//设置,获取菜单
-	void SetMenu(HMENU hMenu);
-	HMENU GetMenu();
+	void SetMenu(SMenu hMenu);
+	SMenu GetMenu();
 
 	// 获取设置控件矩形 
 	RECT GetRect();
@@ -142,17 +146,17 @@ public:
 	void SetMenuName(LPTSTR lpMenuName);
 	LPTSTR GetMenuName();
 	//设置大图标
-	void SetBigIcon(HICON szIcon);
-	HICON GetBigIcon();
+	void SetBigIcon(SIcon szIcon);
+	SIcon GetBigIcon();
 	//设置小图标
-	void SetSmallIcon(HICON szIcon);
-	HICON GetSmallIcon();
+	void SetSmallIcon(SIcon szIcon);
+	SIcon GetSmallIcon();
 	//设置鼠标指针
-	void SetCursorIcon(HICON szIcon);
-	HICON GetCursorIcon();
+	void SetCursorIcon(SCursor szIcon);
+	SCursor GetCursorIcon();
 	//替换背景画刷
-	void SetBkBr(HBRUSH hBr);
-	HBRUSH GetBkBr();
+	void SetBkBr(SBrush hBr);
+	SBrush GetBkBr();
 
 public:
 	/* 窗口是否创建*/
@@ -163,7 +167,7 @@ public:
 	BOOL SetForegroundWindow();
 
 	// 取得焦点
-	HWND SetFocus();
+	SWnd SetFocus();
 public:
 	//IMPORTMENT:对于从父类继承的同名函数,如果没有写重载方法,则不会从父类继承其他的重载方法,要么都不写
 	//显示控件

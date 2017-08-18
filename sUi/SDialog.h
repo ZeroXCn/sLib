@@ -13,7 +13,7 @@
 
 class SDialog :public SWindow
 {
-protected:
+private:
 	SLabel *m_pLabel;
 	SButton *m_pButton;
 public:

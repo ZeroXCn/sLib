@@ -4,21 +4,15 @@
 * @author ZeroX
 * @version v1.0 29/07/2017
 */
-#include "../sCore/SObject.h"
+#include "SHandle.h"
 #ifndef _SCURSOR_H_
 #define _SCURSOR_H_
-#include <Windows.h>
-class SCursor :public SObject
+
+class SCursor :public SHandle<HCURSOR>
 {
-protected:
-	HCURSOR m_hCursor;
 public:
-	SCursor();
-	SCursor(HCURSOR hCursor);
+	SCursor(HCURSOR hCursor=NULL);
 	virtual ~SCursor();
-public:
-	void SetHandle(HCURSOR hCursor);
-	HCURSOR GetHandle();
 public:
 	//创建一个指定大小、位模式和热点的光标
 	BOOL Create(HINSTANCE htnst, int xHotSpot, int yHotSpot, int nWidth, int nHeight, CONST VOID *pvANDPlane, CONST VOID *pvXORPlane);

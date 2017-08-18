@@ -30,19 +30,19 @@ HWND SMessageHandler::MessageParam::GetChildHandle()
 }
 
 ///
-SMessageHandler::wnd_hash::wnd_hash()
+SMessageHandler::handle_hash::handle_hash()
 {
 
 }
 
-size_t SMessageHandler::wnd_hash::operator()(const HWND& hwnd) const
+size_t SMessageHandler::handle_hash::operator()(const HANDLE& handle) const
 {
-	return size_t(hwnd);
+	return size_t(handle);
 }
 
-bool SMessageHandler::wnd_hash::operator()(const HWND& hwnd1, const HWND& hwnd2) const
+bool SMessageHandler::handle_hash::operator()(const HANDLE& handle1, const HANDLE& handle2) const
 {
-	return   hwnd1 != hwnd2;
+	return   handle1 != handle2;
 }
 ///
 WNDPROC SMessageHandler::GetMessageHandlerProc()
@@ -135,27 +135,27 @@ void SMessageHandler::UnSubClass(SMessageHandler *handler)
 	{
 		if (it.second == handler)
 		{
-			UnSubClass(it.first);
+			UnSubClass((HWND)it.first);
 			break;
 		}
 	}
 }
 
 //添加子窗口
-bool SMessageHandler::SubChildClass(HWND hwnd, SMessageHandler *parent)
+bool SMessageHandler::SubChildClass(HANDLE handle, SMessageHandler *parent)
 {
 	if (parent){
-		parent->m_ChildWndMap.insert(make_pair(hwnd, this));
+		parent->m_ChildWndMap.insert(make_pair(handle, this));
 		return true;
 	}
 	return false;
 }
 
 //移除子窗口
-void SMessageHandler::UnSubChildClass(HWND hwnd, SMessageHandler *parent)
+void SMessageHandler::UnSubChildClass(HANDLE handle, SMessageHandler *parent)
 {
 	if (parent){
-		parent->m_ChildWndMap.erase(hwnd);
+		parent->m_ChildWndMap.erase(handle);
 	}
 }
 
@@ -217,24 +217,25 @@ LRESULT CALLBACK SMessageHandler::ParentMessageHandlerProc(HWND hWnd, UINT messa
 			//NOTE:不管是系统还是自定义消息,都转到自身消息处理函数
 			WndHandlerMap::const_iterator itb;
 			if (wParam == NULL){//自定义消息
-				wnd_msg *msg= reinterpret_cast<wnd_msg *>(lParam);
+				handle_msg *msg = reinterpret_cast<handle_msg *>(lParam);
 				itb = pChildMap->find(msg->hWnd);
 				if (itb != pChildMap->end()){
 					return itb->second->OnProc(MessageParam(msg->hWnd, msg->uMsg, msg->wParam, msg->lParam));
 				}
 				delete msg;
 			}else{//系统消息
-				HWND childhWnd = reinterpret_cast<HWND>(lParam);
+				HANDLE childhWnd = reinterpret_cast<HANDLE>(lParam);
 				if (childhWnd == NULL){
 					//可能是菜单或者是快捷键
 					if (HIWORD(wParam) == 0){//菜单
-
+						childhWnd = ::GetMenu(hWnd);	//取得菜单
 					}
 					else{//快捷键
 
 					}
 
 				}
+				//查找对应的子消息
 				itb = pChildMap->find(childhWnd);
 				if (itb != pChildMap->end()){
 					itb->second->OnProc(MessageParam(hWnd, message, wParam, lParam));
@@ -252,7 +253,7 @@ LRESULT CALLBACK SMessageHandler::ChildMessageHandlerProc(HWND hWnd, UINT messag
 {
 	//NOTE:只有自定义消息,才会触发函数,系统消息不会触发
 	//将原消息进行包装
-	wnd_msg *tempmsg = new wnd_msg(hWnd, message, wParam, lParam);
+	handle_msg *tempmsg = new handle_msg(hWnd, message, wParam, lParam);
 
 	//转发到父亲的WM_COMMAND,在这里进行处理,wParam待定使用(可用于检测是否为自定义消息)
 	//NOTE:应该自定义一个处理消息

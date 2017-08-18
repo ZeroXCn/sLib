@@ -11,7 +11,7 @@ SWindow::SWindow(SWidget *parent, LPTSTR name) :
 	SWidget(parent)
 {
 	GetWndClassEx()->lpszClassName = TEXT("swindow");						//所注册的类
-	GetWndClassEx()->style =CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;;			//定义窗口风格
+	GetWndClassEx()->style =CS_HREDRAW | CS_VREDRAW				;			//定义窗口风格(游戏中不应该采用CS_DBLCLKS样式)
 	GetWndClassEx()->hIcon = LoadIcon(NULL, IDI_APPLICATION);				//加载程序图标（大）
 	GetWndClassEx()->hIconSm = LoadIcon(NULL, IDI_APPLICATION);				//加载程序图标（小）
 	GetWndClassEx()->hCursor = LoadCursor(NULL, IDC_ARROW);					//加载鼠标样式

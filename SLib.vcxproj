@@ -122,11 +122,11 @@
     <ClInclude Include="sGraphic\SBufferDC.h" />
     <ClInclude Include="sGraphic\SBitmap.h" />
     <ClInclude Include="sGraphic\SBrush.h" />
-    <ClInclude Include="sGraphic\SCursor.h" />
+    <ClInclude Include="sUi\SCursor.h" />
     <ClInclude Include="sGraphic\SDc.h" />
     <ClInclude Include="sGraphic\SFont.h" />
     <ClInclude Include="sGraphic\SGdiObject.h" />
-    <ClInclude Include="sGraphic\SIcon.h" />
+    <ClInclude Include="sUi\SIcon.h" />
     <ClInclude Include="sGraphic\SPalette.h" />
     <ClInclude Include="sGraphic\SPen.h" />
     <ClInclude Include="sGraphic\SRgn.h" />
@@ -169,6 +169,7 @@
     <ClInclude Include="sUi\SDialog.h" />
     <ClInclude Include="sUi\SButton.h" />
     <ClInclude Include="sUi\SEditText.h" />
+    <ClInclude Include="sUi\SHandle.h" />
     <ClInclude Include="sUi\SInstance.h" />
     <ClInclude Include="sUi\SLabel.h" />
     <ClInclude Include="sUi\SMenu.h" />
@@ -216,11 +217,11 @@
     <ClCompile Include="sGraphic\SBitmap.cpp" />
     <ClCompile Include="sGraphic\SBrush.cpp" />
     <ClCompile Include="sGraphic\SBufferDC.cpp" />
-    <ClCompile Include="sGraphic\SCursor.cpp" />
+    <ClCompile Include="sUi\SCursor.cpp" />
     <ClCompile Include="sGraphic\SDc.cpp" />
     <ClCompile Include="sGraphic\SFont.cpp" />
     <ClCompile Include="sGraphic\SGdiObject.cpp" />
-    <ClCompile Include="sGraphic\SIcon.cpp" />
+    <ClCompile Include="sUi\SIcon.cpp" />
     <ClCompile Include="sGraphic\SPalette.cpp" />
     <ClCompile Include="sGraphic\SPen.cpp" />
     <ClCompile Include="sGraphic\SRgn.cpp" />

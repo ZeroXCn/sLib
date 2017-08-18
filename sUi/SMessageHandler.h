@@ -36,7 +36,7 @@ protected:
 		HWND GetChildHandle();	//子窗口句柄
 	};
 private:
-	class wnd_hash
+	class handle_hash
 	{
 	public:
 		enum
@@ -44,12 +44,12 @@ private:
 			bucket_size = 4,
 			min_buckets = 8
 		};
-		wnd_hash();
-		size_t operator()(const HWND& hwnd) const;
-		bool operator()(const HWND& hwnd1, const HWND& hwnd2) const;
+		handle_hash();
+		size_t operator()(const HANDLE& handle) const;
+		bool operator()(const HANDLE& handle1, const HANDLE& handle2) const;
 	};
-	typedef std::hash_map<HWND, SMessageHandler *, wnd_hash> WndHandlerMap;
-	typedef MessageParam wnd_msg;
+	typedef std::hash_map<HANDLE, SMessageHandler *, handle_hash> WndHandlerMap;
+	typedef MessageParam handle_msg;
 public:
 	//普通函数
 	static LRESULT CALLBACK MessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -96,10 +96,11 @@ public:
 	void UnSubClass(SMessageHandler *handler);
 
 	//添加子窗口
-	bool SubChildClass(HWND hwnd, SMessageHandler *parent);
+	bool SubChildClass(HANDLE handle, SMessageHandler *parent);
 
 	//移除子窗口
-	void UnSubChildClass(HWND hwnd, SMessageHandler *parent);
+	void UnSubChildClass(HANDLE handle, SMessageHandler *parent);
+
 };
 
 #endif

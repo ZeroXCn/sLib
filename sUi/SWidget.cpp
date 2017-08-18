@@ -29,7 +29,7 @@ void SWidget::InitAttribute()
 	//WndClassEx初始化
 	GetWndClassEx()->cbSize = sizeof(WNDCLASSEX);							//长度
 	GetWndClassEx()->lpszClassName = TEXT("swidget");						//设置窗口类名(提供给CreateWindow()使用)
-	GetWndClassEx()->style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;			//垂直水平重绘,运行双击传递消息;
+	GetWndClassEx()->style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;			//垂直水平重绘,运行双击传递消息;(游戏窗口不建议采用CS_DBLCLKS样式)
 	GetWndClassEx()->hInstance = SApplication::GetApp() ? SApplication::GetApp()->GetInstance() : ::GetModuleHandle(NULL);	//指定义窗口应用程序的句柄
 	GetWndClassEx()->cbWndExtra = 0;										//指向窗口过程函数的指针. 可以使用 CallWindowProc函数调用窗口过程.
 	GetWndClassEx()->cbClsExtra = 0;										//指定紧跟在类之后的附加内存空间的字节数. 系统初始化为0.
@@ -207,16 +207,16 @@ LPTSTR SWidget::GetTitle(LPTSTR szTitle, int iCount)
 		return (LPTSTR)GetWindowAttribute()->lpWindowName;
 }
 
-void SWidget::SetInstance(HINSTANCE hInstance)
+void SWidget::SetInstance(SInstance hInstance)
 {
 	if (m_Wnd.GetHandle())
-		m_Wnd.SetWindowLong(GWL_HINSTANCE, (LONG)hInstance);
+		m_Wnd.SetWindowLong(GWL_HINSTANCE, (LONG)hInstance.GetHandle());
 	else
-		GetWndClassEx()->hInstance = hInstance;
+		GetWndClassEx()->hInstance = hInstance.GetHandle();
 }
 
 //获取控件实例句柄
-HINSTANCE SWidget::GetInstance()
+SInstance SWidget::GetInstance()
 {
 	if (m_Wnd.GetHandle())
 		return (HINSTANCE)m_Wnd.GetWindowLong(GWL_HINSTANCE);
@@ -266,7 +266,7 @@ POINT SWidget::GetPos()
 		m_Wnd.GetWindowRect(&rt); //获得window区域
 		/**/
 		pt.x = rt.left; pt.y = rt.top;
-		m_Wnd.ScreenToClient(&pt); //转到client
+		//m_Wnd.ScreenToClient(&pt); //转到client
 		/* //else
 		pt.x = = rt.right - rt.left;
 		l pt.y = rt.bottom - rt.top
@@ -410,20 +410,18 @@ SIZE SWidget::GetSize()
 	return size;
 }
 
-void SWidget::SetMenu(HMENU hMenu)
+void SWidget::SetMenu(SMenu hMenu)
 {
 	if (m_Wnd.GetHandle()){
-		HMENU old = m_Wnd.GetMenu();
-		if (old) ::DestroyMenu(old);
-		m_Wnd.SetMenu(hMenu);
+		m_Wnd.SetMenu(hMenu.GetHandle());
 		//TODO:需要重绘窗口,但这句话居然无效
 		UpdateWindow();
 	}
 	else{
-		GetWindowAttribute()->hMenu = hMenu;
+		GetWindowAttribute()->hMenu = hMenu.GetHandle();
 	}
 }
-HMENU SWidget::GetMenu()
+SMenu SWidget::GetMenu()
 {
 	if (m_Wnd.GetHandle()){
 		return m_Wnd.GetMenu();
@@ -520,16 +518,16 @@ LPTSTR SWidget::GetMenuName()
 		return (LPTSTR)GetWndClassEx()->lpszMenuName;
 }
 
-void SWidget::SetCursorIcon(HCURSOR hIcon){
+void SWidget::SetCursorIcon(SCursor hIcon){
 
 	if (m_Wnd.GetHandle()){
-		long lCur = (long)hIcon;
+		long lCur = (long)hIcon.GetHandle();
 		m_Wnd.SetClassLong(GCL_HCURSOR, lCur);
 	}
 	else 
-		GetWndClassEx()->hCursor = hIcon;
+		GetWndClassEx()->hCursor = hIcon.GetHandle();
 }
-HCURSOR SWidget::GetCursorIcon(){
+SCursor SWidget::GetCursorIcon(){
 
 	if (m_Wnd.GetHandle()){
 		return (HCURSOR)m_Wnd.GetClassLong(GCL_HCURSOR);
@@ -538,17 +536,17 @@ HCURSOR SWidget::GetCursorIcon(){
 		return GetWndClassEx()->hCursor;
 }
 
-void SWidget::SetBigIcon(HICON hIcon)
+void SWidget::SetBigIcon(SIcon hIcon)
 {
 	if (m_Wnd.GetHandle()){
-		long lCur = (long)hIcon;
+		long lCur = (long)hIcon.GetHandle();
 		m_Wnd.SetClassLong(GCL_HICON, lCur);
 	}
 	else
-		GetWndClassEx()->hIcon = hIcon;
+		GetWndClassEx()->hIcon = hIcon.GetHandle();
 }
 
-HICON SWidget::GetBigIcon()
+SIcon SWidget::GetBigIcon()
 {
 	if (m_Wnd.GetHandle()){
 		return (HICON)m_Wnd.GetClassLong(GCL_HICON);
@@ -558,17 +556,17 @@ HICON SWidget::GetBigIcon()
 }
 
 
-void SWidget::SetSmallIcon(HICON hIcon)
+void SWidget::SetSmallIcon(SIcon hIcon)
 {
 	if (m_Wnd.GetHandle()){
-		long lCur = (long)hIcon;
+		long lCur = (long)hIcon.GetHandle();
 		m_Wnd.SetClassLong(GCL_HICONSM, lCur);
 	}
 	else
-		GetWndClassEx()->hIconSm = hIcon;
+		GetWndClassEx()->hIconSm = hIcon.GetHandle();
 }
 
-HICON SWidget::GetSmallIcon()
+SIcon SWidget::GetSmallIcon()
 {
 	if (m_Wnd.GetHandle()){
 		return (HICON)m_Wnd.GetClassLong(GCL_HICONSM);
@@ -578,16 +576,16 @@ HICON SWidget::GetSmallIcon()
 }
 
 //替换背景画刷
-void SWidget::SetBkBr(HBRUSH hBr)
+void SWidget::SetBkBr(SBrush hBr)
 {
 	if (m_Wnd.GetHandle()){
-		m_Wnd.SetClassLong(GCL_HBRBACKGROUND, (LONG)hBr);
+		m_Wnd.SetClassLong(GCL_HBRBACKGROUND, (LONG)hBr.GetHandle());
 	}
 	else
-		GetWndClassEx()->hbrBackground = hBr;
+		GetWndClassEx()->hbrBackground = hBr.GetHandle();
 }
 
-HBRUSH SWidget::GetBkBr()
+SBrush SWidget::GetBkBr()
 {
 	if (m_Wnd.GetHandle()){
 		return (HBRUSH)m_Wnd.GetClassLong(GCL_HBRBACKGROUND);
@@ -596,11 +594,11 @@ HBRUSH SWidget::GetBkBr()
 		return GetWndClassEx()->hbrBackground ;
 }
 ////////////////////////////////////////////
-void SWidget::SetFont(HFONT font)
+void SWidget::SetFont(SFont font)
 {
-	m_Wnd.SendMessage(WM_SETFONT, (WPARAM)font, 0);
+	m_Wnd.SendMessage(WM_SETFONT, (WPARAM)font.GetHandle(), 0);
 }
-HFONT SWidget::GetFont()
+SFont SWidget::GetFont()
 {
 	return (HFONT)m_Wnd.SendMessage(WM_GETFONT, 0, 0);
 }
@@ -614,7 +612,7 @@ BOOL SWidget::SetForegroundWindow()
 }
 
 /* 取得焦点 */
-HWND SWidget::SetFocus()
+SWnd SWidget::SetFocus()
 {
 	return m_Wnd.SetFocus();
 }

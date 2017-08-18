@@ -45,5 +45,5 @@ BOOL SControl::OnAftCreate(SWnd sWnd)
 
 LRESULT CALLBACK SControl::OnProc(MessageParam param)
 {
-	return SWidget::OnProc(param);
+	return SMessageHandler::OnProc(param);
 }

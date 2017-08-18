@@ -1,67 +1,72 @@
-04/08/2017:
-1.²¹³äSStringÖÐµÄarg()º¯Êý,²»¹»ÍêÕû,ÓÐ´ý¸Ä½ø
-2.²¹³äSStringÖÐ¹ØÓÚUNICODEÓëANSCIIµÄ»¥Ïà×ª»»
-3.Ôö¼ÓSTextÀà
-4.Ôö¼ÓSProfileÀà
-5.¸üÐÂsParse¿â,ÈÔÓÐÈý¸öÀà´ý²¹³ä
+ï»¿04/08/2017:
+1.è¡¥å……SStringä¸­çš„arg()å‡½æ•°,ä¸å¤Ÿå®Œæ•´,æœ‰å¾…æ”¹è¿›
+2.è¡¥å……SStringä¸­å…³äºŽUNICODEä¸ŽANSCIIçš„äº’ç›¸è½¬æ¢
+3.å¢žåŠ STextç±»
+4.å¢žåŠ SProfileç±»
+5.æ›´æ–°sParseåº“,ä»æœ‰ä¸‰ä¸ªç±»å¾…è¡¥å……
 
 05/08/2017:
-1.ÖØÐ´SInfÀà
-2.ÐÞÕýSStringÀà×ª»»BUG
-3.SString¹¦ÄÜ²¹³ä,Ôö¼ÓÕýÔò±í´ïÊ½
+1.é‡å†™SInfç±»
+2.ä¿®æ­£SStringç±»è½¬æ¢BUG
+3.SStringåŠŸèƒ½è¡¥å……,å¢žåŠ æ­£åˆ™è¡¨è¾¾å¼
 
 06/08/2017:
-1.¸üÐÂ»ù±¾Êý¾ÝÀàÐÍµÄ·â×°Àà
-2.Ìí¼ÓbyteÀàÐÍ
-3.Ôö¼ÓSStringÀàÐÍµÄToHexString(),Êä³ö16½øÖÆ
-4.¹æ·¶Êý¾Ý¿â--¸ÅÄî
-5.Ôö¼ÓBigIntegerÀà,
+1.æ›´æ–°åŸºæœ¬æ•°æ®ç±»åž‹çš„å°è£…ç±»
+2.æ·»åŠ byteç±»åž‹
+3.å¢žåŠ SStringç±»åž‹çš„ToHexString(),è¾“å‡º16è¿›åˆ¶
+4.è§„èŒƒæ•°æ®åº“--æ¦‚å¿µ
+5.å¢žåŠ BigIntegerç±»,
 
 07/08/2017:
-1.Ôö¼Ó¼òµ¥¹¤³§Ä£Ê½
-2.Ôö¼ÓSAny,SVairant,SOptional,SDllHelperÀà
-3.ÐÞ¸´»ù±¾·â×°ÀàSNumberµÄ¼¸¸öº¯Êý
-4.ÎªSInfÔö¼ÓÔËËã·ûÖØÔØ,²¢ÔöÇ¿Æä¹¦ÄÜ
+1.å¢žåŠ ç®€å•å·¥åŽ‚æ¨¡å¼
+2.å¢žåŠ SAny,SVairant,SOptional,SDllHelperç±»
+3.ä¿®å¤åŸºæœ¬å°è£…ç±»SNumberçš„å‡ ä¸ªå‡½æ•°
+4.ä¸ºSInfå¢žåŠ è¿ç®—ç¬¦é‡è½½,å¹¶å¢žå¼ºå…¶åŠŸèƒ½
 
 08/08/2017:
-1.¸üÐÂÊý¾Ý¿â½Ó¿Ú,°´ÕÕJDBC·ç¸ñ-Î´ÍêÉÆ
+1.æ›´æ–°æ•°æ®åº“æŽ¥å£,æŒ‰ç…§JDBCé£Žæ ¼-æœªå®Œå–„
 
 09/08/2017:
-1.½â¾öÔÚÍ·ÎÄ¼þÊ¹ÓÃstdÔì³ÉµÄÃüÃû¿Õ¼äÎÛÈ¾
-2.Ê¹ÓÃusing¹Ø¼ü×ÖÖØÔØ»ùÀà¹¹Ôìº¯Êý,¼õÉÙÈßÓà
-3.Ö§³Ömysql,sqliteÊý¾Ý¿âµÄÊ¹ÓÃ-²»ÎÈ¶¨
-4.Ôö¼ÓExampleÎÄ¼þ¼Ð,Ôö¼ÓÑÝÊ¾ÓÃÀý
+1.è§£å†³åœ¨å¤´æ–‡ä»¶ä½¿ç”¨stdé€ æˆçš„å‘½åç©ºé—´æ±¡æŸ“
+2.ä½¿ç”¨usingå…³é”®å­—é‡è½½åŸºç±»æž„é€ å‡½æ•°,å‡å°‘å†—ä½™
+3.æ”¯æŒmysql,sqliteæ•°æ®åº“çš„ä½¿ç”¨-ä¸ç¨³å®š
+4.å¢žåŠ Exampleæ–‡ä»¶å¤¹,å¢žåŠ æ¼”ç¤ºç”¨ä¾‹
 
 10/08/2017:
-1.Ôö¼ÓSStringBuilder,SStringRefÀà
-2.Ôö¼ÓÈÕÆÚÀàSDuration,SDate,STime
+1.å¢žåŠ SStringBuilder,SStringRefç±»
+2.å¢žåŠ æ—¥æœŸç±»SDuration,SDate,STime
 
 11/08/2017:
-1.ÐÞÕý¼¸¸öº¯ÊýÃüÃû
+1.ä¿®æ­£å‡ ä¸ªå‡½æ•°å‘½å
 
 12/08/2017:
-1.Ôö¼Ó×Ö·û´®µÄ±àÂë×ª»»
-2.Ôö¼ÓMd5ÊµÏÖº¯Êý
-3.Ôö¼ÓÊó±êÊÂ¼þ´¦Àíº¯Êý
+1.å¢žåŠ å­—ç¬¦ä¸²çš„ç¼–ç è½¬æ¢
+2.å¢žåŠ Md5å®žçŽ°å‡½æ•°
+3.å¢žåŠ é¼ æ ‡äº‹ä»¶å¤„ç†å‡½æ•°
 
 13/08/2017:
-1.ÐÂÔöSControl,ËùÓÐ¿Ø¼þÀà¼Ì³Ð¸ÃÀà,Óë´°¿ÚÀà·ÖÀë
-2.¶ÔSMessageHandlerÀà½øÐÐÓÅ»¯
-3.ÐÂÔöSEditText
-4.sUI¿âBugÐÞ¸´
+1.æ–°å¢žSControl,æ‰€æœ‰æŽ§ä»¶ç±»ç»§æ‰¿è¯¥ç±»,ä¸Žçª—å£ç±»åˆ†ç¦»
+2.å¯¹SMessageHandlerç±»è¿›è¡Œä¼˜åŒ–
+3.æ–°å¢žSEditText
+4.sUIåº“Bugä¿®å¤
 
 14/08/2017:
-1.ÓÅ»¯SWindow,SWidget³õÊ¼»¯ÊôÐÔ
-2.ÓÅ»¯UI¿âX1
+1.ä¼˜åŒ–SWindow,SWidgetåˆå§‹åŒ–å±žæ€§
+2.ä¼˜åŒ–UIåº“X1
 
 15/08/2017:
-1.ÓÅ»¯UI¿âX2(BUG:Àà×¢²áÒ»´Îºó¿ÉÄÜ»á³öÏÖÎÞ·¨ÔÙ×¢²áÇé¿ö-Ä¿Ç°½â¾ö·½·¨ÎªÎÞÊÓ)
+1.ä¼˜åŒ–UIåº“X2(BUG:ç±»æ³¨å†Œä¸€æ¬¡åŽå¯èƒ½ä¼šå‡ºçŽ°æ— æ³•å†æ³¨å†Œæƒ…å†µ-ç›®å‰è§£å†³æ–¹æ³•ä¸ºæ— è§†)
 
 16/08/2017:
-1.ÓÅ»¯UI¿âX3
-2.¸üÐÂSDialog,SMessageBoxÀà
-3.¸üÐÂSmathHelper
+1.ä¼˜åŒ–UIåº“X3
+2.æ›´æ–°SDialog,SMessageBoxç±»
+3.æ›´æ–°SmathHelper
 
 17/08/2017:
-1.¸üÐÂ²Ëµ¥À¸¿Ø¼þ
-(ÒÑÖªBUG:1.ÎÞ·¨ÊµÏÖ²Ëµ¥ÏûÏ¢×Ô´¦Àí-ÐèÒªÊÖ¶¯°ó¶¨Proc()µ½OnCommand()2.SetMenu()²¢Ã»ÓÐÁ¢¼´ÏÔÊ¾-ÖØ»æÎÊÌâ)
+1.æ›´æ–°èœå•æ æŽ§ä»¶
+(å·²çŸ¥BUG:SetMenu()å¹¶æ²¡æœ‰ç«‹å³æ˜¾ç¤º-é‡ç»˜é—®é¢˜)
+
+18/08/2017:
+1.ä½¿ç”¨æ³›åž‹æ¨¡æ¿,è®©ä»£ç æ›´ç®€æ´
+2.ä¿®æ­£èœå•æ¶ˆæ¯è‡ªå¤„ç†
+3.æ›´æ–°èœå•é¡¹

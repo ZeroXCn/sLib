@@ -4,26 +4,17 @@
 * @author ZeroX
 * @version v1.0 25/07/2017
 */
-#include "../sCore/SObject.h"
+#include "SHandle.h"
 #ifndef _SWND_H_
 #define _SWND_H_
 #include <Windows.h>
 
-class SWnd:public SObject
+class SWnd :public SHandle<HWND>
 {
-protected:
-	HWND m_hWnd;
 public:
-	SWnd();
-	SWnd(HWND hWnd);
+	SWnd(HWND hWnd=NULL);
 
 	virtual ~SWnd();
-public:
-	/* 设置控件句柄 */
-	void SetHandle(HWND hWnd);
-
-	//获取控件句柄
-	HWND GetHandle();
 public:
 	//替换,获取指定窗口所属类的WNDCLASSEX结构
 	DWORD SetClassLong(int nlndex, LONG dwNewLong);
@@ -129,5 +120,19 @@ public:
 	//取得菜单
 	HMENU GetMenu();
 
+	//允许应用程序为复制或修改而访问
+	HMENU GetSystemMenu(BOOL bRevert);
+
+	//获取菜单项的范围大小 
+	BOOL GetMenuItemRect(HMENU  hMenu, UINT   uItem, LPRECT lprcItem);
+	BOOL GetMenuItemRect(UINT   uItem, LPRECT lprcItem);
+
+	//高亮显示菜单项
+	BOOL HiliteMenuItem(HMENU hmenu,UINT  uItemHilite,UINT  uHilite);
+	BOOL HiliteMenuItem(UINT  uItemHilite, UINT  uHilite);
+
+	//获取某点除的菜单项
+	int MenuItemFromPoint(HMENU hMenu,POINT ptScreen);
+	int MenuItemFromPoint(POINT ptScreen);
 };
 #endif

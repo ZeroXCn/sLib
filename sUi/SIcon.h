@@ -4,22 +4,15 @@
 * @author ZeroX
 * @version v1.0 29/07/2017
 */
-#include "../sCore/SObject.h"
+#include "SHandle.h"
 #ifndef _SICON_H_
 #define _SICON_H_
 #include <Windows.h>
-class SIcon :public SObject
+class SIcon :public SHandle<HICON>
 {
-protected:
-	HICON m_hIcon;			//图标
 public:
-	SIcon();
-	SIcon(HICON hIcon);
+	SIcon(HICON hIcon=NULL);
 	virtual ~SIcon();
-public:
-	void SetHandle(HICON hIcon);
-	HICON GetHandle();
-
 public:
 	/*
 	hInstance------Long，准备拥有图标的应用程序的实例的句柄。可用GetWindowWord函数获得拥有一个窗体或控件的一个实例的句柄
