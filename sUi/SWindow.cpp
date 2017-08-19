@@ -5,7 +5,6 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 /* 窗口空构造函数 */
 SWindow::SWindow(SWidget *parent, LPTSTR name) :
 	SWidget(parent)
@@ -22,15 +21,24 @@ SWindow::SWindow(SWidget *parent, LPTSTR name) :
 	//NOTE:这里的m_szTitle不允许出现重复,因为按标题查找可能会查到多个窗口
 	GetWindowAttribute()->lpClassName = GetWndClassEx()->lpszClassName;		//所用窗口类
 	GetWindowAttribute()->lpWindowName = name;								//窗口标题
-	GetWindowAttribute()->dwStyle = WS_SYSMENU;								//窗口标题
+	GetWindowAttribute()->dwStyle = WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX;//窗口风格
 	GetWindowAttribute()->nWidth = 800;										//窗口宽度
 	GetWindowAttribute()->nHeight = 600;									//窗口高度
 
+	/*非全屏状态下，窗口显示在屏幕中心*/
+	//计算加上边框后的窗口大小
+	int nWidth = GetWindowAttribute()->nWidth + GetSystemMetrics(SM_CXFIXEDFRAME) * 2;
+	int nHeight = GetWindowAttribute()->nHeight + GetSystemMetrics(SM_CYFIXEDFRAME) * 10;
+
+	//计算在窗口居中时，窗口左上角的位置
+	GetWindowAttribute()->nPosX = (GetSystemMetrics(SM_CXSCREEN) - nWidth) / 2;
+	GetWindowAttribute()->nPosY = (GetSystemMetrics(SM_CYSCREEN) - nHeight) / 2;
 
 	m_bFullScreen = FALSE;
 	m_nColorbit = 32;
 	m_pInputEvent = (SWindowInputEvent *) this;
 	m_pActivityEvent = (SWindowActivityEvent *) this;
+
 }
 
 /* 窗口析构函数 */
@@ -215,11 +223,11 @@ LRESULT CALLBACK SWindow::OnProc(MessageParam param)
 }
 BOOL SWindow::OnPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute)
 {
-	int &nPosX = GetWindowAttribute()->nPosX;
-	int &nPosY = GetWindowAttribute()->nPosY;
-	int &nWidth = GetWindowAttribute()->nWidth;
-	int &nHeight = GetWindowAttribute()->nHeight;
-	DWORD &dwStyle = GetWindowAttribute()->dwStyle;
+	int &nPosX = lpWinAttribute->nPosX;
+	int &nPosY = lpWinAttribute->nPosY;
+	int &nWidth = lpWinAttribute->nWidth;
+	int &nHeight = lpWinAttribute->nHeight;
+	DWORD &dwStyle = lpWinAttribute->dwStyle;
 
 	/*使用DEVMODE结构设置屏幕显示模式*/
 	DEVMODE DevMode;
@@ -260,7 +268,7 @@ BOOL SWindow::OnPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute
 		else
 		{
 			//如果动态修改显示模式失败，恢复原来的屏幕属性
-			::ChangeDisplaySettings(NULL, 0);		//恢复原来的屏幕属性
+			::ChangeDisplaySettings(NULL, 0);	//恢复原来的屏幕属性
 			return FALSE;						//返回FALSE
 		}
 	}
@@ -273,25 +281,9 @@ BOOL SWindow::OnPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute
 		nPosX = 0;
 		nPosY = 0;
 		dwStyle = WS_POPUP;			//设置游戏窗口风格为无边框的弹出式窗口
+
 	}
-	else
-	{
-		/*非全屏状态下，窗口显示在屏幕中心*/
-		//计算加上边框后的窗口大小
-		nWidth = nWidth + GetSystemMetrics(SM_CXFIXEDFRAME) * 2;
-		nHeight = nHeight + GetSystemMetrics(SM_CYFIXEDFRAME) * 10;
-
-		//计算在窗口居中时，窗口左上角的位置
-		nPosX = (GetSystemMetrics(SM_CXSCREEN) - nWidth) / 2;
-		nPosY = (GetSystemMetrics(SM_CYSCREEN) - nHeight) / 2;
-
-		//设置游戏窗口风格为带标题栏和系统菜单和最小化的窗口
-		dwStyle = WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX;
-	}
-
-	nWidth += 10;
-	nHeight += 8;
-
+	
 	return TRUE;
 }
 

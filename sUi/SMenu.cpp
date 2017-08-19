@@ -6,6 +6,15 @@ SHandle(hMenu)
 
 }
 
+SMenu::SMenu(LPTSTR lpMenuName, SMenu *sMenu, BOOL bPopupMenu)
+{
+	if (sMenu){
+		if (bPopupMenu)SMenu::CreatePopupMenu();
+		else SMenu::Create();
+		SMenu::AddMenu(lpMenuName, sMenu->GetHandle());
+	}
+}
+
 SMenu::~SMenu()
 {
 	/* 不会自动释放,由程序员自己判断释放 */
@@ -102,7 +111,8 @@ SMenu SMenu::AddSeparator()
 
 SMenu SMenu::NewMenu(LPTSTR lpNewltem)
 {
-	SMenu temp = Create();
+	SMenu temp;
+	temp.Create();
 	AddMenu(lpNewltem, temp, MF_POPUP);
 	return temp;
 }
@@ -115,8 +125,8 @@ SMenu SMenu::NewMenu(LPTSTR lpNewltem, std::function<void(SMenu)> fOperator)
 
 SMenu SMenu::NewPopupMenu(LPTSTR lpNewltem)
 {
-
-	SMenu temp = CreatePopupMenu();
+	SMenu temp;
+	temp.CreatePopupMenu();
 	AddMenu(lpNewltem, temp, MF_POPUP);
 	return temp;
 }

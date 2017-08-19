@@ -13,6 +13,7 @@ class SMenu :public SHandle<HMENU>
 {
 public:
 	SMenu(HMENU hMenu=NULL);
+	SMenu(LPTSTR lpMenuName,SMenu *sMenu,BOOL bPopupMenu=FALSE);
 	~SMenu();
 
 	HMENU Create();				//创建新菜单句柄

@@ -225,6 +225,12 @@ SInstance SWidget::GetInstance()
 }
 
 /* 设置控件样式 */
+void SWidget::AddStyle(DWORD dwStyle)
+{
+	DWORD dOldstyle = GetStyle();
+	SetStyle(dOldstyle | dwStyle);
+}
+
 void SWidget::SetStyle(DWORD dwStyle)
 {
 	if (m_Wnd.GetHandle()){
@@ -258,157 +264,6 @@ BOOL SWidget::IsHaveStyle(DWORD dwStyle)
 	ret = ((tstyle & dwStyle) != 0) ? TRUE : FALSE;
 	return ret;
 }
-POINT SWidget::GetPos()
-{
-	POINT pt{ 0, 0 };
-	if (m_Wnd.GetHandle()){
-		RECT rt{ 0, 0, 0, 0 };
-		m_Wnd.GetWindowRect(&rt); //获得window区域
-		/**/
-		pt.x = rt.left; pt.y = rt.top;
-		//m_Wnd.ScreenToClient(&pt); //转到client
-		/* //else
-		pt.x = = rt.right - rt.left;
-		l pt.y = rt.bottom - rt.top
-		*/
-
-	}
-	else
-	{
-		pt.x = GetWindowAttribute()->nPosX;
-		pt.y = GetWindowAttribute()->nPosY;
-	}
-	return pt;
-}
-
-int SWidget::GetPosX()
-{
-	if (m_Wnd.GetHandle()){
-		return GetPos().x;
-	}
-	else{
-		return GetWindowAttribute()->nPosY;
-	}
-}
-int SWidget::GetPosY()
-{
-	if (m_Wnd.GetHandle()){
-		return GetPos().y;
-	}
-	else{
-		return GetWindowAttribute()->nPosX;
-	}
-}
-
-
-void SWidget::SetPos(int x, int y)
-{
-	if (m_Wnd.GetHandle()){
-		m_Wnd.SetWindowPos(NULL, x, y, GetWidth(), GetHeight(), 0);
-	}
-	else
-	{
-		GetWindowAttribute()->nPosX=x;
-		GetWindowAttribute()->nPosY=y;
-	}
-}
-
-void SWidget::SetPosAtCenter()
-{
-	RECT rt = GetRect();
-	int nPosX = rt.left;
-	int nPosY = rt.top;
-	int nWidth = rt.right - rt.left;
-	int nHeight = rt.bottom - rt.top;
-
-	/*非全屏状态下，窗口显示在屏幕中心*/
-	//计算加上边框后的窗口大小
-	nWidth = nWidth + ::GetSystemMetrics(SM_CXFIXEDFRAME) * 2;
-	nHeight = nHeight + ::GetSystemMetrics(SM_CYFIXEDFRAME) * 10;
-
-	//计算在窗口居中时，窗口左上角的位置
-	nPosX = (::GetSystemMetrics(SM_CXSCREEN) - nWidth) / 2;
-	nPosY = (::GetSystemMetrics(SM_CYSCREEN) - nHeight) / 2;
-
-	nWidth += 10;
-	nHeight += 8;
-
-	rt.left = nPosX;
-	rt.top = nPosY;
-	rt.right = nPosX + nWidth;
-	rt.bottom = nPosY + nHeight;
-
-	SetRect(rt);
-}
-
-void SWidget::MovePos(int x, int y)
-{
-	if (m_Wnd.GetHandle()){
-		m_Wnd.MoveWindow(x, y, GetWidth(), GetHeight(), FALSE);
-	}
-	else{
-		GetWindowAttribute()->nPosX = x;
-		GetWindowAttribute()->nPosY = y;
-	}
-}
-
-
-int SWidget::GetWidth()
-{
-	if (m_Wnd.GetHandle()){
-		RECT rt;
-		m_Wnd.GetWindowRect(&rt);
-		return rt.right - rt.left;
-	}
-	else{
-		return GetWindowAttribute()->nWidth;
-	}
-}
-int SWidget::GetHeight()
-{
-	if (m_Wnd.GetHandle()){
-		RECT rt;
-		m_Wnd.GetWindowRect(&rt);
-		return rt.bottom - rt.top ;
-	}
-	else{
-		return GetWindowAttribute()->nWidth;
-	}
-}
-void SWidget::SetWidth(int nWidth)
-{
-	if (m_Wnd.GetHandle()){
-		m_Wnd.MoveWindow(GetPosX(), GetPosY(), nWidth, GetHeight(),TRUE);
-	}
-	else{
-		GetWindowAttribute()->nWidth = nWidth;
-	}
-}
-void SWidget::SetHeight(int nHeight)
-{
-	if (m_Wnd.GetHandle()){
-		m_Wnd.MoveWindow(GetPosX(), GetPosY(), GetWidth(), nHeight, TRUE);
-	}
-	else{
-		GetWindowAttribute()->nHeight = nHeight;
-	}
-}
-
-SIZE SWidget::GetSize()
-{
-	SIZE size = { 0, 0 };
-	if (m_Wnd.GetHandle()){
-		RECT rt;
-		m_Wnd.GetWindowRect(&rt);
-		size.cx = rt.left + rt.right;
-		size.cy = rt.top + rt.bottom;
-	}
-	else{
-		size.cx = GetWindowAttribute()->nWidth;
-		size.cy = GetWindowAttribute()->nHeight;
-	}
-	return size;
-}
 
 void SWidget::SetMenu(SMenu hMenu)
 {
@@ -431,7 +286,146 @@ SMenu SWidget::GetMenu()
 	}
 }
 
-RECT SWidget::GetRect()
+
+POINT SWidget::GetPos()
+{
+	POINT pt{ 0, 0 };
+	RECT rt = GetWidgetRect();
+	pt.x = rt.left; pt.y = rt.top;
+
+	return pt;
+}
+
+int SWidget::GetPosX()
+{
+	return GetPos().x;
+}
+int SWidget::GetPosY()
+{
+	return GetPos().y;
+}
+
+
+void SWidget::SetPos(int x, int y)
+{
+	SetWidgetRect(x, y, GetWidth(), GetHeight(), 0, NULL);
+}
+
+void SWidget::SetPosAtCenter()
+{
+	RECT rt = GetWidgetRect();
+	int nPosX = rt.left;
+	int nPosY = rt.top;
+	int nWidth = rt.right - rt.left;
+	int nHeight = rt.bottom - rt.top;
+
+	/*非全屏状态下，窗口显示在屏幕中心*/
+	//计算加上边框后的窗口大小
+	int tw = nWidth + ::GetSystemMetrics(SM_CXFIXEDFRAME) * 2;
+	int th = nHeight + ::GetSystemMetrics(SM_CYFIXEDFRAME) * 10;
+
+	//计算在窗口居中时，窗口左上角的位置
+	nPosX = (::GetSystemMetrics(SM_CXSCREEN) - tw) / 2;
+	nPosY = (::GetSystemMetrics(SM_CYSCREEN) - th) / 2;
+
+	rt.left = nPosX;
+	rt.top = nPosY;
+	rt.right = nPosX + nWidth;
+	rt.bottom = nPosY + nHeight;
+
+	MoveWidgetRect(rt);
+}
+
+void SWidget::MovePos(int x, int y)
+{
+	MoveWidgetRect(x, y, GetWidth(), GetHeight());
+}
+
+POINT SWidget::GetClientPos()
+{
+	POINT pt{ 0, 0 };
+	RECT rtOri = GetWidgetRect();
+	RECT rtClient = GetWidgetClientRect();
+
+	pt.x = rtOri.left + ((rtOri.right - rtOri.left) - (rtClient.right - rtClient.left))/2;
+	pt.y = rtOri.top + ((rtOri.bottom - rtOri.top) - (rtClient.bottom - rtClient.top)) / 2;
+
+	return pt;
+
+}
+int SWidget::GetClientPosX(){
+	return GetClientPos().x;
+}
+int SWidget::GetClientPosY()
+{
+	return GetClientPos().y;
+}
+void SWidget::SetClientPos(int x, int y)
+{
+	MoveWidgetClientRect(x, y, GetClientWidth(), GetClientHeight());
+}
+
+
+
+int SWidget::GetWidth()
+{
+	RECT rt = GetWidgetRect();
+	return rt.right - rt.left;
+}
+int SWidget::GetHeight()
+{
+	RECT rt = GetWidgetRect();
+	return rt.bottom - rt.top;
+}
+void SWidget::SetWidth(int nWidth)
+{
+	MoveWidgetRect(GetPosX(), GetPosY(), nWidth, GetHeight());
+}
+void SWidget::SetHeight(int nHeight)
+{
+	MoveWidgetRect(GetPosX(), GetPosY(), GetWidth(), nHeight);
+}
+
+SIZE SWidget::GetSize()
+{
+	SIZE size = { 0, 0 };
+	RECT rt = GetWidgetRect();
+	size.cx = rt.left + rt.right;
+	size.cy = rt.top + rt.bottom;
+	return size;
+}
+
+
+int SWidget::GetClientWidth()
+{
+	RECT rt = GetWidgetClientRect();
+	return rt.right - rt.left;
+	
+}
+int SWidget::GetClientHeight()
+{
+	RECT rt = GetWidgetClientRect();
+	return rt.bottom - rt.top;
+}
+void SWidget::SetClientWidth(int nWidth)
+{
+	MoveWidgetClientRect(GetClientPosX(), GetClientPosY(), nWidth, GetClientHeight());
+}
+void SWidget::SetClientHeight(int nHeight)
+{
+	MoveWidgetClientRect(GetClientPosX(), GetClientPosY(), GetClientWidth(), nHeight);
+}
+SIZE SWidget::GetClientSize()
+{
+	SIZE size = { 0, 0 };
+	RECT rt = GetWidgetClientRect();
+	size.cx = rt.left + rt.right;
+	size.cy = rt.top + rt.bottom;
+	return size;
+}
+
+
+RECT SWidget::GetWidgetRect()
 {
 	RECT rt;
 
@@ -447,11 +441,34 @@ RECT SWidget::GetRect()
 
 	return rt;
 }
-void SWidget::SetRect(RECT rt)
+void SWidget::MoveWidgetRect(RECT rt, BOOL bReDraw)
 {
 
 	if (m_Wnd.GetHandle()){
-		m_Wnd.MoveWindow(rt.left, rt.top, rt.right, rt.bottom,TRUE);
+		m_Wnd.MoveWindow(rt.left, rt.top, rt.right - rt.left, rt.bottom - rt.top, bReDraw);
+	}
+	else{
+		GetWindowAttribute()->nPosX = rt.left;
+		GetWindowAttribute()->nPosY = rt.top;
+		GetWindowAttribute()->nWidth = rt.right - rt.left;
+		GetWindowAttribute()->nHeight = rt.bottom - rt.top;
+	}
+
+}
+
+void SWidget::MoveWidgetRect(int x, int y, int width, int height, BOOL bReDraw)
+{
+	RECT rt;
+	rt.left = x; rt.top = y;
+	rt.right = x + width;
+	rt.bottom = y + height;
+	MoveWidgetRect(rt, bReDraw);
+}
+
+void SWidget::SetWidgetRect(RECT rt, UINT uFlags, SWnd hWndInsertAfter)
+{
+	if (m_Wnd.GetHandle()){
+		m_Wnd.SetWindowPos(hWndInsertAfter.GetHandle(), rt.left, rt.top, rt.right - rt.left, rt.bottom - rt.top, uFlags);
 	}
 	else{
 		GetWindowAttribute()->nPosX = rt.left;
@@ -460,7 +477,75 @@ void SWidget::SetRect(RECT rt)
 		GetWindowAttribute()->nHeight = rt.bottom - rt.top;
 
 	}
+}
+void SWidget::SetWidgetRect(int x, int y, int width, int height, UINT uFlags, SWnd hWndInsertAfter)
+{
+	RECT rt;
+	rt.left = x; rt.top = y;
+	rt.right = x + width;
+	rt.bottom = y + height;
+	SetWidgetRect(rt, uFlags, hWndInsertAfter);
+}
 
+RECT SWidget::GetWidgetClientRect()
+{
+	RECT rt;
+
+	if (m_Wnd.GetHandle()){
+		m_Wnd.GetClientRect(&rt);
+	}
+	else{
+		rt.left = 0;
+		rt.top = 0;
+		/* TODo :未初始化前取得客户区大小不正确 */
+		rt.right = GetWindowAttribute()->nWidth + GetWindowAttribute()->nPosX - 10;
+		rt.bottom = GetWindowAttribute()->nHeight + GetWindowAttribute()->nPosY - 8;
+	}
+
+	return rt;
+}
+
+void SWidget::SetWidgetClientRect(RECT rt, UINT uFlags, SWnd hWndInsertAfter)
+{
+	RECT rtOri = GetWidgetRect();
+	RECT rtClient = GetWidgetClientRect();
+
+	int nNewX = rt.left - ((rtOri.right - rtOri.left) - (rtClient.right - rtClient.left)) / 2;
+	int nNewY = rt.top - ((rtOri.bottom - rtOri.top) - (rtClient.bottom - rtClient.top)) / 2 ;
+	int nNewWidth = (rtOri.right - rtOri.left) - (rtClient.right - rtClient.left) + (rt.right - rt.left);
+	int nNewHeight = (rtOri.bottom - rtOri.top) - (rtClient.bottom - rtClient.top) + (rt.bottom - rt.top);
+
+	SetWidgetRect(nNewX, nNewY, nNewWidth, nNewHeight, uFlags, hWndInsertAfter);
+
+}
+void SWidget::SetWidgetClientRect(int x, int y, int width, int height, UINT uFlags, SWnd hWndInsertAfter)
+{
+	RECT rt;
+	rt.left = x; rt.top = y;
+	rt.right = x + width;
+	rt.bottom = y + height;
+	SetWidgetClientRect(rt, uFlags, hWndInsertAfter);
+}
+void SWidget::MoveWidgetClientRect(RECT rt, BOOL bReDraw )
+{
+	RECT rtOri = GetWidgetRect();
+	RECT rtClient = GetWidgetClientRect();
+
+	int nNewX = rt.left - ((rtOri.right - rtOri.left) - (rtClient.right - rtClient.left)) / 2;
+	int nNewY = rt.top - ((rtOri.bottom - rtOri.top) - (rtClient.bottom - rtClient.top)) / 2;
+	int nNewWidth = (rtOri.right - rtOri.left) - (rtClient.right - rtClient.left) + (rt.right - rt.left);
+	int nNewHeight = (rtOri.bottom - rtOri.top) - (rtClient.bottom - rtClient.top) + (rt.bottom - rt.top);
+
+	MoveWidgetRect(nNewX, nNewY, nNewWidth, nNewHeight, bReDraw);
+}
+
+void SWidget::MoveWidgetClientRect(int x, int y, int width, int height, BOOL bReDraw)
+{
+	RECT rt;
+	rt.left = x; rt.top = y;
+	rt.right = x + width;
+	rt.bottom = y + height;
+	MoveWidgetClientRect(rt, bReDraw);
 }
 
 
@@ -592,6 +677,28 @@ SBrush SWidget::GetBkBr()
 	}
 	else
 		return GetWndClassEx()->hbrBackground ;
+}
+
+void SWidget::AddClassStyle(UINT style)
+{
+	UINT uOldStyle = GetClassStyle();
+	SetClassStyle(uOldStyle | style);
+}
+void SWidget::SetClassStyle(UINT style)
+{
+	if (m_Wnd.GetHandle()){
+		m_Wnd.SetClassLong(GCL_STYLE, (LONG)style);
+	}
+	else
+		GetWndClassEx()->style = style;
+}
+UINT SWidget::GetClassStyle()
+{
+	if (m_Wnd.GetHandle()){
+		return (UINT)m_Wnd.GetClassLong(GCL_STYLE);
+	}
+	else
+		return GetWndClassEx()->style;
 }
 ////////////////////////////////////////////
 void SWidget::SetFont(SFont font)

@@ -21,6 +21,16 @@ HWND SWindowActivityEvent::ActivityParam::GetChildHandle()
 {
 	return reinterpret_cast<HWND>(lParam);
 }
+//取得客户区宽度
+WORD SWindowActivityEvent::ActivityParam::GetClientWidth()
+{
+	return LOWORD(lParam);
+}
+//取得客户区高度
+WORD SWindowActivityEvent::ActivityParam::GetClientHeight()
+{
+	return HIWORD(lParam);
+}
 ///////////////////////////////
 SWindowActivityEvent::SWindowActivityEvent()
 {

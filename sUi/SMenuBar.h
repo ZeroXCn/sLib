@@ -16,8 +16,8 @@ class SMenuBar :
 protected:
 	std::function<void(int nID)> m_fOnProc;
 public:
-	SMenuBar(SWidget *parent);
-	SMenuBar(LPTSTR title, SMenuBar *sMenu);
+	SMenuBar(SWidget *parent, BOOL bPopupMenu = FALSE);
+	SMenuBar(LPTSTR title, SMenuBar *sMenu,BOOL bPopupMenu=FALSE);
 	virtual ~SMenuBar();
 
 protected:
@@ -25,12 +25,6 @@ protected:
 	virtual LRESULT CALLBACK OnProc(MessageParam param);
 public:
 	void OnProc(std::function<void(int nID)> fOnProc);
-	SMenu AddMenu(LPTSTR lpNewltem, SMenu sMenu, UINT uFlags = MF_POPUP);				//添加菜单
-
-	SMenu NewMenu(LPTSTR lpNewltem);													//创建一个子菜单
-	SMenu NewMenu(LPTSTR lpNewltem, std::function < void(SMenu) > fOperator);			//创建一个子菜单
-	SMenu NewPopupMenu(LPTSTR lpNewltem);												//创建一个子菜单
-	SMenu NewPopupMenu(LPTSTR lpNewltem, std::function < void(SMenu) > fOperator);		//创建一个子菜单
 
 	using SControl::Proc;																//公开的消息处理接口
 public:

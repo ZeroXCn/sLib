@@ -1,20 +1,22 @@
 #include "SMenuBar.h"
 
-SMenuBar::SMenuBar(SWidget *parent) :
+SMenuBar::SMenuBar(SWidget *parent, BOOL bPopupMenu) :
 SControl(parent)
 {
 	m_fOnProc = [=](int){};
-	SMenu::Create();
+	if (bPopupMenu)SMenu::CreatePopupMenu();
+	else SMenu::Create();
 	if (parent && parent->GetMenu().GetHandle()){
 		SubChildClass(SMenu::GetHandle(), (SMessageHandler *)parent);
 	}
 	
 }
 
-SMenuBar::SMenuBar(LPTSTR title, SMenuBar *sMenu)
+SMenuBar::SMenuBar(LPTSTR title, SMenuBar *sMenu, BOOL bPopupMenu)
 {
 	if (sMenu){
-		SMenu::Create();
+		if (bPopupMenu)SMenu::CreatePopupMenu();
+		else SMenu::Create();
 		SMenu::AddMenu(title, sMenu->GetHandle());
 	}
 }
@@ -51,40 +53,6 @@ BOOL SMenuBar::Create()
 		return TRUE;
 	}
 	return FALSE;
-}
-///
-SMenu SMenuBar::AddMenu(LPTSTR lpNewltem, SMenu sMenu, UINT uFlags)
-{
-	SMenu::AddMenu(lpNewltem, sMenu, uFlags);
-	return *this;
-}
-
-SMenu SMenuBar::NewMenu(LPTSTR lpNewltem)
-{
-	SMenu temp;
-	temp.Create();
-	this->AddMenu(lpNewltem, temp);
-	return temp;
-}
-
-SMenu SMenuBar::NewMenu(LPTSTR lpNewltem, std::function < void(SMenu) > fOperator)
-{
-	SMenu temp = NewMenu(lpNewltem);
-	fOperator(temp);
-	return temp;
-}
-SMenu SMenuBar::NewPopupMenu(LPTSTR lpNewltem)
-{
-	SMenu temp;
-	temp.CreatePopupMenu();
-	this->AddMenu(lpNewltem, temp);
-	return temp;
-}
-SMenu SMenuBar::NewPopupMenu(LPTSTR lpNewltem, std::function < void(SMenu) > fOperator)
-{
-	SMenu temp = NewPopupMenu(lpNewltem);
-	fOperator(temp);
-	return temp;
 }
 
 ////

@@ -24,8 +24,10 @@ public:
 
 	public:
 		WORD GetItemId();
-		WORD GetCode();	//取得通知码
-		HWND GetChildHandle();	//子窗口句柄
+		WORD GetCode();					//取得通知码
+		HWND GetChildHandle();			//子窗口句柄
+		WORD GetClientWidth();			//取得客户区宽度
+		WORD GetClientHeight();			//取得客户区高度
 
 	};
 private:

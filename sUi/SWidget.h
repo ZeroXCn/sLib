@@ -112,10 +112,15 @@ public:
 	LPTSTR GetTitle(LPTSTR szTitle, int iCount);
 	LPTSTR GetTitle();
 
-	// 设置控件样式 
+	// 设置获取控件样式 
+	void AddStyle(DWORD dwStyle);
 	void SetStyle(DWORD dwStyle);
 	DWORD GetStyle();
 	BOOL IsHaveStyle(DWORD dwStyle);
+
+	//设置,获取菜单
+	void SetMenu(SMenu hMenu);
+	SMenu GetMenu();
 
 	// 获取设置控件位置 
 	POINT GetPos();
@@ -125,6 +130,13 @@ public:
 	void SetPosAtCenter();//设置坐标为屏幕中心
 	void MovePos(int x, int y);
 
+	//取得客户端左上角绝对坐标
+	POINT GetClientPos();
+	int GetClientPosX();
+	int GetClientPosY();
+	void SetClientPos(int x, int y);
+
+	/* 以下要区分客户区与非客户区大小 */
 	// 获取设置控件宽高 
 	int GetWidth();
 	int GetHeight();
@@ -132,13 +144,26 @@ public:
 	void SetHeight(int nHeight);
 	SIZE GetSize();
 
-	//设置,获取菜单
-	void SetMenu(SMenu hMenu);
-	SMenu GetMenu();
+	//设置获取客户区大小
+	int GetClientWidth();
+	int GetClientHeight();
+	void SetClientWidth(int nWidth);
+	void SetClientHeight(int nHeight);
+	SIZE GetClientSize();
 
-	// 获取设置控件矩形 
-	RECT GetRect();
-	void SetRect(RECT rt);
+	// 获取设置部件矩形 
+	RECT GetWidgetRect();
+	void MoveWidgetRect(RECT rt, BOOL bReDraw = TRUE);
+	void SetWidgetRect(RECT rt, UINT uFlags, SWnd hWndInsertAfter);
+	void MoveWidgetRect(int x,int y,int width,int height, BOOL bReDraw = TRUE);
+	void SetWidgetRect(int x, int y, int width, int height, UINT uFlags, SWnd hWndInsertAfter);
+
+	//取得部件客户区大小
+	RECT GetWidgetClientRect();
+	void SetWidgetClientRect(RECT rt, UINT uFlags, SWnd hWndInsertAfter);
+	void MoveWidgetClientRect(RECT rt, BOOL bReDraw = TRUE);
+	void SetWidgetClientRect(int x, int y, int width, int height, UINT uFlags, SWnd hWndInsertAfter);
+	void MoveWidgetClientRect(int x, int y, int width, int height, BOOL bReDraw = TRUE);
 
 	/* 以下操作针对类-会影响父类的子类类型 */
 	/* WndClass属性变更-只支持静态GCL_ */
@@ -157,6 +182,10 @@ public:
 	//替换背景画刷
 	void SetBkBr(SBrush hBr);
 	SBrush GetBkBr();
+	//替换类风格
+	void AddClassStyle(UINT style);
+	void SetClassStyle(UINT style);
+	UINT GetClassStyle();
 
 public:
 	/* 窗口是否创建*/
