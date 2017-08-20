@@ -48,7 +48,7 @@ private:
 		size_t operator()(const HANDLE& handle) const;
 		bool operator()(const HANDLE& handle1, const HANDLE& handle2) const;
 	};
-	typedef std::hash_map<HANDLE, SMessageHandler *, handle_hash> WndHandlerMap;
+	typedef std::hash_map<HANDLE, SMessageHandler *, handle_hash> HandleHandlerMap;
 	typedef MessageParam handle_msg;
 public:
 	//普通函数
@@ -58,8 +58,8 @@ public:
 	static LRESULT CALLBACK ParentMessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 	static LRESULT CALLBACK ChildMessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 protected:
-	static WndHandlerMap s_WndHandlerMap;		//记录全局父窗口消息的map
-	WndHandlerMap m_ChildWndMap;				//记录某个父窗口下的子消息map
+	static HandleHandlerMap s_WndHandlerMap;		//记录全局父窗口消息的map
+	HandleHandlerMap m_ChildWndMap;				//记录某个父窗口下的子消息map
 protected:
 	WNDPROC m_pWndProc;
 
@@ -72,7 +72,7 @@ public:
 	virtual ~SMessageHandler();
 public:
 	//取得记录集
-	WndHandlerMap *GetWndHandlerMap();
+	HandleHandlerMap *GetWndHandlerMap();
 
 	//取得消息处理函数
 	WNDPROC GetMessageProc();

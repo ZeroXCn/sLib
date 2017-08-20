@@ -26,6 +26,12 @@ namespace SMathHelper
 		return (float)((float)x - (int)x);
 	}
 
+	//比较浮点数
+	bool EqualFloat(float a, float b, float fEpsilon = 1e-6f)
+	{
+		return (fabs(a - b) < fEpsilon);
+	}
+
 	//取得位数
 	int GetBitCount(int num,int radis = 10)
 	{
@@ -43,7 +49,7 @@ namespace SMathHelper
 		int bit = GetBitCount(integer, radis);
 		float flo = GetFloat(num);
 
-		if (integer == 0 && flo!=0)bit = 0;
+		if (integer == 0 && !EqualFloat(flo,0.f))bit = 0;
 		else if (integer != 0 && flo == 0)return bit;
 
 		//TODO:存在精度误差,可能不准
@@ -51,7 +57,7 @@ namespace SMathHelper
 		{
 			flo *= radis;
 			bit++;
-		} while (flo - (int)flo != 0.f);
+		} while (!EqualFloat(flo - (int)flo, 0.f));
 		return bit;
 	}
 
@@ -83,7 +89,16 @@ namespace SMathHelper
 		return GetRandomNumber(x, y, bit);
 	}
 
-
+	//雷神之锤-卡马克-倒数开方
+	float InvSqrt(float x)
+	{
+		float xhalf = 0.5f * x;
+		int i = *(int *)&x;
+		i = 0x5f3759df - (i >> 1);
+		x = *(float *)&i;
+		x = x * (1.5f - xhalf * x * x);
+		return x;
+	}
 
 }
 

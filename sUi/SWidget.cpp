@@ -269,7 +269,7 @@ void SWidget::SetMenu(SMenu hMenu)
 {
 	if (m_Wnd.GetHandle()){
 		m_Wnd.SetMenu(hMenu.GetHandle());
-		//TODO:需要重绘窗口,但这句话居然无效
+		//需要重绘窗口才能显示变更后的菜单
 		UpdateWindow();
 	}
 	else{

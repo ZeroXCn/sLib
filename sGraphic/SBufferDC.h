@@ -8,6 +8,7 @@
 #ifndef _SBUFFERDC_H_
 #define _SBUFFERDC_H_
 #include "SDc.h"
+#include <functional>
 
 class SBufferDc:public SDc
 {
@@ -17,10 +18,22 @@ protected:
 	HBITMAP m_newBitmap;	//缓冲位图
 	HBITMAP m_oldBitmap;	//旧位图
 	int m_nWidth, m_nHeight;//宽高
-	BOOL m_bEnabled;		//是否启用
+
+	std::function<BOOL(SDc)> m_fPaint;
+
+protected:
+	//重写绘制
+	virtual BOOL OnPaint(SDc sdc);
 public:
-	void SetEnabled(BOOL bEnable);
-	BOOL GetEnabled();
+	//绘制
+	void OnPaint(std::function<BOOL(SDc)> fPaint);
+	BOOL Paint(SDc sdc);
+	BOOL Paint();
+public:
+	//设置获取来源DC
+	SDc GetDcFrom();
+	void SetDcFrom(SDc sDc);
+
 public:
 	SBufferDc(SDc sdc,int nWidth,int nHeight);
 	virtual ~SBufferDc();

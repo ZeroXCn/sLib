@@ -127,6 +127,10 @@ public:
 
 	//取得文本宽高
 	SIZE GetTextExtentPoint(LPTSTR lpString, int clen);
+
+	//设置取得指定的设备环境设置图形模式
+	int SetGraphicsMode(int iMode);
+	int GetGraphicsMode();
 public:
 	//画点
 	BOOL DrawPoint(int x, int y, COLORREF color = RGB(0, 0, 0));
@@ -197,9 +201,10 @@ public:
 public:
 	/* DC操作 */
 	//二维的线性转变，此转换可用于输出缩放、旋转、倾斜变换或平移变换的图形。
-	int SetTransform(CONST XFORM *lpXform);
-	XFORM GetTransform();
-	int RestoreTransform(int nGraphicsMode = GM_COMPATIBLE);	//恢复正常DC
+	int SetWorldTransform(CONST XFORM *lpXform);
+	XFORM GetWorldTransform();
+	BOOL GetWorldTransform(LPXFORM lpXform);
+	int RestoreWorldTransform(int nGraphicsMode = GM_COMPATIBLE);	//恢复正常DC
 
 	//旋转和恢复旋转
 	int Rotate(int iAngle, int cx = 0, int cy = 0);

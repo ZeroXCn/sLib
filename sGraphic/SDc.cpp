@@ -221,6 +221,14 @@ SIZE SDc::GetTextExtentPoint(LPTSTR lpString, int clen)
 	return size;
 }
 
+int SDc::SetGraphicsMode(int iMode)
+{
+	return ::SetGraphicsMode(m_hDC, iMode);
+}
+int SDc::GetGraphicsMode()
+{
+	return ::GetGraphicsMode(m_hDC);
+}
 ///////////////
 BOOL SDc::DrawPoint(int x, int y, COLORREF color)
 {
@@ -457,21 +465,26 @@ BOOL SDc::DrawDC(SDc sdcSrc, int nXOriginDest, int nYOriginDest, int nWidthDest,
 	return ::BitBlt(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, sdcSrc.GetHandle(), nXOriginSrc, nYOriginSrc, dwRop);
 }
 ///////////////
-int SDc::SetTransform(CONST XFORM *lpXform)
+int SDc::SetWorldTransform(CONST XFORM *lpXform)
 {
-	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	int nGraphicsMode = ::SetGraphicsMode(m_hDC, GM_ADVANCED);
 	::SetWorldTransform(m_hDC, lpXform);
 	return nGraphicsMode;
 }
 
-XFORM SDc::GetTransform()
+XFORM SDc::GetWorldTransform()
 {
 	XFORM Xform;
-	::GetWorldTransform(m_hDC, &Xform);
+	::GetWorldTransform(m_hDC,&Xform);
 	return Xform;
 }
 
-int SDc::RestoreTransform(int nGraphicsMode)
+BOOL SDc::GetWorldTransform(LPXFORM lpXform)
+{
+	return ::GetWorldTransform(m_hDC, lpXform);
+}
+
+int SDc::RestoreWorldTransform(int nGraphicsMode)
 {
 	//单位矩阵,恒等变化
 	XFORM xform;
@@ -482,15 +495,15 @@ int SDc::RestoreTransform(int nGraphicsMode)
 	xform.eDx = (float)0;
 	xform.eDy = (float)0;
 
-	SetWorldTransform(m_hDC, &xform);
-	return SetGraphicsMode(m_hDC, nGraphicsMode);
+	SetWorldTransform(&xform);
+	return SetGraphicsMode(nGraphicsMode);
 }
 
 // 将DC旋转一定的角度  
 int SDc::Rotate(double dTheta, int cx, int cy)
 {
 	//为指定的设备环境设置图形模式
-	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	int nGraphicsMode = SetGraphicsMode(GM_ADVANCED);
 	XFORM xform;
 
 	//旋转矩阵
@@ -503,7 +516,7 @@ int SDc::Rotate(double dTheta, int cx, int cy)
 	xform.eDx = (float)(cx - cos(fangle)*cx + sin(fangle)*cy);
 	xform.eDy = (float)(cy - cos(fangle)*cy - sin(fangle)*cx);
 
-	::SetWorldTransform(m_hDC, &xform);
+	SetWorldTransform(&xform);
 	
 	return nGraphicsMode;
 }
@@ -521,7 +534,7 @@ int SDc::RotateFrom(double dTheta, int cx , int cy )
 	
 	XFORM xOldform;
 	double OldTheta;
-	::GetWorldTransform(m_hDC, &xOldform);
+	GetWorldTransform(&xOldform);
 	OldTheta = acos(xOldform.eM11);	//取得之前DC的原角度
 	return Rotate(OldTheta+dTheta, cx, cy);
 }
@@ -530,7 +543,7 @@ int SDc::RotateFrom(double dTheta, int cx , int cy )
 int SDc::Scale(float sx, float sy)
 {
 	//为指定的设备环境设置图形模式
-	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	int nGraphicsMode = SetGraphicsMode(GM_ADVANCED);
 	XFORM xform;
 	//平移矩阵
 	xform.eM11 = (float)sx;
@@ -540,14 +553,14 @@ int SDc::Scale(float sx, float sy)
 	xform.eDx = (float)0.f;
 	xform.eDy = (float)0.f;
 
-	::SetWorldTransform(m_hDC, &xform);
+	SetWorldTransform(&xform);
 
 	return nGraphicsMode;
 }
 int SDc::ScaleFrom(float sx, float sy)
 {
 	XFORM xOldform;
-	::GetWorldTransform(m_hDC, &xOldform);
+	GetWorldTransform(&xOldform);
 	sx *= xOldform.eM11; sy *= xOldform.eM22;
 	return Scale(sx, sy);
 }
@@ -556,7 +569,7 @@ int SDc::ScaleFrom(float sx, float sy)
 int SDc::Offset(int cx, int cy)
 {
 	//为指定的设备环境设置图形模式
-	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	int nGraphicsMode = SetGraphicsMode(GM_ADVANCED);
 	XFORM xform;
 	//平移矩阵
 	xform.eM11 = (float)1.f;
@@ -566,7 +579,7 @@ int SDc::Offset(int cx, int cy)
 	xform.eDx = (float)cx;
 	xform.eDy = (float)cy;
 
-	::SetWorldTransform(m_hDC, &xform);
+	SetWorldTransform(&xform);
 
 	return nGraphicsMode;
 }
@@ -574,7 +587,7 @@ int SDc::Offset(int cx, int cy)
 int SDc::OffsetFrom(int cx, int cy)
 {
 	XFORM xOldform;
-	::GetWorldTransform(m_hDC, &xOldform);
+	GetWorldTransform(&xOldform);
 	cx += (int)xOldform.eDx; cy += (int)xOldform.eDy;
 	return Offset(cx,cy);
 }
@@ -583,7 +596,7 @@ int SDc::OffsetFrom(int cx, int cy)
 int SDc::Shear(int sx, int sy)
 {
 	//为指定的设备环境设置图形模式
-	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	int nGraphicsMode = SetGraphicsMode(GM_ADVANCED);
 	XFORM xform;
 	//错切矩阵
 	xform.eM11 = (float)1.f;
@@ -593,7 +606,7 @@ int SDc::Shear(int sx, int sy)
 	xform.eDx = (float)0;
 	xform.eDy = (float)0;
 
-	::SetWorldTransform(m_hDC, &xform);
+	SetWorldTransform(&xform);
 
 	return nGraphicsMode;
 }
@@ -608,7 +621,7 @@ int SDc::Reflect(int cx, int cy)
 int SDc::Mirror(int dX)
 {
 	//为指定的设备环境设置图形模式
-	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	int nGraphicsMode = SetGraphicsMode(GM_ADVANCED);
 	XFORM xform;
 	//镜像矩阵
 	xform.eM11 = (float)-1.f;
@@ -618,7 +631,7 @@ int SDc::Mirror(int dX)
 	xform.eDx = (float)dX;
 	xform.eDy = (float)0.f;
 
-	::SetWorldTransform(m_hDC, &xform);
+	SetWorldTransform(&xform);
 
 	return nGraphicsMode;
 }
@@ -626,7 +639,7 @@ int SDc::Mirror(int dX)
 int SDc::Symmetry(int cx, int cy)
 {
 	//为指定的设备环境设置图形模式
-	int nGraphicsMode = SetGraphicsMode(m_hDC, GM_ADVANCED);
+	int nGraphicsMode = SetGraphicsMode(GM_ADVANCED);
 	XFORM xform;
 	//对称矩阵
 	xform.eM11 = (float)-1.f;
@@ -636,7 +649,7 @@ int SDc::Symmetry(int cx, int cy)
 	xform.eDx = (float)2 * cx;
 	xform.eDy = (float)2 * cy;
 
-	::SetWorldTransform(m_hDC, &xform);
+	SetWorldTransform(&xform);
 
 	return nGraphicsMode;
 }

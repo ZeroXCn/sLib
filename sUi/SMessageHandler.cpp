@@ -2,7 +2,7 @@
 using namespace std;
 
 //记录对象消息函数的MAP
-SMessageHandler::WndHandlerMap SMessageHandler::s_WndHandlerMap;
+SMessageHandler::HandleHandlerMap SMessageHandler::s_WndHandlerMap;
 
 
 /////
@@ -61,7 +61,7 @@ SMessageHandler::~SMessageHandler()
 
 }
 
-SMessageHandler::WndHandlerMap *SMessageHandler::GetWndHandlerMap()
+SMessageHandler::HandleHandlerMap *SMessageHandler::GetWndHandlerMap()
 {
 	return &s_WndHandlerMap;
 }
@@ -189,7 +189,7 @@ LRESULT CALLBACK SMessageHandler::ParentMessageHandlerProc(HWND hWnd, UINT messa
 {
 	//NOTD:这里如果没有找到必须返回DefWindowProc(),否则可能无法成功创建窗体
 	SMessageHandler* handler = NULL;
-	WndHandlerMap::const_iterator itr = s_WndHandlerMap.find(hWnd);
+	HandleHandlerMap::const_iterator itr = s_WndHandlerMap.find(hWnd);
 	if (itr == s_WndHandlerMap.end()){
 		//NOTE:窗体未返回hWnd时的消息顺序WM_GETMINMAXINFO,WM_NCCREATE,WM_NCCALCSIZE,WM_CREATE
 		//TODO:拦截消息,使返回hWnd之前能正确执行到子类的回调函数
@@ -213,9 +213,9 @@ LRESULT CALLBACK SMessageHandler::ParentMessageHandlerProc(HWND hWnd, UINT messa
 		//TODO:进行额外的消息拦截
 		if (message == WM_COMMAND)
 		{
-			WndHandlerMap *pChildMap = &handler->m_ChildWndMap;
+			HandleHandlerMap *pChildMap = &handler->m_ChildWndMap;
 			//NOTE:不管是系统还是自定义消息,都转到自身消息处理函数
-			WndHandlerMap::const_iterator itb;
+			HandleHandlerMap::const_iterator itb;
 			if (wParam == NULL){//自定义消息
 				handle_msg *msg = reinterpret_cast<handle_msg *>(lParam);
 				itb = pChildMap->find(msg->hWnd);
