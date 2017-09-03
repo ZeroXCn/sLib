@@ -132,9 +132,6 @@
     <ClInclude Include="sParser\SProfile.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sParser\extern\inifile2\inifile.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sCore\SRegex.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -330,6 +327,27 @@
     <ClInclude Include="sUi\SCursor.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sParser\extern\jsoncpp\json_tool.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sMath\SPoint2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sMath\SRect.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sMath\SVector2.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SRECT.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SPOINT.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\SSIZE.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sUi\SMessageHandler.cpp">
@@ -399,9 +417,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sParser\SProfile.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sParser\extern\inifile2\inifile.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sCore\SBigInteger.cpp">
@@ -546,6 +561,30 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sUi\SCursor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\extern\jsoncpp\json_reader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\extern\jsoncpp\json_value.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\extern\jsoncpp\json_writer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\SJson.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sParser\SIni.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sMath\SPoint2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sMath\SRect.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sMath\SVector2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

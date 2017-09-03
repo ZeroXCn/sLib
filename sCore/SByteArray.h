@@ -13,6 +13,9 @@
 
 
 //TODO:´ý²¹³ä
-typedef std::vector<byte> SByteArray;
+class SByteArray :public std::vector<byte>
+{
+
+};
 
 #endif

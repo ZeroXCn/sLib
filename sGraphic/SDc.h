@@ -194,7 +194,8 @@ public:
 	BOOL DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, int xSrcWidth, int ySrcHeight, DWORD dwRop = SRCCOPY);
 	BOOL DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, UINT crTransparent = RGB(255, 255, 255));
 	BOOL DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, int xSrcWidth, int ySrcHeight, UINT crTransparent);
-
+	BOOL DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc, int ySrc, SBitmap sMarkBitmap, int xMark, int yMark, DWORD dwRop = MAKEROP4(SRCPAINT, SRCCOPY));
+	BOOL DrawImage(SBitmap sbm, int x, int y, SBitmap sMarkBitmap, int xSrc = 0, int ySrc = 0, DWORD dwRop = MAKEROP4(SRCPAINT, SRCCOPY));
 	//输出画布
 	BOOL DrawDC(SDc sdcSrc, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, DWORD dwRop = SRCCOPY);
 	BOOL DrawDC(SDc sdcSrc, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, int nXOriginSrc = 0, int nYOriginSrc = 0, DWORD dwRop = SRCCOPY);
@@ -224,11 +225,12 @@ public:
 	int Shear(int sx, int sy);
 
 	//反射
-	int Reflect(int cx, int cy );
+	int Reflect(int cx, int cy);
 
-	//镜像-关于某中轴线
-	int Mirror(int dX);
-
+	//镜像-关于某直线
+	int Mirror(int a, int b, int c);
+	int MirrorX(int dX);
+	int MirrorY(int dY);
 	//关于某点对称
 	int Symmetry(int cx, int cy);
 

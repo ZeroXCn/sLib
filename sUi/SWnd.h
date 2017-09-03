@@ -65,6 +65,12 @@ public:
 	//更新指定窗口的客户区
 	BOOL UpdateWindow();
 
+	//更新一个分层窗口的位置，大小，形状，内容和半透明度。
+	BOOL UpdateLayeredWindow(HDC hdcDst,POINT *pptDst,SIZE *psize,HDC hdcSrc,POINT *pptSrc,COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
+	
+	//设置分层窗口透明度，常和 UpdateLayeredWindow 函数结合使用
+	BOOL SetLayeredWindowAttributes(COLORREF crKey,BYTE bAlpha,DWORD dwFlags);
+
 	//根据fuRedraw旗标的设置，重画全部或部分窗口。
 	BOOL RedrawWindow(CONST RECT* lprcUpdate, HRGN hrgnUpdate, UINT fuRedraw);
 
@@ -134,5 +140,11 @@ public:
 	//获取某点除的菜单项
 	int MenuItemFromPoint(HMENU hMenu,POINT ptScreen);
 	int MenuItemFromPoint(POINT ptScreen);
+
+	//定时器-
+	UINT_PTR SetTimer(UINT_PTR nIDEvent, UINT nElapse, TIMERPROC lpTimerFunc);//时器ID,时间间隔,回调函数
+	BOOL KillTimer(UINT_PTR nIDEvent);
+
+
 };
 #endif

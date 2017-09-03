@@ -52,8 +52,11 @@ class SWidget:
 public:
 	//注册一个类
 	static ATOM SWidget::RegisterWidget(const WNDCLASSEX *wxClassEx);
+	static BOOL SWidget::UnRegisterWidget(LPCTSTR lpClassName, HINSTANCE hInstance);
+	static BOOL SWidget::UnRegisterWidget(ATOM atom, HINSTANCE hInstance=NULL);
 	//创建一个窗口
 	static HWND SWidget::CreateWidget(const WINATTRIBUTE *waWinAttribute);
+	static BOOL SWidget::DestroyWidget(HWND hWnd);
 protected:
 	SWidget *m_pParent;				//父类控件
 	
@@ -87,8 +90,6 @@ public:
 	//获取设置控件句柄
 	SWnd GetWnd();
 
-	//获取设备上下文
-	SDc GetDC();
 public:
 	/* 属性设置-包括动态和静态更换 */
 	/* 以下操作针对窗口-GWL_ */
@@ -116,6 +117,7 @@ public:
 	void AddStyle(DWORD dwStyle);
 	void SetStyle(DWORD dwStyle);
 	DWORD GetStyle();
+	void ModifyStyle(DWORD dwRemove, DWORD dwAdd, UINT nFlags = 0);
 	BOOL IsHaveStyle(DWORD dwStyle);
 
 	//设置,获取菜单
@@ -192,6 +194,10 @@ public:
 	BOOL IsCreated();
 
 public:
+	//定时器
+	UINT_PTR SetTimer(UINT_PTR nIDEvent, UINT nElapse, TIMERPROC lpTimerFunc=NULL);//时器ID,时间间隔,回调函数
+	BOOL KillTimer(UINT_PTR nIDEvent);
+
 	// 置顶窗口
 	BOOL SetForegroundWindow();
 
@@ -209,6 +215,13 @@ public:
 	//更新控件
 	void UpdateWindow();
 	void UpdateWindow(int left, int top, int right, int bottom);
+
+	//更新一个分层窗口的位置
+	BOOL UpdateLayeredWindow(SDc sdcDst, POINT *pptDst, SIZE *psize, SDc sdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
+	BOOL UpdateLayeredWindow(POINT *pptDst, SIZE *psize, SDc sdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
+
+	//设置分层窗口透明度，常和 UpdateLayeredWindow 函数结合使用
+	BOOL SetLayeredWindowAttributes(COLORREF crKey, BYTE bAlpha, DWORD dwFlags);
 
 	//重绘控件
 	void ReDrawWindow();

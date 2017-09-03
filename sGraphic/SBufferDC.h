@@ -19,15 +19,15 @@ protected:
 	HBITMAP m_oldBitmap;	//旧位图
 	int m_nWidth, m_nHeight;//宽高
 
-	std::function<BOOL(SDc)> m_fPaint;
+	std::function<BOOL(SDc,SDc)> m_fPaint;
 
 protected:
 	//重写绘制
-	virtual BOOL OnPaint(SDc sdc);
+	virtual BOOL OnPaint(SDc src, SDc from);
 public:
 	//绘制
-	void OnPaint(std::function<BOOL(SDc)> fPaint);
-	BOOL Paint(SDc sdc);
+	void OnPaint(std::function<BOOL(SDc, SDc)> fPaint);
+	BOOL Paint(SDc src, SDc from);
 	BOOL Paint();
 public:
 	//设置获取来源DC

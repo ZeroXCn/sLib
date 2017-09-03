@@ -37,6 +37,7 @@ SWindowActivityEvent::SWindowActivityEvent()
 	m_fCreate = [](ActivityParam){ return TRUE; };
 	m_fPaint = [](SDc){};
 	m_fEvent = [](){};
+	m_fTimer = [](ActivityParam){};
 	m_fCommand = [](ActivityParam){};
 	m_fSize = [](ActivityParam){};
 	m_fClose = [](ActivityParam){
@@ -73,6 +74,11 @@ void SWindowActivityEvent::OnPaint(SDc dc)
 void SWindowActivityEvent::OnEvent()
 {
 	m_fEvent();
+}
+//定时器
+void SWindowActivityEvent::OnTimer(ActivityParam param)
+{
+	m_fTimer(param);
 }
 //处理子窗口命令
 void SWindowActivityEvent::OnCommand(ActivityParam param)
@@ -127,6 +133,12 @@ void SWindowActivityEvent::OnPaint(std::function<void(SDc)> fPaint)
 void SWindowActivityEvent::OnEvent(std::function<void()> fEvent)
 {
 	m_fEvent = fEvent;
+}
+
+//定时器
+void SWindowActivityEvent::OnTimer(std::function<void(ActivityParam)> fTimer)
+{
+	m_fTimer = fTimer;
 }
 
 //处理子控件

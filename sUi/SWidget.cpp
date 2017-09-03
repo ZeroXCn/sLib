@@ -5,7 +5,15 @@ ATOM SWidget::RegisterWidget(const WNDCLASSEX *wxClassEx)
 {
 	return ::RegisterClassEx(wxClassEx);
 }
-
+BOOL SWidget::UnRegisterWidget(LPCTSTR lpClassName, HINSTANCE hInstance)
+{
+	return ::UnregisterClass(lpClassName, hInstance);
+}
+BOOL SWidget::UnRegisterWidget(ATOM atom, HINSTANCE hInstance)
+{
+	if (!hInstance)hInstance = SApplication::GetApp()->GetInstance();
+	return ::UnregisterClass((LPTSTR)atom, hInstance);
+}
 HWND SWidget::CreateWidget(const WINATTRIBUTE *waWinAttribute)
 {
 	return ::CreateWindow(
@@ -21,13 +29,17 @@ HWND SWidget::CreateWidget(const WINATTRIBUTE *waWinAttribute)
 		waWinAttribute->hInstance,								//程序实例句柄
 		waWinAttribute->lpParam);								//传递给消息函数的指针
 }
+
+BOOL SWidget::DestroyWidget(HWND hWnd)
+{
+	return ::DestroyWindow(hWnd);
+}
 ////
 void SWidget::InitAttribute()
 {
 	/* 设置属性表的默认值 */
 
 	//WndClassEx初始化
-	GetWndClassEx()->cbSize = sizeof(WNDCLASSEX);							//长度
 	GetWndClassEx()->lpszClassName = TEXT("swidget");						//设置窗口类名(提供给CreateWindow()使用)
 	GetWndClassEx()->style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;			//垂直水平重绘,运行双击传递消息;(游戏窗口不建议采用CS_DBLCLKS样式)
 	GetWndClassEx()->hInstance = SApplication::GetApp() ? SApplication::GetApp()->GetInstance() : ::GetModuleHandle(NULL);	//指定义窗口应用程序的句柄
@@ -159,14 +171,7 @@ SWnd SWidget::GetWnd()
 	return m_Wnd;
 }
 
-//获取设备上下文
-SDc SWidget::GetDC()
-{
-	SDc dc;
-	if (m_Wnd.GetHandle())
-		dc.SetHandle(m_Wnd.GetDC());
-	return dc;
-}
+
 ///////////////////
 //
 LPWNDCLASSEX SWidget::GetWndClassEx()
@@ -249,6 +254,19 @@ DWORD SWidget::GetStyle()
 	else{
 		return GetWindowAttribute()->dwStyle;
 	}
+}
+
+void SWidget::ModifyStyle(DWORD dwRemove, DWORD dwAdd, UINT nFlags)
+{
+	DWORD oldStyle = GetStyle();
+	DWORD newStyle = oldStyle & ~dwRemove | dwAdd;
+	SetStyle(newStyle);
+	if (nFlags != 0){
+		RECT rt = GetWidgetRect();
+		SetWidgetRect(rt, nFlags, 0);
+	}
+	UpdateWindow();
+
 }
 
 BOOL SWidget::IsHaveStyle(DWORD dwStyle)
@@ -731,6 +749,17 @@ BOOL SWidget::IsCreated()
 }
 
 ////////////////////////
+//定时器设置
+UINT_PTR SWidget::SetTimer(UINT_PTR nIDEvent, UINT nElapse, TIMERPROC lpTimerFunc)
+{
+	return m_Wnd.SetTimer(nIDEvent, nElapse, lpTimerFunc);
+}
+BOOL SWidget::KillTimer(UINT_PTR nIDEvent)
+{
+	return m_Wnd.KillTimer(nIDEvent);
+}
+
+
 //显示控件
 void SWidget::ShowWindow()
 {
@@ -766,6 +795,24 @@ void SWidget::UpdateWindow(int left, int top, int right, int bottom)
 	m_Wnd.InvalidateRect(&temp, FALSE);	//更新区域添加一个矩形,不要擦掉背景
 	m_Wnd.UpdateWindow();					//强制刷新窗口,
 	
+}
+
+BOOL SWidget::UpdateLayeredWindow(SDc sdcDst, POINT *pptDst, SIZE *psize, SDc sdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags)
+{
+	return m_Wnd.UpdateLayeredWindow(sdcDst.GetHandle(), pptDst, psize, sdcSrc.GetHandle(), pptSrc, crKey, pblend, dwFlags);
+}
+BOOL SWidget::UpdateLayeredWindow(POINT *pptDst, SIZE *psize, SDc sdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags)
+{
+	HDC hdcDst = m_Wnd.GetDC();
+	BOOL ret = m_Wnd.UpdateLayeredWindow(hdcDst, pptDst, psize, sdcSrc.GetHandle(), pptSrc, crKey, pblend, dwFlags);
+	m_Wnd.ReleaseDC(hdcDst);
+	return ret;
+}
+
+//设置分层窗口透明度，常和 UpdateLayeredWindow 函数结合使用
+BOOL SWidget::SetLayeredWindowAttributes(COLORREF crKey, BYTE bAlpha, DWORD dwFlags)
+{
+	return m_Wnd.SetLayeredWindowAttributes(crKey, bAlpha, dwFlags);
 }
 
 //重绘控件

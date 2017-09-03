@@ -455,6 +455,27 @@ BOOL SDc::DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight, int xSrc
 	return result;
 }
 
+BOOL SDc::DrawImage(SBitmap sbm, int x, int y, int nWidth, int nHeight,int xSrc, int ySrc, SBitmap sMarkBitmap, int xMark, int yMark, DWORD dwRop)
+{
+	/* 以下代码存在问题,不能正常工作 */
+	HDC hdcMem = ::CreateCompatibleDC(m_hDC);		//创建兼容设备
+	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, sbm.GetHandle());	//将位图选入兼容设备，并记录下旧的句柄
+	
+	BOOL result = ::MaskBlt(m_hDC, x, y, nWidth, nHeight, hdcMem, xSrc, ySrc, sMarkBitmap.GetHandle(), xMark, yMark, dwRop);
+
+	::SelectObject(hdcMem, hOldBmp);
+	::DeleteObject(hOldBmp);
+	::DeleteDC(hdcMem);
+
+	return result;
+
+}
+BOOL SDc::DrawImage(SBitmap sbm, int x, int y, SBitmap sMarkBitmap, int xSrc, int ySrc, DWORD dwRop)
+{
+	SIZE size = sbm.GetSize();
+	return DrawImage(sbm, x, y, size.cx, size.cy, xSrc, ySrc, sMarkBitmap, xSrc, ySrc, dwRop);
+}
+
 BOOL SDc::DrawDC(SDc sdcSrc, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, DWORD dwRop)
 {
 	return ::StretchBlt(m_hDC, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, sdcSrc.GetHandle(), nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, dwRop);
@@ -618,22 +639,37 @@ int SDc::Reflect(int cx, int cy)
 }
 
 //镜像
-int SDc::Mirror(int dX)
+int SDc::Mirror(int a,int b,int c)
 {
+	float nDen = (float)a*a + b*b;
+	if (nDen == 0.f)
+		return GetGraphicsMode();
+
 	//为指定的设备环境设置图形模式
 	int nGraphicsMode = SetGraphicsMode(GM_ADVANCED);
 	XFORM xform;
 	//镜像矩阵
-	xform.eM11 = (float)-1.f;
-	xform.eM12 = (float)0.f;
-	xform.eM21 = (float)0.f;
-	xform.eM22 = (float)1.f;
-	xform.eDx = (float)dX;
-	xform.eDy = (float)0.f;
+	xform.eM11 = (float)(nDen - 2 * a*a) / nDen;
+	xform.eM12 = (float)(-2 * a * b) / nDen;
+	xform.eM21 = (float)(-2 * a * b) / nDen;
+	xform.eM22 = (float)(nDen - 2 * b*b) / nDen;
+	xform.eDx = (float)(-2 * a * c) / nDen;
+	xform.eDy = (float)(-2 * b * c) / nDen;
 
 	SetWorldTransform(&xform);
 
 	return nGraphicsMode;
+}
+
+
+int SDc::MirrorX(int dX)
+{
+	return Mirror(1, 0, -dX);		//化为标准式后 c=-dx
+}
+
+int SDc::MirrorY(int dY)
+{
+	return Mirror(0, 1, -dY);
 }
 
 int SDc::Symmetry(int cx, int cy)

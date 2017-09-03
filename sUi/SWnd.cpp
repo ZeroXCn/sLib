@@ -127,6 +127,16 @@ BOOL SWnd::UpdateWindow()
 	return ::UpdateWindow(GetHandle());
 }
 
+BOOL SWnd::UpdateLayeredWindow(HDC hdcDst, POINT *pptDst, SIZE *psize, HDC hdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags)
+{
+	return ::UpdateLayeredWindow(GetHandle(), hdcDst, pptDst, psize, hdcSrc, pptSrc, crKey, pblend, dwFlags);
+}
+
+BOOL SWnd::SetLayeredWindowAttributes(COLORREF crKey, BYTE bAlpha, DWORD dwFlags)
+{
+	return ::SetLayeredWindowAttributes(GetHandle(), crKey, bAlpha, dwFlags);
+}
+
 BOOL SWnd::RedrawWindow(CONST RECT* lprcUpdate, HRGN hrgnUpdate, UINT fuRedraw)
 {
 	return ::RedrawWindow(GetHandle(), lprcUpdate, hrgnUpdate, fuRedraw);
@@ -242,4 +252,13 @@ int SWnd::MenuItemFromPoint(HMENU hMenu, POINT ptScreen)
 int SWnd::MenuItemFromPoint(POINT ptScreen)
 {
 	return ::MenuItemFromPoint(GetHandle(), GetMenu(), ptScreen);
+}
+
+UINT_PTR SWnd::SetTimer(UINT_PTR nIDEvent, UINT nElapse, TIMERPROC lpTimerFunc)
+{
+	return ::SetTimer(GetHandle(), nIDEvent, nElapse, lpTimerFunc);
+}
+BOOL SWnd::KillTimer(UINT_PTR nIDEvent)
+{
+	return ::KillTimer(GetHandle(), nIDEvent);
 }

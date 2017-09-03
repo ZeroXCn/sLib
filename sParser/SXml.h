@@ -7,7 +7,6 @@
 #include "../sCore/SObject.h"
 #include "../sCore/SString.h"
 #include "extern/tinyxml2/tinyxml2.h"
-using namespace tinyxml2;
 
 #ifndef _SXML_H_
 #define _SXML_H_
@@ -21,13 +20,13 @@ using namespace tinyxml2;
 //class SXmlUnknown :public SObject, public XMLUnknown{};
 //class SXmlPrinter :public SObject, public XMLPrinter{};
 
-typedef XMLDocument SXmlDocument;
-typedef XMLElement SXmlElement;
-typedef XMLAttribute SXmlAttribute;
-typedef XMLComment SXmlComment;
-typedef XMLText SXmlText;
-typedef XMLDeclaration SXmlDeclaration;
-typedef XMLUnknown SXmlUnknown;
-typedef XMLPrinter SXmlPrinter;
+typedef tinyxml2::XMLDocument SXmlDocument;
+typedef tinyxml2::XMLElement SXmlElement;
+typedef tinyxml2::XMLAttribute SXmlAttribute;
+typedef tinyxml2::XMLComment SXmlComment;
+typedef tinyxml2::XMLText SXmlText;
+typedef tinyxml2::XMLDeclaration SXmlDeclaration;
+typedef tinyxml2::XMLUnknown SXmlUnknown;
+typedef tinyxml2::XMLPrinter SXmlPrinter;
 
 #endif

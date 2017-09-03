@@ -135,7 +135,8 @@ LRESULT CALLBACK SWindow::OnProc(MessageParam param)
 	SWindowActivityEvent::ActivityParam acParam(param.hWnd, param.uMsg, param.wParam, param.lParam);
 	SWindowInputEvent::InputParam inParam(param.hWnd, param.uMsg, param.wParam, param.lParam);
 
-	//TODO:相同参数数量过多,会影响速度
+	//TODO:相同参数的临时变量数量过多,会影响速度-最好采用指针或者引用
+
 	switch (param.uMsg)
 	{
 	case WM_CREATE:					//窗口建立消息:CreateWindow函数请求创建窗口时发送此消息
@@ -152,6 +153,11 @@ LRESULT CALLBACK SWindow::OnProc(MessageParam param)
 		m_Wnd.EndPaint(&ps);
 
 		break;
+	case WM_TIMER:
+
+		m_pActivityEvent->OnTimer(acParam);
+		break;
+
 	case WM_COMMAND:
 		m_pActivityEvent->OnCommand(acParam);
 		break;

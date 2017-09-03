@@ -77,9 +77,17 @@ public:
 
 
 	//使用特定的掩码和光栅操作来对源和目标位图的颜色数据进行组合
-	BOOL MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, HDC hdcSrc, int nXSrc, int nYSrc, HBITMAP hbmMask, int xMask, int yMask, DWORD dwRop);
+	//遮罩法-要求为色黑白图(人物轮廓为黑,背景为白)-最后一个参数为两者光栅操作码-高位为前景(MARK)与背景的,低位为最终与输出的DC
+	BOOL MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, HDC hdcSrc, int nXSrc, int nYSrc, HBITMAP hbmMask, int xMask, int yMask, DWORD dwRop = MAKEROP4(SRCPAINT, SRCCOPY));
+	BOOL MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, int nXSrc, int nYSrc, HBITMAP hbmMask, int xMask, int yMask, DWORD dwRop = MAKEROP4(SRCPAINT, SRCCOPY));
+	BOOL MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, int nXSrc, int nYSrc, HBITMAP hbmMask, DWORD dwRop = MAKEROP4(SRCPAINT, SRCCOPY));
+	BOOL MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, HBITMAP hbmMask, int xMask, int yMask, DWORD dwRop = MAKEROP4(SRCPAINT, SRCCOPY));
+	BOOL MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, HBITMAP hbmMask, DWORD dwRop = MAKEROP4(SRCPAINT, SRCCOPY));
+	BOOL MaskBlt(HDC hdcDest, int nXDest, int nYDest,  HBITMAP hbmMask, int xMask, int yMask, DWORD dwRop = MAKEROP4(SRCPAINT, SRCCOPY));
+	BOOL MaskBlt(HDC hdcDest, int nXDest, int nYDest,  HBITMAP hbmMask, DWORD dwRop = MAKEROP4(SRCPAINT, SRCCOPY));
 
 	//对指定的源设备环境中的矩形区域像素的颜色数据进行位块（bit_block）转换，并将结果置于目标设备环境
+	//透明色彩法
 	BOOL TransparentBlt(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, HDC hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, UINT crTransparent);
 	BOOL TransparentBlt(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, UINT crTransparent = RGB(255, 255, 255));
 	BOOL TransparentBlt(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest,UINT crTransparent = RGB(255, 255, 255));
@@ -136,6 +144,12 @@ public:
 	void DrawTransBitmap(HDC hdcDest, int nXDest, int nYDest, int nWidthDest, int nHeightDest, int nXSrc, int nYSrc, int nWidthSrc, int nHeightSrc, COLORREF crTrans = RGB(255, 255, 255));
 	void DrawTransBitmap(HDC hdcDest, int nXDest, int nYDest, int nWidthDest, int nHeightDest,COLORREF crTrans = RGB(255, 255, 255));
 	void DrawTransBitmap(HDC hdcDest, int nXDest, int nYDest, COLORREF crTrans = RGB(255, 255, 255));
+
+	//自定义的绘制
+	void DrawMaskBitmap(HDC hdcDest, int nXDest, int nYDest, int nWidthDest, int nHeightDest, int nXSrc, int nYSrc,HBITMAP hMark, int nMarkX, int nMarkY);
+	void DrawMaskBitmap(HDC hdcDest, int nXDest, int nYDest, int nWidthDest, int nHeightDest, int nXSrc, int nYSrc, HBITMAP hMark);
+	void DrawMaskBitmap(HDC hdcDest, int nXDest, int nYDest, int nWidthDest, int nHeightDest, HBITMAP hMark);
+	void DrawMaskBitmap(HDC hdcDest, int nXDest, int nYDest,  HBITMAP hMark);
 };
 
 #endif

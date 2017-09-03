@@ -34,6 +34,7 @@ private:
 	std::function<BOOL(ActivityParam)> m_fCreate;
 	std::function<void(SDc)> m_fPaint;
 	std::function<void()> m_fEvent;
+	std::function<void(ActivityParam)> m_fTimer;
 	std::function<void(ActivityParam)> m_fCommand;
 	std::function<void(ActivityParam)> m_fSize;
 	std::function<BOOL(ActivityParam)> m_fClose;
@@ -50,10 +51,13 @@ public:
 	virtual BOOL OnCreate(ActivityParam param);
 
 	//绘制绘制事件
-	virtual void OnPaint(SDc dc);
+	virtual void OnPaint(SDc dc);		//可改为HDC
 
 	//窗口空闲事件
 	virtual void OnEvent();
+
+	//定时器
+	virtual void OnTimer(ActivityParam param);
 
 	//处理子控件
 	virtual void OnCommand(ActivityParam param);
@@ -82,6 +86,9 @@ public:
 
 	//窗口空闲事件
 	void OnEvent(std::function<void()> fEvent);
+
+	//窗口空闲事件
+	void OnTimer(std::function<void(ActivityParam)> fTimer);
 
 	//处理子控件
 	void OnCommand(std::function<void(ActivityParam)> fCommand);

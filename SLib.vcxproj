@@ -122,6 +122,10 @@
     <ClInclude Include="sGraphic\SBufferDC.h" />
     <ClInclude Include="sGraphic\SBitmap.h" />
     <ClInclude Include="sGraphic\SBrush.h" />
+    <ClInclude Include="sMath\SPoint2.h" />
+    <ClInclude Include="sMath\SRect.h" />
+    <ClInclude Include="sMath\SVector2.h" />
+    <ClInclude Include="sParser\extern\jsoncpp\json_tool.h" />
     <ClInclude Include="sUi\SCursor.h" />
     <ClInclude Include="sGraphic\SDc.h" />
     <ClInclude Include="sGraphic\SFont.h" />
@@ -137,7 +141,6 @@
     <ClInclude Include="sMedia\SMedia.h" />
     <ClInclude Include="sMisc\SCalendarInfo.hpp" />
     <ClInclude Include="sMisc\SFileInfo.hpp" />
-    <ClInclude Include="sParser\extern\inifile2\inifile.h" />
     <ClInclude Include="sParser\extern\jsoncpp\allocator.h" />
     <ClInclude Include="sParser\extern\jsoncpp\assertions.h" />
     <ClInclude Include="sParser\extern\jsoncpp\autolink.h" />
@@ -176,6 +179,9 @@
     <ClInclude Include="sUi\SMenuBar.h" />
     <ClInclude Include="sUi\SMessageBox.h" />
     <ClInclude Include="sUi\SMessageHandler.h" />
+    <ClInclude Include="sUi\SPOINT.h" />
+    <ClInclude Include="sUi\SRECT.h" />
+    <ClInclude Include="sUi\SSIZE.h" />
     <ClInclude Include="sUi\SWidget.h" />
     <ClInclude Include="sUi\SWindow.h" />
     <ClInclude Include="sUi\SWindowActivityEvent.h" />
@@ -217,6 +223,14 @@
     <ClCompile Include="sGraphic\SBitmap.cpp" />
     <ClCompile Include="sGraphic\SBrush.cpp" />
     <ClCompile Include="sGraphic\SBufferDC.cpp" />
+    <ClCompile Include="sMath\SPoint2.cpp" />
+    <ClCompile Include="sMath\SRect.cpp" />
+    <ClCompile Include="sMath\SVector2.cpp" />
+    <ClCompile Include="sParser\extern\jsoncpp\json_reader.cpp" />
+    <ClCompile Include="sParser\extern\jsoncpp\json_value.cpp" />
+    <ClCompile Include="sParser\extern\jsoncpp\json_writer.cpp" />
+    <ClCompile Include="sParser\SIni.cpp" />
+    <ClCompile Include="sParser\SJson.cpp" />
     <ClCompile Include="sUi\SCursor.cpp" />
     <ClCompile Include="sGraphic\SDc.cpp" />
     <ClCompile Include="sGraphic\SFont.cpp" />
@@ -227,7 +241,6 @@
     <ClCompile Include="sGraphic\SRgn.cpp" />
     <ClCompile Include="sCore\SBigInteger.cpp" />
     <ClCompile Include="sMedia\SMedia.cpp" />
-    <ClCompile Include="sParser\extern\inifile2\inifile.cpp" />
     <ClCompile Include="sParser\extern\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="sParser\SProfile.cpp" />
     <ClCompile Include="sParser\SInf.cpp" />

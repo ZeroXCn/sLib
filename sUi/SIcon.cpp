@@ -27,6 +27,7 @@ BOOL SIcon::Load(UINT uRcid, HINSTANCE hInstance )
 //从文件中加载位图
 BOOL SIcon::Load(LPTSTR lpFileName, HINSTANCE hInstance)
 {
+	//m_handle = (HICON)::LoadImage(hInstance, lpFileName, IMAGE_ICON, 0, 0, LR_DEFAULTSIZE | LR_LOADFROMFILE);  //本地加载自定义ico图标
 	m_handle = ::LoadIcon(hInstance, lpFileName);
 	return m_handle ? TRUE : FALSE;
 }

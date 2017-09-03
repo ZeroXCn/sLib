@@ -159,6 +159,47 @@ BOOL SBitmap::MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeig
 	return ::MaskBlt(hdcDest, nXDest, nYDest, nWidth, nHeight, hdcSrc, nXSrc, nYSrc, hbmMask, xMask, yMask, dwRop);
 }
 
+BOOL SBitmap::MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, int nXSrc, int nYSrc, HBITMAP hbmMask, int xMask, int yMask, DWORD dwRop)
+{
+	HDC hdcMem = ::CreateCompatibleDC(hdcDest);		//创建兼容设备
+	HBITMAP hOldBmp = (HBITMAP)::SelectObject(hdcMem, (HBITMAP)m_hGdiObj);	//将位图选入兼容设备，并记录下旧的句柄
+
+	BOOL result = MaskBlt(hdcDest, nXDest, nYDest, nWidth, nHeight, hdcMem, nXSrc, nYSrc, hbmMask, xMask, yMask, dwRop);
+
+	::SelectObject(hdcMem, hOldBmp);
+	::DeleteObject(hOldBmp);
+	::DeleteDC(hdcMem);
+
+	return result;
+}
+BOOL SBitmap::MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, int nXSrc, int nYSrc, HBITMAP hbmMask, DWORD dwRop)
+{
+	return MaskBlt(hdcDest, nXDest, nYDest, nWidth, nHeight, nXSrc, nYSrc, hbmMask, nXSrc, nYSrc, dwRop);
+}
+
+BOOL SBitmap::MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, HBITMAP hbmMask, int xMask, int yMask, DWORD dwRop)
+{
+	return MaskBlt(hdcDest, nXDest, nYDest, nWidth, nHeight, 0, 0, hbmMask, xMask, yMask, dwRop);
+}
+
+BOOL SBitmap::MaskBlt(HDC hdcDest, int nXDest, int nYDest, int nWidth, int nHeight, HBITMAP hbmMask, DWORD dwRop)
+{
+	return MaskBlt(hdcDest, nXDest, nYDest, nWidth, nHeight, 0, 0, hbmMask, 0, 0, dwRop);
+
+}
+BOOL SBitmap::MaskBlt(HDC hdcDest, int nXDest, int nYDest,  HBITMAP hbmMask, int xMask, int yMask, DWORD dwRop)
+{
+	SIZE size = GetSize();
+	return MaskBlt(hdcDest, nXDest, nYDest, size.cx, size.cy, xMask, yMask, hbmMask, xMask, yMask, dwRop);
+}
+BOOL SBitmap::MaskBlt(HDC hdcDest, int nXDest, int nYDest, HBITMAP hbmMask, DWORD dwRop)
+{
+	SIZE size = GetSize();
+	return MaskBlt(hdcDest, nXDest, nYDest, size.cx, size.cy, 0, 0, hbmMask, 0, 0, dwRop);
+
+}
+
+
 BOOL SBitmap::TransparentBlt(HDC hdcDest, int nXOriginDest, int nYOriginDest, int nWidthDest, int nHeightDest, HDC hdcSrc, int nXOriginSrc, int nYOriginSrc, int nWidthSrc, int nHeightSrc, UINT crTransparent)
 {
 	return ::TransparentBlt(hdcDest, nXOriginDest, nYOriginDest, nWidthDest, nHeightDest, hdcSrc, nXOriginSrc, nYOriginSrc, nWidthSrc, nHeightSrc, crTransparent);
@@ -461,4 +502,36 @@ void SBitmap::DrawTransBitmap(HDC hdcDest, int nXDest, int nYDest, COLORREF crTr
 {
 	SIZE size = GetSize();
 	DrawTransBitmap(hdcDest, nXDest, nYDest, size.cx, size.cy, 0, 0, size.cx, size.cy, crTrans);
+}
+
+void SBitmap::DrawMaskBitmap(HDC hdcDest, int nXDest, int nYDest, int nWidthDest, int nHeightDest, int nXSrc, int nYSrc, HBITMAP hMark, int nMarkX, int nMarkY)
+{
+	/*TODO:以下代码可能不正确 */
+
+	HDC dcMask = ::CreateCompatibleDC(hdcDest);			//创建兼容设备
+	HDC dcImage = ::CreateCompatibleDC(hdcDest);		//创建兼容设备
+
+	::SelectObject(dcMask, hMark);
+	::BitBlt(hdcDest, nXDest, nYDest, nWidthDest, nHeightDest, dcMask, nMarkX, nMarkY, SRCAND);
+	::DeleteDC(dcMask);
+
+	::SelectObject(dcImage, GetHandle());
+	::BitBlt(hdcDest, nXDest, nYDest, nWidthDest, nHeightDest, dcImage, nXSrc, nYSrc, SRCPAINT);
+	::DeleteDC(dcImage);
+
+}
+
+
+void SBitmap::DrawMaskBitmap(HDC hdcDest, int nXDest, int nYDest, int nWidthDest, int nHeightDest, int nXSrc, int nYSrc, HBITMAP hMark)
+{
+	DrawMaskBitmap(hdcDest, nXDest, nYDest, nWidthDest, nHeightDest, nXSrc, nYSrc, hMark, 0, 0);
+}
+void SBitmap::DrawMaskBitmap(HDC hdcDest, int nXDest, int nYDest, int nWidthDest, int nHeightDest, HBITMAP hMark)
+{
+	DrawMaskBitmap(hdcDest, nXDest, nYDest, nWidthDest, nHeightDest, 0, 0, hMark, 0, 0);
+}
+void SBitmap::DrawMaskBitmap(HDC hdcDest, int nXDest, int nYDest, HBITMAP hMark)
+{
+	SIZE size = GetSize();
+	DrawMaskBitmap(hdcDest, nXDest, nYDest, size.cx, size.cy, 0, 0, hMark, 0, 0);
 }
