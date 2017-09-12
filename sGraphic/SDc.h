@@ -182,6 +182,7 @@ public:
 	BOOL GradientFill(CONST PTRIVERTEX pVertex, DWORD dwNumVertex, CONST PVOID pMesh, DWORD dwNumMesh, DWORD dwMode);
 
 	//输出文字
+	BOOL DrawString(SString str, int x, int y, SFont sFont, COLORREF crColor = BLACK_COLOR, BOOL bTrans = TRUE, UINT format = DT_LEFT);
 	BOOL DrawString(SString str, int x, int y, COLORREF crColor = BLACK_COLOR, BOOL bTrans = TRUE, UINT format = DT_LEFT);
 	int DrawString(SString str, RECT rt, UINT format = DT_CALCRECT);
 	//输出带边框文字

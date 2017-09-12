@@ -10,20 +10,24 @@ SControl::SControl(SWidget *parent) :SWidget(parent)
 
 	//控件样式都含有WS_CHILD | WS_VISIBLE
 	GetWindowAttribute()->dwStyle = WS_CHILD | WS_VISIBLE;
+	GetWindowAttribute()->lpParam = parent ? parent->GetWnd().GetHandle() : NULL;
 	GetWindowAttribute()->hMenu = (HMENU)DEFAULT_MENU_VALUE;
 	GetWindowAttribute()->hInstance = (HINSTANCE)::GetModuleHandle(NULL);
 	
 
 	m_pWndClassEx->lpszClassName = NULL;
 	
+	//添加到父类子控件初始化列表
+	AddInitChild(parent, (SWidget *)this);
 
 	g_nControlId++;
 }
 SControl::~SControl()
 {
-
+	UnSubChildClass(GetWnd().GetHandle(), (SMessageHandler *)GetParent());
 }
 
+///////////////////////////////
 BOOL SControl::OnPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute)
 {
 	/* 通用操作 */

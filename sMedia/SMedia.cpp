@@ -53,7 +53,7 @@ BOOL SMedia::IsPlay()		//获取音乐播放状态
 	
 	_stprintf_s(szCommand,TEXT("status MUSIC%d mode"), m_ID);	//创建MCI命令字符串
 	::mciSendString(szCommand,szStatus,20,0);	//获取状态
-	return(0 == wcscmp(szStatus, TEXT("playing")));
+	return(0 == _tcscmp(szStatus, TEXT("playing")));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ BOOL SMedia::IsOpen()		//获取音乐文件打开状态
 	_stprintf_s(szCommand, TEXT("status MUSIC%d mode"), m_ID);
 	::mciSendString(szCommand,szStatus,20,0);	
 
-	return(0 == wcscmp(szStatus, TEXT("stopped")) || 0 == wcscmp(szStatus, TEXT("playing")));
+	return(0 == _tcscmp(szStatus, TEXT("stopped")) || 0 == _tcscmp(szStatus, TEXT("playing")));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -78,7 +78,7 @@ BOOL SMedia::IsStop()
 	
 	_stprintf_s(szCommand, TEXT("status MUSIC%d mode"), m_ID);
 	::mciSendString(szCommand,szStatus,20,0);
-	return(0 == wcscmp(szStatus, TEXT("stopped")));
+	return(0 == _tcscmp(szStatus, TEXT("stopped")));
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,7 +133,7 @@ void SMedia::VolumeUp()			//增大音量
 BOOL SMedia::Open(LPTSTR szMusicPath)	//打开音乐文件
 {
 
-	if(wcslen(szMusicPath)==0)
+	if(_tcslen(szMusicPath)==0)
 		return FALSE;
 	
 	if(IsPlay()||IsStop())	//如果已有音乐文件被打开，则先关闭

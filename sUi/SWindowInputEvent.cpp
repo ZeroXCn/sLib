@@ -18,6 +18,11 @@ int SWindowInputEvent::InputParam::GetMouseY()
 	return HIWORD(lParam);
 }
 
+int SWindowInputEvent::InputParam::GetMouseZ()
+{
+	return GET_WHEEL_DELTA_WPARAM(wParam);
+}
+
 //指定虚拟键的状态的一个函数 > 0 没按下|< 0被按下
 SHORT SWindowInputEvent::InputParam::GetKeyState(int nVirtKey)
 {

@@ -65,6 +65,19 @@ BOOL SWindowActivityEvent::OnCreate(ActivityParam param)
 }
 
 //绘制绘制事件
+void SWindowActivityEvent::OnPaint(ActivityParam param)
+{
+	PAINTSTRUCT ps;					//定义，无初始化,由BeginPaint初始化
+	SDc dc;
+	//NOTE:不写BeginPaint程序将会进入死循环,一直处理一个接一个的WM_PAINT消息
+	dc.SetHandle(::BeginPaint(param.hWnd,&ps));
+
+	//TODO:负责窗口绘制工作,并且绘制其下子控件
+	OnPaint(dc);
+
+	::EndPaint(param.hWnd, &ps);
+
+}
 void SWindowActivityEvent::OnPaint(SDc dc)
 {
 	m_fPaint(dc);

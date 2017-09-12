@@ -51,7 +51,8 @@ public:
 	virtual BOOL OnCreate(ActivityParam param);
 
 	//绘制绘制事件
-	virtual void OnPaint(SDc dc);		//可改为HDC
+	virtual void OnPaint(ActivityParam param);
+	virtual void OnPaint(SDc dc);				//可改为HDC
 
 	//窗口空闲事件
 	virtual void OnEvent();

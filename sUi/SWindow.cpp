@@ -94,6 +94,40 @@ int SWindow::ShowCursor(BOOL bShow)
 {
 	return ::ShowCursor(bShow);
 }
+
+int SWindow::HideCursor()
+{
+	return ::ShowCursor(FALSE);
+}
+
+/* 限制释放鼠标移动范围 */
+RECT SWindow::GetClipCursor()
+{
+	RECT rt;
+	::GetClipCursor(&rt);
+	return rt;
+}
+void SWindow::ClipCursor(const RECT *rt)
+{
+	::ClipCursor(rt);
+}
+void SWindow::FreeCursor()
+{
+	::ClipCursor(NULL);
+}
+
+/* 取得鼠标绝对位置 */
+POINT SWindow::GetCursorPos()
+{
+	POINT pt;
+	::GetCursorPos(&pt);
+	return pt;
+}
+void SWindow::SetCursorPos(POINT pt)
+{
+	::SetCursorPos(pt.x,pt.y);
+}
+
 void SWindow::RePaint()
 {
 	SWidget::UpdateWindow();
@@ -130,8 +164,6 @@ SWindowActivityEvent *SWindow::GetWindowActivityEvent()
 
 LRESULT CALLBACK SWindow::OnProc(MessageParam param)
 {
-	PAINTSTRUCT ps;					//定义，无初始化,由BeginPaint初始化
-	SDc dc;
 	SWindowActivityEvent::ActivityParam acParam(param.hWnd, param.uMsg, param.wParam, param.lParam);
 	SWindowInputEvent::InputParam inParam(param.hWnd, param.uMsg, param.wParam, param.lParam);
 
@@ -139,22 +171,11 @@ LRESULT CALLBACK SWindow::OnProc(MessageParam param)
 
 	switch (param.uMsg)
 	{
-	case WM_CREATE:					//窗口建立消息:CreateWindow函数请求创建窗口时发送此消息
-		m_pActivityEvent->OnCreate(acParam);
-		break;
-
 	case WM_PAINT:					//窗口重绘消息
-		//NOTE:不写BeginPaint程序将会进入死循环,一直处理一个接一个的WM_PAINT消息
-		dc.SetHandle(m_Wnd.BeginPaint(&ps));
-
-		//TODO:负责窗口绘制工作,并且绘制其下子控件
-		m_pActivityEvent->OnPaint(dc);
-
-		m_Wnd.EndPaint(&ps);
-
+		m_pActivityEvent->OnPaint(acParam);
 		break;
-	case WM_TIMER:
 
+	case WM_TIMER:
 		m_pActivityEvent->OnTimer(acParam);
 		break;
 
@@ -293,9 +314,15 @@ BOOL SWindow::OnPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute
 	return TRUE;
 }
 
+BOOL SWindow::OnCreate(MessageParam param)
+{
+	return m_pActivityEvent->OnCreate(SWindowActivityEvent::ActivityParam(param.hWnd, param.uMsg, param.wParam, param.lParam));
+}
+
+
 BOOL SWindow::OnAftCreate(SWnd sWnd)
 {
-	if (!sWnd.GetHandle()){	
+	if (!sWnd.GetHandle()){
 		::MessageBox(NULL, TEXT("注册窗口失败"), TEXT("error"), 0);
 		return FALSE;
 	}

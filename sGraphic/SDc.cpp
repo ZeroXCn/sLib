@@ -375,7 +375,13 @@ BOOL SDc::DrawString(SString str, int x, int y, COLORREF crColor, BOOL bTrans, U
 
 	return result;
 }
-
+BOOL SDc::DrawString(SString str, int x, int y, SFont sFont, COLORREF crColor , BOOL bTrans , UINT format )
+{
+	SFont old = SetFont(sFont);
+	BOOL ret = DrawString(str, x, y, crColor, bTrans, format);
+	SetFont(old);
+	return ret;
+}
 
 int SDc::DrawString(SString str, RECT rt, UINT format)
 {

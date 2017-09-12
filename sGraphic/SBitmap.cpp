@@ -83,6 +83,13 @@ BOOL SBitmap::CreateIndirect(CONST BITMAP *lpbm)
 	return (m_hGdiObj ? TRUE : FALSE);
 }
 
+
+BOOL SBitmap::CreateDIBSection(HDC hdc, CONST BITMAPINFO *pbmi, UINT iUsage, VOID** ppvBits, HANDLE hSection, DWORD dwOffset)
+{
+	m_hGdiObj = (HBITMAP)::CreateDIBSection(hdc, pbmi, iUsage, ppvBits, hSection, dwOffset);
+	return (m_hGdiObj ? TRUE : FALSE);
+}
+
 //从资源中加载位图
 BOOL SBitmap::Load(UINT uRcid, HINSTANCE hInstance)
 {

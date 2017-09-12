@@ -15,23 +15,19 @@
 #define _STHREAD_H_
 
 #include <windows.h>  
-#include <process.h>  
-
-#include <functional>  
+#include <process.h>
 
 class SThread : 
 	public SObject,
 	public SRunnable
 {
 public:
-	static SThread *Run(std::function<void(void)> callback);
-public:
 	//Ïß³ÌÐÝÃß
 	static void Sleep(DWORD dwMilliseconds);
 private:
 	explicit SThread(const SThread & rhs);
 private:
-	
+
 public:
 	SThread();
 	SThread(SRunnable * pRunnable);

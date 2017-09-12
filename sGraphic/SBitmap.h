@@ -39,6 +39,9 @@ public:
 	//创建一个具有特定宽度、高度和颜色格式的位图
 	BOOL CreateIndirect(CONST BITMAP *lpbm);
 
+	//创建应用程序可以直接写入的、与设备无关的位图（DIB）的函数。
+	BOOL CreateDIBSection(HDC hdc, CONST BITMAPINFO *pbmi, UINT iUsage, VOID** ppvBits, HANDLE hSection, DWORD dwOffset);
+
 	//从资源中加载位图
 	BOOL Load(UINT uRcid, HINSTANCE hInstance = NULL);
 

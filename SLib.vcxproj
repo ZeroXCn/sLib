@@ -93,6 +93,7 @@
     <ClInclude Include="sData\SSqlConnectionImpl.h" />
     <ClInclude Include="sData\SSqlResultSetImpl.h" />
     <ClInclude Include="sData\SSqlStatementImpl.h" />
+    <ClInclude Include="sGraphic\SBitmapDc.h" />
     <ClInclude Include="sGraphic\SColor.hpp" />
     <ClInclude Include="sHelper\SCodeHelper.hpp" />
     <ClInclude Include="sHelper\SDllHelper.hpp" />
@@ -130,6 +131,7 @@
     <ClInclude Include="sGraphic\SDc.h" />
     <ClInclude Include="sGraphic\SFont.h" />
     <ClInclude Include="sGraphic\SGdiObject.h" />
+    <ClInclude Include="sUi\SHook.h" />
     <ClInclude Include="sUi\SIcon.h" />
     <ClInclude Include="sGraphic\SPalette.h" />
     <ClInclude Include="sGraphic\SPen.h" />
@@ -179,9 +181,10 @@
     <ClInclude Include="sUi\SMenuBar.h" />
     <ClInclude Include="sUi\SMessageBox.h" />
     <ClInclude Include="sUi\SMessageHandler.h" />
-    <ClInclude Include="sUi\SPOINT.h" />
-    <ClInclude Include="sUi\SRECT.h" />
-    <ClInclude Include="sUi\SSIZE.h" />
+    <ClInclude Include="sUi\tagSPOINT.h" />
+    <ClInclude Include="sUi\tagSRECT.h" />
+    <ClInclude Include="sUi\tagSSIZE.h" />
+    <ClInclude Include="sUi\SLayered.h" />
     <ClInclude Include="sUi\SWidget.h" />
     <ClInclude Include="sUi\SWindow.h" />
     <ClInclude Include="sUi\SWindowActivityEvent.h" />
@@ -221,8 +224,9 @@
     <ClCompile Include="sData\SSqlResultSet.cpp" />
     <ClCompile Include="sData\SSqlStatement.cpp" />
     <ClCompile Include="sGraphic\SBitmap.cpp" />
+    <ClCompile Include="sGraphic\SBitmapDc.cpp" />
     <ClCompile Include="sGraphic\SBrush.cpp" />
-    <ClCompile Include="sGraphic\SBufferDC.cpp" />
+    <ClCompile Include="sGraphic\SBufferDc.cpp" />
     <ClCompile Include="sMath\SPoint2.cpp" />
     <ClCompile Include="sMath\SRect.cpp" />
     <ClCompile Include="sMath\SVector2.cpp" />
@@ -235,6 +239,7 @@
     <ClCompile Include="sGraphic\SDc.cpp" />
     <ClCompile Include="sGraphic\SFont.cpp" />
     <ClCompile Include="sGraphic\SGdiObject.cpp" />
+    <ClCompile Include="sUi\SHook.cpp" />
     <ClCompile Include="sUi\SIcon.cpp" />
     <ClCompile Include="sGraphic\SPalette.cpp" />
     <ClCompile Include="sGraphic\SPen.cpp" />
@@ -258,10 +263,14 @@
     <ClCompile Include="sUi\SEditText.cpp" />
     <ClCompile Include="sUi\SInstance.cpp" />
     <ClCompile Include="sUi\SLabel.cpp" />
+    <ClCompile Include="sUi\SLayered.cpp" />
     <ClCompile Include="sUi\SMenu.cpp" />
     <ClCompile Include="sUi\SMenuBar.cpp" />
     <ClCompile Include="sUi\SMessageBox.cpp" />
     <ClCompile Include="sUi\SMessageHandler.cpp" />
+    <ClCompile Include="sUi\tagSPOINT.cpp" />
+    <ClCompile Include="sUi\tagSRECT.cpp" />
+    <ClCompile Include="sUi\tagSSIZE.cpp" />
     <ClCompile Include="sUi\SWidget.cpp" />
     <ClCompile Include="sUi\SWindow.cpp" />
     <ClCompile Include="sUi\SWindowActivityEvent.cpp" />

@@ -122,6 +122,11 @@ BOOL SWnd::InvalidateRect(CONST RECT *lpRect, BOOL bErase)
 	return ::InvalidateRect(GetHandle(), lpRect, bErase);
 }
 
+BOOL SWnd::ValidateRect(CONST RECT *lpRect)
+{
+	return ::ValidateRect(GetHandle(), lpRect);
+}
+
 BOOL SWnd::UpdateWindow()
 {
 	return ::UpdateWindow(GetHandle());

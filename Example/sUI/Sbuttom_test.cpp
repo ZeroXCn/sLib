@@ -9,11 +9,10 @@ private:
 	SButton *mybuttom;
 	SMenuBar *mymenu;
 public:
-	BOOL MyWindow::OnCreate(ActivityParam &param)
+	BOOL MyWindow::OnCreate(ActivityParam param)
 	{
 		mybuttom = new SButton(this, TEXT("±ðµãÎÒ"));
 		mybuttom->Create();
-		mybuttom->SubChildClass(mybuttom->GetWnd().GetHandle(), this);
 		mybuttom->OnClicked([=](){
 			this->func();
 		});

@@ -131,7 +131,7 @@ typedef std::wstring rtstring;
 typedef std::string tstring;
 typedef std::ostream tostream;
 typedef std::istream tistream;
-typedef wchar_t RTCHAR
+typedef wchar_t RTCHAR;
 typedef std::regex tregex;
 typedef std::smatch tsmatch;
 #define tcout std::cout
@@ -168,7 +168,7 @@ public:
 	SString(double x);
 	SString(long x);
 	SString(bool x);
-
+	SString(const rtstring &OStr);
 
 	virtual ~SString();
 public:

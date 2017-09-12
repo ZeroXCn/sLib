@@ -65,7 +65,17 @@ public:
 
 public:
 	/* 显示鼠标 */
-	int ShowCursor(BOOL bShow);
+	int ShowCursor(BOOL bShow=TRUE);
+	int HideCursor();
+
+	/* 取得鼠标绝对位置 */
+	POINT GetCursorPos();
+	void SetCursorPos(POINT pt);
+
+	/* 限制释放鼠标移动范围 */
+	RECT GetClipCursor();
+	void ClipCursor(const RECT *rt);
+	void FreeCursor();
 
 	//重绘消息
 	void RePaint();
@@ -91,6 +101,9 @@ protected:
 
 	//部件创建之前
 	virtual BOOL OnPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute);
+	
+	//部件创建中
+	virtual BOOL OnCreate(MessageParam param) final;
 
 	//部件创建之后
 	virtual BOOL OnAftCreate(SWnd sWnd);
@@ -98,7 +111,5 @@ protected:
 	//线程空闲运行执行函数
 	virtual void OnRunning();
 
-
-	
 };
 #endif

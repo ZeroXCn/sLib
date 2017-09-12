@@ -1,26 +1,36 @@
 #include "SApplication.h"
 using namespace std;
 
-SApplication *SApplication::g_pApp = NULL;
+SApplication *SApplication::g_pApp = nullptr;		//全局对象指针
+HINSTANCE	SApplication::g_hInstance;				//当前程序实例句柄
+HINSTANCE	SApplication::g_hPrevInstance;			//父程序实例句柄
+PSTR SApplication::g_lpCmdline;						//启动的附加命令
+int SApplication::g_nCmdShow;						//启动模式
 
-
+//////////////////
 SApplication::SApplication(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdline, int nCmdShow)
 {
-	m_hInstance = hInstance;
-	m_hPrevInstance = hPrevInstance;
-	m_lpCmdline = lpCmdline;
-	m_nCmdShow = nCmdShow;
-
-	g_pApp = this;
+	if (!g_pApp){
+		g_pApp = this;
+		SetParam(hInstance, hPrevInstance, lpCmdline, nCmdShow);
+	}
 }
 SApplication::~SApplication()
 {
-
+	
+	g_pApp = nullptr;
 }
 
+//////
+void SApplication::SetParam(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdline, int nCmdShow)
+{
+	g_hInstance = hInstance;
+	g_hPrevInstance = hPrevInstance;
+	g_lpCmdline = lpCmdline;
+	g_nCmdShow = nCmdShow;
+}
 SApplication *SApplication::GetApp()
 {
-	
 	return g_pApp;
 }
 
@@ -62,25 +72,25 @@ void SApplication::DestroyWidget(SWidget *pWidget)
 //取得窗口实例
 HINSTANCE SApplication::GetInstance()
 {
-	return m_hInstance;
+	return g_hInstance;
 }
 
 //取得父窗口实例
 HINSTANCE SApplication::GetPrevInstance()
 {
-	return m_hPrevInstance;
+	return g_hPrevInstance;
 }
 
 //取得启动命令行
 PSTR SApplication::GetCmdline()
 {
-	return m_lpCmdline;
+	return g_lpCmdline;
 }
 
 //取得显示模式命令行
 int SApplication::GetCmdShow()
 {
-	return m_nCmdShow;
+	return g_nCmdShow;
 }
 
 

@@ -31,6 +31,7 @@ public:
 		//取得鼠标X,Y坐标
 		int GetMouseX();
 		int GetMouseY();
+		int GetMouseZ();
 	public:
 		//指定虚拟键的状态的一个函数 > 0 没按下|< 0被按下
 		static SHORT GetKeyState(int nVirtKey);

@@ -45,9 +45,6 @@
     <ClInclude Include="sGraphic\SRgn.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sGraphic\SBufferDC.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sMedia\SMedia.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -339,13 +336,25 @@
     <ClInclude Include="sMath\SVector2.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sUi\SRECT.h">
+    <ClInclude Include="sUi\SHook.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sUi\SPOINT.h">
+    <ClInclude Include="sUi\SLayered.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sUi\SSIZE.h">
+    <ClInclude Include="sGraphic\SBitmapDc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphic\SBufferDC.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\tagSPOINT.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\tagSRECT.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sUi\tagSSIZE.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -378,9 +387,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sGraphic\SRgn.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sGraphic\SBufferDC.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sMedia\SMedia.cpp">
@@ -585,6 +591,27 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sMath\SVector2.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SHook.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\SLayered.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SBitmapDc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphic\SBufferDc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\tagSPOINT.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\tagSRECT.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sUi\tagSSIZE.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

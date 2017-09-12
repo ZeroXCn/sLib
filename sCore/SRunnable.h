@@ -22,11 +22,16 @@ public:
 
 class SRunnableImpl :public SRunnable
 {
+private:
+	std::function<void(void)> m_fCallback;
+
 public:
-	std::function<void(void)> m_callback;
+	SRunnableImpl();
+	SRunnableImpl(std::function<void(void)> fCallback);
+	virtual ~SRunnableImpl();
 public:
-	SRunnableImpl(std::function<void(void)> callback);
-public:
+	void Run(std::function<void(void)> fCallback);
+
 	virtual void Run();
 };
 

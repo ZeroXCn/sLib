@@ -408,7 +408,7 @@ string SInfValue::ToStrString()
 }
 SString SInfValue::ToString()
 {
-	return SString::Parse(m_szValue);
+	return SString(m_szValue);
 }
 long SInfValue::ToLong()
 {

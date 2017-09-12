@@ -62,6 +62,9 @@ public:
 	//向指定的窗体更新区域添加一个矩形，然后窗口客户区域的这一部分将被重新绘制
 	BOOL InvalidateRect(CONST RECT *lpRect,BOOL bErase );
 
+	//该函数更新指定窗口的无效矩形区域，使之有效。
+	BOOL ValidateRect(CONST RECT *lpRect);
+		
 	//更新指定窗口的客户区
 	BOOL UpdateWindow();
 

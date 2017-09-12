@@ -13,36 +13,34 @@
 
 #include "SWidget.h"
 
-
 class SApplication :public SObject
 {
-	
 protected:
 	static SApplication *g_pApp;			//单例模式
-protected:
-	HINSTANCE	m_hInstance;				//当前程序实例句柄
-	HINSTANCE	m_hPrevInstance;			//父程序实例句柄
-	PSTR m_lpCmdline;						//启动的附加命令
-	int m_nCmdShow;							//启动模式
+	static HINSTANCE	g_hInstance;				//当前程序实例句柄
+	static HINSTANCE	g_hPrevInstance;			//父程序实例句柄
+	static PSTR g_lpCmdline;						//启动的附加命令
+	static int g_nCmdShow;							//启动模式
 
 	std::set<SWidget *>	m_winset;				//窗口集合
 public:
+	static void SetParam(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdline, int nCmdShow);
 
+	//取得窗口实例
+	static HINSTANCE GetInstance();
+
+	//取得父窗口实例
+	static HINSTANCE GetPrevInstance();
+
+	//取得启动命令行
+	static PSTR GetCmdline();
+
+	//取得显示模式命令行
+	static int GetCmdShow();
 public:
 	SApplication(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdline, int nCmdShow);
 	~SApplication();
 public:
-	//取得窗口实例
-	HINSTANCE GetInstance();
-
-	//取得父窗口实例
-	HINSTANCE GetPrevInstance();
-
-	//取得启动命令行
-	PSTR GetCmdline();
-
-	//取得显示模式命令行
-	int GetCmdShow();
 
 	//取得窗口集合
 	std::set<SWidget *> *GetWidgetSet();

@@ -7,6 +7,11 @@
 #include "../sCore/SObject.h"
 #include "../sCore/SThread.h"
 #include "../sGraphic/SDc.h"
+
+#include "tagSPOINT.h"
+#include "tagSRECT.h"
+#include "tagSSIZE.h"
+
 #include "SWnd.h"
 #include "SInstance.h"
 #include "SMenu.h"
@@ -19,6 +24,7 @@
 #define _SWIDGET_H_
 
 #include <Windows.h>
+#include <queue>
 
 //用于创建win的属性表
 typedef struct tagWINATTRIBUTE
@@ -58,6 +64,8 @@ public:
 	static HWND SWidget::CreateWidget(const WINATTRIBUTE *waWinAttribute);
 	static BOOL SWidget::DestroyWidget(HWND hWnd);
 protected:
+	std::queue<SWidget *> *m_ChildInitList;	//子类初始化队列
+protected:
 	SWidget *m_pParent;				//父类控件
 	
 	SWnd m_Wnd;						//控件句柄
@@ -77,6 +85,11 @@ private:
 	void InitAttribute();
 	BOOL DoPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute);
 	BOOL DoAftCreate(SWnd sWnd);
+protected:
+	//添加为需要初始化的子类
+	void AddInitChild(SWidget *parent,SWidget *child);
+	//初始化子类并释放队列
+	void InitChild();
 public:
 	/* 控件通用操作 */
 	/* 属性表获取与设置 */
@@ -117,7 +130,7 @@ public:
 	void AddStyle(DWORD dwStyle);
 	void SetStyle(DWORD dwStyle);
 	DWORD GetStyle();
-	void ModifyStyle(DWORD dwRemove, DWORD dwAdd, UINT nFlags = 0);
+	void ModifyStyle(DWORD dwRemove, DWORD dwAdd=0, UINT nFlags = 0);
 	BOOL IsHaveStyle(DWORD dwStyle);
 
 	//设置,获取菜单
@@ -125,7 +138,7 @@ public:
 	SMenu GetMenu();
 
 	// 获取设置控件位置 
-	POINT GetPos();
+	SPOINT GetPos();
 	int GetPosX();
 	int GetPosY();
 	void SetPos(int x, int y);
@@ -133,7 +146,7 @@ public:
 	void MovePos(int x, int y);
 
 	//取得客户端左上角绝对坐标
-	POINT GetClientPos();
+	SPOINT GetClientPos();
 	int GetClientPosX();
 	int GetClientPosY();
 	void SetClientPos(int x, int y);
@@ -144,28 +157,30 @@ public:
 	int GetHeight();
 	void SetWidth(int nWidth);
 	void SetHeight(int nHeight);
-	SIZE GetSize();
+	SSIZE GetSize();
+	void LockSize(BOOL bLock = TRUE);
+	BOOL IsLockSize();
 
 	//设置获取客户区大小
 	int GetClientWidth();
 	int GetClientHeight();
 	void SetClientWidth(int nWidth);
 	void SetClientHeight(int nHeight);
-	SIZE GetClientSize();
+	SSIZE GetClientSize();
 
 	// 获取设置部件矩形 
-	RECT GetWidgetRect();
-	void MoveWidgetRect(RECT rt, BOOL bReDraw = TRUE);
-	void SetWidgetRect(RECT rt, UINT uFlags, SWnd hWndInsertAfter);
-	void MoveWidgetRect(int x,int y,int width,int height, BOOL bReDraw = TRUE);
-	void SetWidgetRect(int x, int y, int width, int height, UINT uFlags, SWnd hWndInsertAfter);
+	SRECT GetRect();
+	void MoveRect(SRECT rt, BOOL bReDraw = TRUE);
+	void SetRect(SRECT rt, UINT uFlags, SWnd hWndInsertAfter);
+	void MoveRect(int x,int y,int width,int height, BOOL bReDraw = TRUE);
+	void SetRect(int x, int y, int width, int height, UINT uFlags, SWnd hWndInsertAfter);
 
 	//取得部件客户区大小
-	RECT GetWidgetClientRect();
-	void SetWidgetClientRect(RECT rt, UINT uFlags, SWnd hWndInsertAfter);
-	void MoveWidgetClientRect(RECT rt, BOOL bReDraw = TRUE);
-	void SetWidgetClientRect(int x, int y, int width, int height, UINT uFlags, SWnd hWndInsertAfter);
-	void MoveWidgetClientRect(int x, int y, int width, int height, BOOL bReDraw = TRUE);
+	SRECT GetClientRect();
+	void SetClientRect(SRECT rt, UINT uFlags, SWnd hWndInsertAfter);
+	void MoveClientRect(SRECT rt, BOOL bReDraw = TRUE);
+	void SetClientRect(int x, int y, int width, int height, UINT uFlags, SWnd hWndInsertAfter);
+	void MoveClientRect(int x, int y, int width, int height, BOOL bReDraw = TRUE);
 
 	/* 以下操作针对类-会影响父类的子类类型 */
 	/* WndClass属性变更-只支持静态GCL_ */
@@ -199,7 +214,7 @@ public:
 	BOOL KillTimer(UINT_PTR nIDEvent);
 
 	// 置顶窗口
-	BOOL SetForegroundWindow();
+	BOOL SetForeground();
 
 	// 取得焦点
 	SWnd SetFocus();
@@ -217,8 +232,8 @@ public:
 	void UpdateWindow(int left, int top, int right, int bottom);
 
 	//更新一个分层窗口的位置
-	BOOL UpdateLayeredWindow(SDc sdcDst, POINT *pptDst, SIZE *psize, SDc sdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
-	BOOL UpdateLayeredWindow(POINT *pptDst, SIZE *psize, SDc sdcSrc, POINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
+	BOOL UpdateLayeredWindow(SDc sdcDst, SPOINT *pptDst, SSIZE *psize, SDc sdcSrc, SPOINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
+	BOOL UpdateLayeredWindow(SPOINT *pptDst, SSIZE *psize, SDc sdcSrc, SPOINT *pptSrc, COLORREF crKey, BLENDFUNCTION *pblend, DWORD dwFlags);
 
 	//设置分层窗口透明度，常和 UpdateLayeredWindow 函数结合使用
 	BOOL SetLayeredWindowAttributes(COLORREF crKey, BYTE bAlpha, DWORD dwFlags);
@@ -234,8 +249,14 @@ protected:
 	//创建部件之前-用来标记控件类型
 	virtual BOOL OnPreCreate(WNDCLASSEX *lpWndClassEx,WINATTRIBUTE *lpWinAttribute);
 
+	//创建部件中
+	virtual BOOL OnCreate(MessageParam param);
+
 	//创建部件之后
 	virtual BOOL OnAftCreate(SWnd sWnd);
+
+	//初始化
+	virtual BOOL OnInit(SWnd sWnd, SInstance SInstance);
 
 	//线程主循环部分
 	virtual void OnRun();

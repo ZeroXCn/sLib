@@ -90,6 +90,11 @@ SString::SString(bool x)
 	*this = str;
 }
 
+SString::SString(const rtstring &OStr)
+{
+	*this=SString::Parse(OStr);
+}
+
 SString::~SString()
 {
 

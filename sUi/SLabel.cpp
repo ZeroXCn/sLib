@@ -35,7 +35,7 @@ void SLabel::AdjustText()
 	LPTSTR text = SWidget::GetTitle();
 	HDC hdc= GetWnd().GetDC();
 	SIZE size;
-	::GetTextExtentPointW(hdc, text, _tcslen(text), &size);
+	::GetTextExtentPoint(hdc, text, _tcslen(text), &size);
 	SetWidth(size.cx);
 	SetHeight(size.cy);
 	GetWnd().ReleaseDC(hdc);
