@@ -85,6 +85,7 @@ private:
 	void InitAttribute();
 	BOOL DoPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute);
 	BOOL DoAftCreate(SWnd sWnd);
+	BOOL DoInit(SWnd sWnd, SInstance SInstance);
 protected:
 	//添加为需要初始化的子类
 	void AddInitChild(SWidget *parent,SWidget *child);
@@ -173,7 +174,9 @@ public:
 	void MoveRect(SRECT rt, BOOL bReDraw = TRUE);
 	void SetRect(SRECT rt, UINT uFlags, SWnd hWndInsertAfter);
 	void MoveRect(int x,int y,int width,int height, BOOL bReDraw = TRUE);
+	void SetRect(int x, int y, int width, int height);
 	void SetRect(int x, int y, int width, int height, UINT uFlags, SWnd hWndInsertAfter);
+	void AdjustRect(LPRECT lprt, DWORD dwStyle, BOOL bMenu);
 
 	//取得部件客户区大小
 	SRECT GetClientRect();

@@ -15,11 +15,13 @@
 
 #include <regex>
 #ifdef _UNICODE
-typedef wregex tregex;
-typedef wsmatch tsmatch;
+typedef std::wregex tregex;
+typedef std::wsmatch tsmatch;
+typedef std::wsregex_token_iterator tsregex_token_iterator;
 #else
-typedef regex tregex;
-typedef smatch tsmatch;
+typedef std::regex tregex;
+typedef std::smatch tsmatch;
+typedef std::sregex_token_iterator tsregex_token_iterator;
 #endif
 
 class SRegex :

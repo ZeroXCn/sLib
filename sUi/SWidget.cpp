@@ -112,9 +112,6 @@ BOOL SWidget::DoAftCreate(SWnd sWnd)
 {
 	//通用操作
 	{
-		//创建子控件
-		InitChild();
-
 		{
 			if (m_pWinAttribute->bVisible == TRUE) ShowWindow(SApplication::GetCmdShow());
 			else HideWindow();
@@ -127,6 +124,16 @@ BOOL SWidget::DoAftCreate(SWnd sWnd)
 		m_pWinAttribute = NULL;
 	}
 	return OnAftCreate(sWnd);
+}
+
+BOOL SWidget::DoInit(SWnd sWnd, SInstance SInstance)
+{
+	BOOL ret = OnInit(sWnd, SInstance);
+	if (ret){
+		//创建子控件
+		InitChild();
+	}
+	return ret;
 }
 ////////////////////
 void SWidget::AddInitChild(SWidget *parent, SWidget *child)
@@ -562,6 +569,20 @@ void SWidget::SetRect(int x, int y, int width, int height, UINT uFlags, SWnd hWn
 	SetRect(rt, uFlags, hWndInsertAfter);
 }
 
+void SWidget::SetRect(int x, int y, int width, int height)
+{
+	SRECT rt;
+	rt.left = x; rt.top = y;
+	rt.right = x + width;
+	rt.bottom = y + height;
+	SetRect(rt, SWP_NOZORDER, nullptr);
+}
+
+void SWidget::AdjustRect(LPRECT lprt,DWORD dwStyle,BOOL bMenu)
+{
+	::AdjustWindowRect(lprt, dwStyle, bMenu);
+}
+
 SRECT SWidget::GetClientRect()
 {
 	SRECT rt;
@@ -985,7 +1006,7 @@ void SWidget::Run()
 		m_Wnd.SetParent(NULL);	//TODO:不符合逻辑
 		SApplication::GetApp()->RegisterWidget(this);
 
-		OnInit(GetWnd(), GetInstance());
+		DoInit(GetWnd(), GetInstance());
 		OnRun();
 		OnRan();//出口
 
@@ -1037,7 +1058,7 @@ int SWidget::DoModal()
 				//将父窗口的消息交接给子窗口
 				::EnableWindow(parent.GetHandle(), FALSE);  //锁定父窗口
 
-				OnInit(GetWnd(), GetInstance());
+				DoInit(GetWnd(), GetInstance());
 				OnRun();
 				OnRan();	//出口
 

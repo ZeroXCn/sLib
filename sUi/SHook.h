@@ -54,11 +54,12 @@ protected:
 public:
 	SHook();
 	~SHook();
-
+	//安装卸载钩子
 	bool Install(int idHook, DWORD dwThreadId, HINSTANCE hInstance = NULL, HOOKPROC lpfn = NULL);
 	bool Install(int idHook, BOOL bGlobal=FALSE, HINSTANCE hInstance = NULL, HOOKPROC lpfn = NULL);
 	bool Uninstall();
 
+	//消息回调
 	void Proc(std::function<void(INT nCode, WPARAM wParam, LPARAM lParam)> fProc);
 };
 

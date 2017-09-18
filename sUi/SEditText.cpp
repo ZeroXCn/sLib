@@ -5,7 +5,7 @@ SControl(parent)
 {
 	GetWindowAttribute()->lpClassName = TEXT("edit");
 	GetWindowAttribute()->lpWindowName = content;
-	GetWindowAttribute()->dwStyle = WS_CHILD | WS_VISIBLE | WS_BORDER;
+	GetWindowAttribute()->dwStyle = WS_CHILD | WS_VISIBLE | WS_BORDER | ES_MULTILINE;	//多行,自动滚屏,带滚动条 | ES_AUTOHSCROLL | ES_MULTILINE | WS_HSCROLL|WS_VSCROLL
 	GetWindowAttribute()->nPosX = 0;
 	GetWindowAttribute()->nPosY = 0;
 	GetWindowAttribute()->nWidth = 180;

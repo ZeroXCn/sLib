@@ -107,7 +107,7 @@ SString::~SString()
 SString &SString::arg(SString str)
 {
 	//仿qt的string,这里采用查找,替换的方法
-	//TODO:有待改进(04/08/2017)
+	//TODO:有待改进(04/08/2017)-必须是与类型无关的
 	SString result(_T(""));
 	bool flag = false;
 	int size = tstring::size();
@@ -119,9 +119,18 @@ SString &SString::arg(SString str)
 				TCHAR next = tstring::at(i + 1);
 				try{
 					switch (next){
-						case _T('d'):
+						/*case _T('d'):
 						case _T('s'):
-						case _T('f'):
+						case _T('f'):*/
+					case _T('1'):
+					case _T('2'):
+					case _T('3'):
+					case _T('4'):
+					case _T('5'):
+					case _T('6'):
+					case _T('7'):
+					case _T('8'):
+					case _T('9'):
 							result += str;
 							flag = true;
 							i++;
@@ -161,14 +170,15 @@ SString &SString::trim()
 	return s;
 }
 
-void SString::split(SString &s, SString &delim, vector<SString> *ret)
+void SString::split(SString delim, vector<SString> *ret)
 {
+	SString &s = *this;
 	size_t last = 0;
 	size_t index = s.find_first_of(delim, last);
 	while (index != tstring::npos)
 	{
 		ret->push_back(s.substr(last, index - last));
-		last = index + 1;
+		last = index + delim.size();
 		index = s.find_first_of(delim, last);
 	}
 	if (index - last>0)
@@ -177,15 +187,16 @@ void SString::split(SString &s, SString &delim, vector<SString> *ret)
 	}
 }
 
-vector<SString> SString::split(SString &s, SString &delim)
+vector<SString> SString::split(SString delim)
 {
 	vector<SString> ret;
-	split(s, delim, &ret);
+	split(delim, &ret);
 	return ret;
 }
 
-void SString::split(SString &s, tregex expression, vector<SString> *ret)
+void SString::split(tregex expression, vector<SString> *ret)
 {
+	SString &s = *this;
 	tsmatch what;
 	tstring::const_iterator start = tstring::begin();
 	tstring::const_iterator end = tstring::end();
@@ -208,10 +219,10 @@ void SString::split(SString &s, tregex expression, vector<SString> *ret)
 	
 }
 
-vector<SString> SString::split(SString &s, tregex expression)
+vector<SString> SString::split(tregex expression)
 {
 	vector<SString> ret;
-	split(s, expression, &ret);
+	split(expression, &ret);
 	return ret;
 }
 
@@ -311,6 +322,20 @@ size_t SString::find(tregex expression, size_t pos) const
 	return find(expression, pos, NULL);
 }
 
+SString &SString::replace(SString src, SString des)
+{
+	tstring::size_type pos = 0;
+	tstring::size_type a = src.size();
+	tstring::size_type b = des.size();
+	while ((pos = tstring::find(src, pos)) != string::npos)
+	{
+		tstring::erase(pos, a);
+		tstring::insert(pos, des);
+		pos += b;
+	}
+	return *this;
+}
+
 SString &SString::replace(tregex expression, SString des)
 {
 	regex_replace(*this, expression, des);
@@ -332,6 +357,12 @@ bool SString::equals(tregex expression)
 	return regex_match(*this, expression);
 }
 
+SString SString::substr(size_t pos, size_t n)
+{
+	return tstring::substr(pos, n);
+}
+
+///////
 TCHAR *SString::str()
 {
 	return (TCHAR *)tstring::c_str();

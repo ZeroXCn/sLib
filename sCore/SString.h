@@ -147,6 +147,7 @@ public:
 	friend tostream& operator <<(tostream&, SString&);
 	friend tistream& operator >>(tistream&, SString&);
 public:
+	//格式化-严格类型相关
 	static SString Format(const TCHAR *pszFormat, ...);
 	static rtstring Parse(tstring OStr);
 	static tstring Parse(rtstring OStr);
@@ -172,12 +173,13 @@ public:
 
 	virtual ~SString();
 public:
+	//格式化-类型无关
 	SString &arg(SString str);
 	SString& trim();
-	void split(SString &s, SString &delim, std::vector<SString> *ret);
-	std::vector<SString> split(SString &s, SString &delim);
-	void split(SString &s, tregex expression, std::vector<SString> *ret);
-	std::vector<SString> split(SString &s, tregex expression);
+	void split(SString delim, std::vector<SString> *ret);
+	std::vector<SString> split(SString delim);
+	void split( tregex expression, std::vector<SString> *ret);
+	std::vector<SString> split(tregex expression);
 
 	SString &upper();
 	SString &lower();
@@ -202,7 +204,11 @@ public:
 	size_t find(tregex expression, size_t pos, int *matchLength) const;	//返回匹配长度
 	//替换
 	using tstring::replace;
+	SString &replace(SString src, SString des);
 	SString &replace(tregex expression, SString des);
+
+	using tstring::substr;
+	SString substr(size_t pos = 0, size_t n = npos);
 public:
 	//比较
 	bool equals(SString str);

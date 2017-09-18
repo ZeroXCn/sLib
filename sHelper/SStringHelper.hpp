@@ -3,6 +3,7 @@
 //各种字符串类型转换
 #include "../sCore/SString.h"
 #include "../sCore/SStringList.h"
+#include "../sCore/SRegex.h"
 #ifndef SSTRINGHELPER_H
 #define SSTRINGHELPER_H
 #include <windows.h>
@@ -61,6 +62,22 @@ namespace SStringHelper
 			}
 			else break;
 		}
+		return list;
+	}
+
+	SStringList SubString(SString org, tregex reg)
+	{
+		SStringList list;
+
+		tsmatch what;
+		tstring::const_iterator start = org.begin();
+		tstring::const_iterator end = org.end();
+		while (std::regex_search(start, end, what, reg))
+		{
+			list << what[0].str();
+			start = what[0].second;
+		}
+
 		return list;
 	}
 
