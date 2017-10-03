@@ -5,29 +5,26 @@
 * @version v1.0 25/07/2017
 */
 #include "../sCore/SObject.h"
+#ifndef _SGDIOBJ_H_
+#define _SGDIOBJ_H_
 
-#ifndef _SGDIOBJECT_H_
-#define _SGDIOBJECT_H_
 #include <Windows.h>
 
-class SGdiObject :public SObject
+class SGdiObj :public SObject
 {
 protected:
 	HGDIOBJ m_hGdiObj;		//GDI抽象物件
 public:
-	SGdiObject();
-	SGdiObject(HGDIOBJ hGdiObj);
-	virtual ~SGdiObject();
+	SGdiObj(HGDIOBJ hGdiObj = NULL);
+	virtual ~SGdiObj();
+
 public:
 	//取的封装内容
 	HGDIOBJ GetHandle();
 	void SetHandle(HGDIOBJ hGdiObj);
-
-////
-	//到指定图形对象的信息
-	int GetObject(int cbBuffer, LPVOID lpvObject);
-
+public:
 	//释放所有与该对象有关的系统资源
 	BOOL Delete();
 };
+
 #endif

@@ -1,8 +1,8 @@
 #include "STimer.h"
 
-#include "SDelayClock.h"
-#include "SMediaClock.h"
-#include "SFrequencyClock.h"
+#include "../sCore/SDelayClock.h"
+#include "../sCore/SMediaClock.h"
+#include "../sCore/SFrequencyClock.h"
 
 
 STimer::STimer(int nType)

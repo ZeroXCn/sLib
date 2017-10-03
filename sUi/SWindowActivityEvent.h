@@ -4,7 +4,7 @@
 * @author ZeroX
 * @version v1.0 21/07/2017
 */
-#include "../sGraphic/SDc.h"
+#include "../sGraphics/SGraphics2D.h"
 #ifndef _SWINDOWACTIVITYEVENT_H_
 #define _SWINDOWACTIVITYEVENT_H_
 #include <functional>
@@ -32,7 +32,7 @@ public:
 	};
 private:
 	std::function<BOOL(ActivityParam)> m_fCreate;
-	std::function<void(SDc)> m_fPaint;
+	std::function<void(SGraphics graphics)> m_fPaint;
 	std::function<void()> m_fEvent;
 	std::function<void(ActivityParam)> m_fTimer;
 	std::function<void(ActivityParam)> m_fCommand;
@@ -52,8 +52,8 @@ public:
 
 	//绘制绘制事件
 	virtual void OnPaint(ActivityParam param);
-	virtual void OnPaint(SDc dc);				//可改为HDC
-
+	virtual void OnPaint(SDc sDc);
+	virtual void OnPaint(SGraphics graphics);
 	//窗口空闲事件
 	virtual void OnEvent();
 
@@ -83,7 +83,7 @@ public:
 	void OnCreate(std::function<BOOL(ActivityParam)> fCreate);
 
 	//绘制绘制事件
-	void OnPaint(std::function<void(SDc)> fPaint);
+	void OnPaint(std::function<void(SGraphics)> fPaint);
 
 	//窗口空闲事件
 	void OnEvent(std::function<void()> fEvent);

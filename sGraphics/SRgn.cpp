@@ -1,31 +1,21 @@
 #include "SRgn.h"
 
-SRgn::SRgn()
-{
 
-}
-
-SRgn::SRgn(SGdiObject Obj)
+SRgn::SRgn(SGdiObj Obj)
 {
 	m_hGdiObj = (HRGN)Obj.GetHandle();
 }
 SRgn::SRgn(HRGN hRgn)
+:SGdiHandle<HRGN, void*>(hRgn)
 {
-	m_hGdiObj = (HRGN)hRgn;
+
 }
 SRgn::~SRgn()
 {
 
 }
 
-void SRgn::SetHandle(HRGN hRgn)
-{
-	m_hGdiObj = (HRGN)hRgn;
-}
-HRGN SRgn::GetHandle()
-{
-	return (HRGN)m_hGdiObj;
-}
+
 
 BOOL SRgn::CreateElliptic(int nLeft, int nTop, int nRight, int nBottom)
 {

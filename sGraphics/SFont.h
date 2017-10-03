@@ -4,25 +4,19 @@
 * @author ZeroX
 * @version v1.0 25/07/2017
 */
-#include "SGdiObject.h"
+#include "SGdiHandle.h"
+
 #ifndef _SFONT_H_
 #define _SFONT_H_
 
 #include <Windows.h>
 
-class SFont :public SGdiObject
+class SFont :public SGdiHandle<HFONT, LOGFONT>
 {
 public:
-	SFont();
-	SFont(SGdiObject Obj);
-	SFont(HFONT hFont);
+	SFont(SGdiObj Obj);
+	SFont(HFONT hFont=NULL);
 	virtual ~SFont();
-public:
-	void SetHandle(HFONT hFont);
-
-	HFONT GetHandle();
-
-	LOGFONT GetFontStruct();
 public:
 	//´´½¨Ä¬ÈÏ
 	BOOL Create();

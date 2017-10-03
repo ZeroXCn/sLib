@@ -44,10 +44,14 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <BrowseInformation>true</BrowseInformation>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Bscmake>
+      <PreserveSbr>true</PreserveSbr>
+    </Bscmake>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -65,7 +69,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="sCore\SAbstractClock.h" />
-    <ClInclude Include="sCore\SAsyncTask.h" />
+    <ClInclude Include="sCore\SRefPtr.h" />
+    <ClInclude Include="sCore\SSharedPtr.h" />
+    <ClInclude Include="sGraphics\SGdiHandle.h" />
+    <ClInclude Include="sGraphics\SGdiObj.h" />
+    <ClInclude Include="sGraphics\SGraphics.h" />
+    <ClInclude Include="sGraphics\SGraphics2D.h" />
+    <ClInclude Include="sOS\SAsyncTask.h" />
     <ClInclude Include="sCore\SBoolean.h" />
     <ClInclude Include="sCore\SCharacter.h" />
     <ClInclude Include="sCore\SDate.h" />
@@ -79,22 +89,22 @@
     <ClInclude Include="sCore\SInteger.h" />
     <ClInclude Include="sCore\SMediaClock.h" />
     <ClInclude Include="sCore\SObject.h" />
-    <ClInclude Include="sCore\SRunnable.h" />
+    <ClInclude Include="sOS\SRunnable.h" />
     <ClInclude Include="sCore\SString.h" />
     <ClInclude Include="sCore\SStringBuilder.h" />
     <ClInclude Include="sCore\SStringList.h" />
     <ClInclude Include="sCore\SStringRef.h" />
-    <ClInclude Include="sCore\SThread.h" />
+    <ClInclude Include="sOS\SThread.h" />
     <ClInclude Include="sCore\STime.h" />
-    <ClInclude Include="sCore\STimer.h" />
+    <ClInclude Include="sOS\STimer.h" />
     <ClInclude Include="sData\extern\SMySql.hpp" />
     <ClInclude Include="sData\extern\SSqlite.hpp" />
     <ClInclude Include="sData\SSql.h" />
     <ClInclude Include="sData\SSqlConnectionImpl.h" />
     <ClInclude Include="sData\SSqlResultSetImpl.h" />
     <ClInclude Include="sData\SSqlStatementImpl.h" />
-    <ClInclude Include="sGraphic\SBitmapDc.h" />
-    <ClInclude Include="sGraphic\SColor.hpp" />
+    <ClInclude Include="sGraphics\SBitmapDc.h" />
+    <ClInclude Include="sGraphics\SColor.hpp" />
     <ClInclude Include="sHelper\SCodeHelper.hpp" />
     <ClInclude Include="sHelper\SDllHelper.hpp" />
     <ClInclude Include="sCore\SAny.hpp" />
@@ -120,22 +130,22 @@
     <ClInclude Include="sData\SSqlResultSet.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="sGraphic\SBufferDC.h" />
-    <ClInclude Include="sGraphic\SBitmap.h" />
-    <ClInclude Include="sGraphic\SBrush.h" />
+    <ClInclude Include="sGraphics\SBufferDC.h" />
+    <ClInclude Include="sGraphics\SBitmap.h" />
+    <ClInclude Include="sGraphics\SBrush.h" />
+    <ClInclude Include="sMath\SCalculator.h" />
     <ClInclude Include="sMath\SPoint2.h" />
     <ClInclude Include="sMath\SRect.h" />
     <ClInclude Include="sMath\SVector2.h" />
     <ClInclude Include="sParser\extern\jsoncpp\json_tool.h" />
     <ClInclude Include="sUi\SCursor.h" />
-    <ClInclude Include="sGraphic\SDc.h" />
-    <ClInclude Include="sGraphic\SFont.h" />
-    <ClInclude Include="sGraphic\SGdiObject.h" />
+    <ClInclude Include="sGraphics\SDc.h" />
+    <ClInclude Include="sGraphics\SFont.h" />
     <ClInclude Include="sUi\SHook.h" />
     <ClInclude Include="sUi\SIcon.h" />
-    <ClInclude Include="sGraphic\SPalette.h" />
-    <ClInclude Include="sGraphic\SPen.h" />
-    <ClInclude Include="sGraphic\SRgn.h" />
+    <ClInclude Include="sGraphics\SPalette.h" />
+    <ClInclude Include="sGraphics\SPen.h" />
+    <ClInclude Include="sGraphics\SRgn.h" />
     <ClInclude Include="sHelper\SFileHelper.hpp" />
     <ClInclude Include="sHelper\SMathHelper.hpp" />
     <ClInclude Include="sHelper\SStringHelper.hpp" />
@@ -192,7 +202,6 @@
     <ClInclude Include="sUi\SWnd.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="sCore\SAsyncTask.cpp" />
     <ClCompile Include="sCore\SBoolean.cpp" />
     <ClCompile Include="sCore\SByteArray.cpp" />
     <ClCompile Include="sCore\SCharacter.cpp">
@@ -211,22 +220,26 @@
     <ClCompile Include="sCore\SMediaClock.cpp" />
     <ClCompile Include="sCore\SNumber.cpp" />
     <ClCompile Include="sCore\SObject.cpp" />
-    <ClCompile Include="sCore\SRunnable.cpp" />
+    <ClCompile Include="sGraphics\SGdiObj.cpp" />
+    <ClCompile Include="sGraphics\SGraphics.cpp" />
+    <ClCompile Include="sGraphics\SGraphics2D.cpp" />
+    <ClCompile Include="sOS\SRunnable.cpp" />
     <ClCompile Include="sCore\SString.cpp" />
     <ClCompile Include="sCore\SStringBuilder.cpp" />
     <ClCompile Include="sCore\SStringList.cpp" />
     <ClCompile Include="sCore\SStringRef.cpp" />
-    <ClCompile Include="sCore\SThread.cpp" />
+    <ClCompile Include="sOS\SThread.cpp" />
     <ClCompile Include="sCore\STime.cpp" />
-    <ClCompile Include="sCore\STimer.cpp" />
+    <ClCompile Include="sOS\STimer.cpp" />
     <ClCompile Include="sData\SSqlConnection.cpp" />
     <ClCompile Include="sData\SSqlDriverManager.cpp" />
     <ClCompile Include="sData\SSqlResultSet.cpp" />
     <ClCompile Include="sData\SSqlStatement.cpp" />
-    <ClCompile Include="sGraphic\SBitmap.cpp" />
-    <ClCompile Include="sGraphic\SBitmapDc.cpp" />
-    <ClCompile Include="sGraphic\SBrush.cpp" />
-    <ClCompile Include="sGraphic\SBufferDc.cpp" />
+    <ClCompile Include="sGraphics\SBitmap.cpp" />
+    <ClCompile Include="sGraphics\SBitmapDc.cpp" />
+    <ClCompile Include="sGraphics\SBrush.cpp" />
+    <ClCompile Include="sGraphics\SBufferDc.cpp" />
+    <ClCompile Include="sMath\SCalculator.cpp" />
     <ClCompile Include="sMath\SPoint2.cpp" />
     <ClCompile Include="sMath\SRect.cpp" />
     <ClCompile Include="sMath\SVector2.cpp" />
@@ -236,14 +249,13 @@
     <ClCompile Include="sParser\SIni.cpp" />
     <ClCompile Include="sParser\SJson.cpp" />
     <ClCompile Include="sUi\SCursor.cpp" />
-    <ClCompile Include="sGraphic\SDc.cpp" />
-    <ClCompile Include="sGraphic\SFont.cpp" />
-    <ClCompile Include="sGraphic\SGdiObject.cpp" />
+    <ClCompile Include="sGraphics\SDc.cpp" />
+    <ClCompile Include="sGraphics\SFont.cpp" />
     <ClCompile Include="sUi\SHook.cpp" />
     <ClCompile Include="sUi\SIcon.cpp" />
-    <ClCompile Include="sGraphic\SPalette.cpp" />
-    <ClCompile Include="sGraphic\SPen.cpp" />
-    <ClCompile Include="sGraphic\SRgn.cpp" />
+    <ClCompile Include="sGraphics\SPalette.cpp" />
+    <ClCompile Include="sGraphics\SPen.cpp" />
+    <ClCompile Include="sGraphics\SRgn.cpp" />
     <ClCompile Include="sCore\SBigInteger.cpp" />
     <ClCompile Include="sMedia\SMedia.cpp" />
     <ClCompile Include="sParser\extern\tinyxml2\tinyxml2.cpp" />

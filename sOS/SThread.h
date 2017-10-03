@@ -7,8 +7,8 @@
 *
 */
 
-#include "SObject.h"
-#include "SString.h"  
+#include "../sCore/SObject.h"
+#include "../sCore/SString.h"  
 #include "SRunnable.h"
 
 #ifndef _STHREAD_H_

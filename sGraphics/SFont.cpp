@@ -1,42 +1,22 @@
 #include "SFont.h"
 
-SFont::SFont()
-{
-
-}
-
-SFont::SFont(SGdiObject Obj)
+SFont::SFont(SGdiObj Obj)
 {
 	m_hGdiObj = (HFONT)Obj.GetHandle();
 }
 
 
 SFont::SFont(HFONT hFont)
+:SGdiHandle<HFONT, LOGFONT>(hFont)
 {
-	m_hGdiObj = (HFONT)hFont;
+
 }
 
 SFont::~SFont()
 {
 	
 }
-////////
-void SFont::SetHandle(HFONT hFont)
-{
-	m_hGdiObj = (HFONT)hFont;
-}
 
-HFONT SFont::GetHandle()
-{
-	return (HFONT)m_hGdiObj;
-}
-
-LOGFONT SFont::GetFontStruct()
-{
-	LOGFONT ft;
-	SGdiObject::GetObject(sizeof(LOGFONT), &ft);
-	return ft;
-}
 /////////
 //创建默认字体
 BOOL SFont::Create()

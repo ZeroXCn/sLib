@@ -18,31 +18,7 @@
     <ClInclude Include="sUi\SMessageHandler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sGraphic\SFont.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SGdiObject.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SBitmap.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SBrush.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SPalette.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SPen.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sUi\SWnd.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SDc.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SRgn.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sMedia\SMedia.h">
@@ -225,19 +201,10 @@
     <ClInclude Include="sUi\SWindowActivityEvent.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sCore\STimer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SThread.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sCore\SStringList.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sCore\SString.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SRunnable.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sCore\SObject.h">
@@ -273,13 +240,7 @@
     <ClInclude Include="sCore\SBoolean.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sCore\SAsyncTask.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sCore\SAbstractClock.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SColor.hpp">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sUi\SWindow.h">
@@ -342,12 +303,6 @@
     <ClInclude Include="sUi\SLayered.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sGraphic\SBitmapDc.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sGraphic\SBufferDC.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sUi\tagSPOINT.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -357,36 +312,75 @@
     <ClInclude Include="sUi\tagSSIZE.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sMath\SCalculator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sOS\SThread.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sOS\SRunnable.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sOS\SAsyncTask.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sOS\STimer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SRefPtr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SSharedPtr.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SBitmap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SBitmapDc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SBrush.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SBufferDC.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SColor.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SDc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SFont.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SGdiHandle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SGdiObj.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SGraphics.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SGraphics2D.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SPalette.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SPen.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sGraphics\SRgn.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sUi\SMessageHandler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="sGraphic\SFont.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sGraphic\SDc.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="sUi\SWnd.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sGraphic\SGdiObject.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sGraphic\SBitmap.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sGraphic\SPen.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sGraphic\SBrush.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sGraphic\SPalette.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sGraphic\SRgn.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sMedia\SMedia.cpp">
@@ -500,16 +494,7 @@
     <ClCompile Include="sUi\SWindowActivityEvent.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="sCore\STimer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SThread.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="sCore\SStringList.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SRunnable.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sCore\SString.cpp">
@@ -531,9 +516,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sCore\SDebug.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SAsyncTask.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sUi\SWidget.cpp">
@@ -599,12 +581,6 @@
     <ClCompile Include="sUi\SLayered.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="sGraphic\SBitmapDc.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sGraphic\SBufferDc.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="sUi\tagSPOINT.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -612,6 +588,54 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sUi\tagSSIZE.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sMath\SCalculator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sOS\SThread.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sOS\SRunnable.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sOS\STimer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SBitmap.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SBitmapDc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SBrush.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SBufferDc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SDc.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SFont.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SGdiObj.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SPalette.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SPen.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SRgn.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SGraphics.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sGraphics\SGraphics2D.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

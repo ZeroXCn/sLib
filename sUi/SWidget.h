@@ -5,8 +5,8 @@
 * @version v1.0 21/07/2017
 */
 #include "../sCore/SObject.h"
-#include "../sCore/SThread.h"
-#include "../sGraphic/SDc.h"
+#include "../sOS/SThread.h"
+#include "../sGraphics/SDc.h"
 
 #include "tagSPOINT.h"
 #include "tagSRECT.h"
@@ -159,6 +159,8 @@ public:
 	void SetWidth(int nWidth);
 	void SetHeight(int nHeight);
 	SSIZE GetSize();
+	void SetSize(int nWidth,int nHeight);
+	void SetSize(SSIZE size);
 	void LockSize(BOOL bLock = TRUE);
 	BOOL IsLockSize();
 

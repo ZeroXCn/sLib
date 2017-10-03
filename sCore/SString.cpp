@@ -300,6 +300,23 @@ SString SString::toLower()
 	transform(ret.begin(), ret.end(), ret.begin(), ::tolower);
 	return ret;
 }
+
+std::string SString::toStrString()
+{
+#ifdef _UNICODE
+	return SString::Parse(*this);
+#else
+	return *this;
+#endif
+}
+std::wstring SString::toWStrString()
+{
+#ifndef _UNICODE
+	return SString::Parse(*this);
+#else
+	return *this;
+#endif
+}
 ////
 
 size_t SString::find(tregex expression, size_t pos, int *matchLength) const

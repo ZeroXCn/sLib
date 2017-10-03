@@ -4,8 +4,7 @@
 * @author ZeroX
 * @version v1.0 25/07/2017
 */
-#include "SGdiObject.h"
-
+#include "SGdiHandle.h"
 #ifndef _SBITMAP_H_
 #define _SBITMAP_H_
 #include <Windows.h>
@@ -15,20 +14,12 @@
 #pragma comment(lib,"msimg32.lib")
 #pragma comment(lib,"gdi32.lib")
 
-class SBitmap:public SGdiObject
+class SBitmap :public SGdiHandle<HBITMAP, BITMAP>
 {
 public:
-	SBitmap();
-	SBitmap(SGdiObject Obj);
-	SBitmap(HBITMAP hBitmap);
+	SBitmap(SGdiObj Obj);
+	SBitmap(HBITMAP hBitmap=NULL);
 	virtual ~SBitmap();
-public:
-	void SetHandle(HBITMAP hBitmap);
-
-	HBITMAP GetHandle();
-
-	//获取位图结构
-	BITMAP GetHandleStruct();
 public:
 	//创建一个带有特定宽度、高度和颜色格式的位图。
 	BOOL Create(int nWidth, int nHeight, UINT cPlanes, UINT cBitsPeral, CONST VOID *lpvBits);

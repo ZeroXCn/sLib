@@ -35,7 +35,7 @@ WORD SWindowActivityEvent::ActivityParam::GetClientHeight()
 SWindowActivityEvent::SWindowActivityEvent()
 {
 	m_fCreate = [](ActivityParam){ return TRUE; };
-	m_fPaint = [](SDc){};
+	m_fPaint = [](SGraphics){};
 	m_fEvent = [](){};
 	m_fTimer = [](ActivityParam){};
 	m_fCommand = [](ActivityParam){};
@@ -68,19 +68,29 @@ BOOL SWindowActivityEvent::OnCreate(ActivityParam param)
 void SWindowActivityEvent::OnPaint(ActivityParam param)
 {
 	PAINTSTRUCT ps;					//定义，无初始化,由BeginPaint初始化
-	SDc dc;
+	SGraphics2D graphics2d(param.hWnd);
+	SDc sDc;
 	//NOTE:不写BeginPaint程序将会进入死循环,一直处理一个接一个的WM_PAINT消息
-	dc.SetHandle(::BeginPaint(param.hWnd,&ps));
+	HDC hDC = ::BeginPaint(param.hWnd, &ps);
+
+	graphics2d.SetDC(hDC);
+	sDc.SetHandle(hDC);
 
 	//TODO:负责窗口绘制工作,并且绘制其下子控件
-	OnPaint(dc);
+	OnPaint(graphics2d);
+	OnPaint(sDc);
 
 	::EndPaint(param.hWnd, &ps);
 
 }
-void SWindowActivityEvent::OnPaint(SDc dc)
+void SWindowActivityEvent::OnPaint(SGraphics graphics)
 {
-	m_fPaint(dc);
+	m_fPaint(graphics);
+}
+
+void SWindowActivityEvent::OnPaint(SDc sDc)
+{
+
 }
 
 //窗口空闲事件
@@ -137,7 +147,7 @@ void SWindowActivityEvent::OnCreate(std::function<BOOL(ActivityParam)> fCreate)
 }
 
 //绘制绘制事件
-void SWindowActivityEvent::OnPaint(std::function<void(SDc)> fPaint)
+void SWindowActivityEvent::OnPaint(std::function<void(SGraphics)> fPaint)
 {
 	m_fPaint = fPaint;
 }

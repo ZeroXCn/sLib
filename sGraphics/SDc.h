@@ -8,7 +8,7 @@
 #include "../sCore/SObject.h"
 #include "../sCore/SString.h"
 
-#include "SGdiObject.h"
+#include "SGdiObj.h"
 #include "SBitmap.h"
 #include "SFont.h"
 #include "SBrush.h"
@@ -75,7 +75,7 @@ public:
 public:
 	//选择一对象到指定的设备上下文环境中
 	HGDIOBJ SelectObject(HGDIOBJ hgdiobj);
-	SGdiObject SelectObject(SGdiObject pObj);
+	SGdiObj SelectObject(SGdiObj pObj);
 
 	//获取当前DC对象
 	HGDIOBJ GetCurrentObject(UINT uObjectType);
@@ -84,7 +84,7 @@ public:
 
 	//删除，释放系统资源
 	BOOL DeleteObject(HGDIOBJ hObject);
-	BOOL DeleteObject(SGdiObject pObj);
+	BOOL DeleteObject(SGdiObj pObj);
 	
 	//选择字体
 	SFont SetFont(SFont ofont);

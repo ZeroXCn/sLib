@@ -195,6 +195,9 @@ public:
 
 	SString toUpper();
 	SString toLower();
+
+	std::string toStrString();
+	std::wstring toWStrString();
 public:
 	/*更新对正则表达式的支持*/
 	/* 为了防止重载隐藏,不能与父类重载同名,或者使用using关键字 */

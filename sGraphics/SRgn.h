@@ -4,19 +4,19 @@
 * @author ZeroX
 * @version v1.0 25/07/2017
 */
-#include "SGdiObject.h"
+#include "SGdiHandle.h"
+
 #ifndef _SRGN_H_
 #define _SRGN_H_
-class SRgn :public SGdiObject
+class SRgn :public SGdiHandle<HRGN,void*>
 {
 public:
-	SRgn();
-	SRgn(SGdiObject Obj);
-	SRgn(HRGN hRgn);
+	SRgn(HRGN hRgn=NULL);
+	SRgn(SGdiObj Obj);
 	virtual ~SRgn();
-public:
-	void SetHandle(HRGN hRgn);
-	HRGN GetHandle();
+private:
+	//隐藏无用函数
+	using SGdiHandle<HRGN, void*>::GetHandleStruct;
 public:
 	//创建椭圆区域
 	BOOL CreateElliptic( int nLeft,  int nTop,  int nRight,  int nBottom);

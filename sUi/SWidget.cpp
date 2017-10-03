@@ -464,6 +464,17 @@ SSIZE SWidget::GetSize()
 	return size;
 }
 
+void SWidget::SetSize(SSIZE size)
+{
+	SetSize(size.cx, size.cy);
+}
+
+void SWidget::SetSize(int nWidth, int nHeight)
+{
+	SetWidth(nWidth);
+	SetHeight(nHeight);
+}
+
 void SWidget::LockSize(BOOL bLock)
 {
 	if (bLock)

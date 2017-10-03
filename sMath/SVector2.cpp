@@ -7,9 +7,21 @@ _T SVector2<_T>::Module()
 	return (_T)hypot(this->x, this->y);
 }
 template<class _T>
+_T SVector2<_T>::Length()
+{
+	return Module();
+}
+template<class _T>
 _T SVector2<_T>::Slope()
 {
 	return (-y / x);
+}
+template<class _T>
+SVector2<_T> &SVector2<_T>::Normalize()
+{
+	_T length = Length();
+	x /= length; y /= length;//获取到规格化的向量;  
+	return *this;
 }
 
 /* 二向量操作 */
@@ -119,6 +131,35 @@ SVector2<_T> &SVector2<_T>::operator	-=(const SVector2 &vt)
 	y = y - vt.y;
 	return *this;
 }
+
+
+//定义减法运算符*
+template<class _T>
+SVector2<_T>  SVector2<_T>::operator	*(const _T s)
+{
+	return SVector2(x*s, y*s);
+}
+template<class _T>
+SVector2<_T>  &SVector2<_T>::operator *= (const _T s)
+{
+	x *= s; y *= y;
+	return *this;
+}
+
+
+//定义减法运算符/
+template<class _T>
+SVector2<_T>  SVector2<_T>::operator / (const _T s)
+{
+	return SVector2(x/s, y/s);
+}
+template<class _T>
+SVector2<_T>  &SVector2<_T>::operator /= (const _T s)
+{
+	x /= s; y /= y;
+	return *this;
+}
+
 
 template<class _T>
 SVector2<_T>::SVector2(_T x, _T y)

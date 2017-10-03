@@ -4,7 +4,7 @@
 * @author ZeroX
 * @version v1.0 21/07/2017 
 */
-#include "../sCore/SThread.h"
+#include "../sOS/SThread.h"
 #include "SWidget.h"
 #include "SWindowActivityEvent.h"
 #include "SWindowInputEvent.h"

@@ -77,9 +77,9 @@ HGDIOBJ SDc::SelectObject(HGDIOBJ hgdiobj)
 	return ::SelectObject(m_hDC, hgdiobj);
 }
 
-SGdiObject SDc::SelectObject(SGdiObject Obj)
+SGdiObj SDc::SelectObject(SGdiObj Obj)
 {
-	return SGdiObject(::SelectObject(m_hDC, Obj.GetHandle()));
+	return SGdiObj(::SelectObject(m_hDC, Obj.GetHandle()));
 }
 
 //获取当前DC对象
@@ -99,7 +99,7 @@ BOOL SDc::DeleteObject(HGDIOBJ hObject)
 	return ::DeleteObject(hObject);
 }
 
-BOOL SDc::DeleteObject(SGdiObject Obj)
+BOOL SDc::DeleteObject(SGdiObj Obj)
 {
 	return ::DeleteObject(Obj.GetHandle());
 }

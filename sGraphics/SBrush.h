@@ -4,23 +4,16 @@
 * @author ZeroX
 * @version v1.0 25/07/2017
 */
-#include "SGdiObject.h"
+#include "SGdiHandle.h"
 #ifndef _SBRUSH_H_
 #define _SBRUSH_H_
-class SBrush :public SGdiObject
+class SBrush :public SGdiHandle<HBRUSH, LOGBRUSH>
 {
 public:
-	SBrush();
-	SBrush(SGdiObject Obj);
-	SBrush(HBRUSH hBrush);
+	SBrush(SGdiObj Obj);
+	SBrush(HBRUSH hBrush=NULL);
 	virtual ~SBrush();
 
-public:
-	void SetHandle(HBRUSH hBrush);
-
-	HBRUSH GetHandle();
-
-	LOGBRUSH GetHandleStruct();
 public:
 	//创建具有指定风格、颜色和模式的逻辑刷子
 	BOOL CreateIndirect(LOGBRUSH lBrush);

@@ -1,40 +1,20 @@
 #include "SBrush.h"
 
-SBrush::SBrush()
-{
 
-}
 
-SBrush::SBrush(SGdiObject Obj)
+SBrush::SBrush(SGdiObj Obj)
 {
 	m_hGdiObj = (HBRUSH)Obj.GetHandle();;
 }
 
 SBrush::SBrush(HBRUSH hBrush)
+:SGdiHandle<HBRUSH, LOGBRUSH>(hBrush)
 {
-	m_hGdiObj = (HBRUSH)hBrush;
+	
 }
 SBrush::~SBrush()
 {
 
-}
-
-
-void SBrush::SetHandle(HBRUSH hBrush)
-{
-	m_hGdiObj = (HBRUSH)hBrush;
-}
-
-HBRUSH SBrush::GetHandle()
-{
-	return (HBRUSH)m_hGdiObj;
-}
-
-LOGBRUSH SBrush::GetHandleStruct()
-{
-	LOGBRUSH lb;
-	SGdiObject::GetObject(sizeof(LOGBRUSH), &lb);
-	return lb;
 }
 
 //创建具有指定风格、颜色和模式的逻辑刷子

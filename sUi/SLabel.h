@@ -5,7 +5,7 @@
 * @version v1.0 21/07/2017
 */
 #include "../sCore/SString.h"
-#include "../sGraphic/SFont.h"
+#include "../sGraphics/SFont.h"
 #include "SControl.h"
 #ifndef _SLABEL_H_
 #define _SLABEL_H_

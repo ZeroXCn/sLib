@@ -34,7 +34,7 @@ void SBitmapDc::Create(int nWidth, int nHeight)
 	bih.biPlanes = 1;
 	bih.biBitCount = 32;
 	bih.biCompression = BI_RGB;
-	SBitmap::SetHandle(NULL);
+	SBitmap::SetHandle((HGDIOBJ)NULL);
 	SDc::CreateCompatibleDC(NULL);
 	SBitmap::CreateDIBSection(
 		GetSafeHdc(), (BITMAPINFO*)&bih,

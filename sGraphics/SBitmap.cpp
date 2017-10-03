@@ -1,41 +1,20 @@
 #include "SBitmap.h"
 
-SBitmap::SBitmap()
-{
-
-}
-SBitmap::SBitmap(SGdiObject Obj)
+SBitmap::SBitmap(SGdiObj Obj)
 {
 	m_hGdiObj = (HBITMAP)Obj.GetHandle();
 }
 
 SBitmap::SBitmap(HBITMAP hBitmap)
+:SGdiHandle<HBITMAP, BITMAP>(hBitmap)
 {
-	m_hGdiObj = (HBITMAP)hBitmap;
+	
 }
 SBitmap::~SBitmap()
 {
-
+	
 }
 
-///////////
-void SBitmap::SetHandle(HBITMAP hBitmap)
-{
-	m_hGdiObj = (HBITMAP)hBitmap;
-}
-
-HBITMAP SBitmap::GetHandle()
-{
-	return (HBITMAP)m_hGdiObj;
-}
-
-//获取位图结构
-BITMAP SBitmap::GetHandleStruct()
-{
-	BITMAP  bm;
-	SGdiObject::GetObject(sizeof(BITMAP), &bm);
-	return bm;
-}
 ////////////
 //取得,设置位图宽
 int SBitmap::GetWidth()

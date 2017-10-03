@@ -17,17 +17,22 @@ public:
 	/* 单向量操作 */
 	//取得向量模
 	_T Module();
+	_T Length();
 	//取得向量斜率
 	_T Slope();
+	//规范化
+	SVector2 &Normalize();
 
 	/* 二向量操作 */
 	//两向量夹角
 	_T Angle(const SVector2 &vt);
 
+
 	//向量点乘
 	_T Dot(const SVector2 &vt);
 	//叉乘值
 	_T Cross(const SVector2 &vt);
+	
 	//向量叉乘-平面向量叉乘结果为垂直平面的一个向量,在二维中表现为(0,0)
 	SVector2 CrossVec(const SVector2 &vt);
 
@@ -52,6 +57,14 @@ public:
 	SVector2  &operator	+=(const SVector2 &vt);
 	//定义减法运算符-
 	SVector2  &operator	-=(const SVector2 &vt);
+
+	//定义减法运算符*
+	SVector2  operator	*(const _T s);
+	SVector2  &operator	*=(const _T s);
+
+	//定义减法运算符/
+	SVector2  operator	/(const _T s);
+	SVector2  &operator	/=(const _T s);
 
 	SVector2(_T x = 0, _T y = 0);
 

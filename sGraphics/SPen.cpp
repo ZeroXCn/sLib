@@ -1,42 +1,21 @@
 #include "SPen.h"
 
 
-SPen::SPen()
-{
-
-}
-
-SPen::SPen(SGdiObject Obj)
+SPen::SPen(SGdiObj Obj)
 {
 	m_hGdiObj = (HPEN)Obj.GetHandle();
 }
 
 SPen::SPen(HPEN hPen)
+:SGdiHandle<HPEN, LOGPEN>(hPen)
 {
-	m_hGdiObj = (HPEN)hPen;
+	
 }
 SPen::~SPen()
 {
 
 }
 
-
-void SPen::SetHandle(HPEN hPen)
-{
-	m_hGdiObj = (HPEN)hPen;
-}
-
-HPEN SPen::GetHandle()
-{
-	return (HPEN)m_hGdiObj;
-}
-
-LOGPEN SPen::GetPenStruct()
-{
-	LOGPEN lp;
-	SGdiObject::GetObject(sizeof(LOGPEN), &lp);
-	return lp;
-}
 
 //指定的样式、宽度和颜色创建画笔
 BOOL SPen::Create(int nPenStyle, int nWidth, COLORREF crColor)

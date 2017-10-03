@@ -6,7 +6,7 @@
 *	@version v1.0 22/07/2017()
 *
 */
-#include "SAbstractClock.h"
+#include "../sCore/SAbstractClock.h"
 #include "SThread.h"
 
 #ifndef _STIMER_H_

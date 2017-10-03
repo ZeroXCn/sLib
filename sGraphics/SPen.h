@@ -5,24 +5,18 @@
 * @version v1.0 25/07/2017
 */
 
-#include "SGdiObject.h"
+#include "SGdiHandle.h"
+
 #ifndef _SPEN_H_
 #define _SPEN_H_
 
-class SPen :public SGdiObject
+class SPen :public SGdiHandle<HPEN, LOGPEN>
 {
 public:
-	SPen();
-	SPen(SGdiObject Obj);
-	SPen(HPEN hPen);
+	SPen(HPEN hPen=NULL);
+	SPen(SGdiObj Obj);
 	virtual ~SPen();
 
-public:
-	void SetHandle(HPEN hPen);
-
-	HPEN GetHandle();
-
-	LOGPEN GetPenStruct();
 public:
 	//指定的样式、宽度和颜色创建画笔
 	BOOL Create(int nPenStyle, int nWidth, COLORREF crColor);
