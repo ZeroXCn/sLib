@@ -128,13 +128,34 @@ BOOL SWidget::DoAftCreate(SWnd sWnd)
 
 BOOL SWidget::DoInit(SWnd sWnd, SInstance SInstance)
 {
-	BOOL ret = OnInit(sWnd, SInstance);
+	BOOL ret;
+	ret = OnInit(sWnd, SInstance);
 	if (ret){
 		//创建子控件
 		InitChild();
 	}
+	
 	return ret;
 }
+void SWidget::DoRun()
+{
+	//TODO:由系统处理的主循环
+	m_bIsrunning = TRUE;
+	OnRun();
+}
+void SWidget::DoRan()
+{	
+	//TODO:由系统处理的主循环后
+	OnRan();
+	m_bIsrunning = FALSE;
+}
+
+void SWidget::OnMsgLoopEvent() 
+{
+	//转回到Widget的重载
+	OnRunning();
+}
+
 ////////////////////
 void SWidget::AddInitChild(SWidget *parent, SWidget *child)
 {
@@ -169,6 +190,7 @@ SWidget::SWidget(SWidget *parent):
 m_pParent(parent)
 {
 	m_ChildInitList=NULL;
+	m_bIsrunning = FALSE;
 
 	m_pThread = new SThread((SRunnable *) this);
 	m_pWndClassEx = new WNDCLASSEX();									//类属性
@@ -589,6 +611,10 @@ void SWidget::SetRect(int x, int y, int width, int height)
 	SetRect(rt, SWP_NOZORDER, nullptr);
 }
 
+void SWidget::SetRect(const SRECT rt)
+{
+	SetRect(rt.left, rt.top, rt.right - rt.left, rt.bottom - rt.top);
+}
 void SWidget::AdjustRect(LPRECT lprt,DWORD dwStyle,BOOL bMenu)
 {
 	::AdjustWindowRect(lprt, dwStyle, bMenu);
@@ -837,6 +863,11 @@ BOOL SWidget::IsCreated()
 	return m_Wnd.GetHandle() ? TRUE : FALSE;
 }
 
+BOOL SWidget::IsRunning()
+{
+	return m_bIsrunning ? TRUE : FALSE;
+}
+
 ////////////////////////
 //定时器设置
 UINT_PTR SWidget::SetTimer(UINT_PTR nIDEvent, UINT nElapse, TIMERPROC lpTimerFunc)
@@ -974,25 +1005,7 @@ LRESULT CALLBACK SWidget::OnProc(MessageParam param)
 
 void SWidget::OnRun()
 {
-	MSG msg;											//定义消息结构
-
-	/* 消息循环 */
-	while (true)
-	{
-		//NOTE:如果第二参数为m_hWnd会导致无法接收WM_QUIT消息
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))	//接收消息
-		{
-			if (msg.message == WM_QUIT)					//如果是退出消息，则退出循环
-				break;
-
-			TranslateMessage(&msg);						//将虚拟键消息转换为字符消息
-			DispatchMessage(&msg);						//处理消息
-		}
-		else
-		{
-			OnRunning();								//交由系统处理
-		}
-	}
+	SMessageHandler::OnMsgLoop();
 }
 
 //控件循环事件
@@ -1000,7 +1013,8 @@ void SWidget::OnRunning()
 {
 	//TODO:主要循环的事件:逻辑事件
 	//NOTE:空闲时间应该让线程休眠,减少CPU占用
-	SThread::Sleep(10);
+	//TODO:每个部件都暂停10ms将会引发严重后果(除非是子部件)
+	//SThread::Sleep(10);
 }
 
 //控件退出事件
@@ -1012,14 +1026,20 @@ void SWidget::OnRan()
 
 void SWidget::Run()
 {
-	if (Create()){
+	if (!IsCreated())
+	{
+		if (!Create())
+			return;
+	}
+
+	{
 		SubClass(m_Wnd.GetHandle());
 		m_Wnd.SetParent(NULL);	//TODO:不符合逻辑
 		SApplication::GetApp()->RegisterWidget(this);
 
 		DoInit(GetWnd(), GetInstance());
-		OnRun();
-		OnRan();//出口
+		DoRun();
+		DoRan();//出口
 
 		UnSubClass(m_Wnd.GetHandle());									//解除绑定消息函数
 		SApplication::GetApp()->DestroyWidget(this);					//通知主线程,线程结束
@@ -1056,9 +1076,15 @@ void SWidget::Destroy(){
 //模态显示
 int SWidget::DoModal()
 {
+	if (!IsRunning())
+	{
+		if (!IsCreated())
+		{
+			if (!Create())	
+				return 1;
+		}
 
-	if (!IsCreated()){
-		if (Create()){
+		{
 			//如果是父窗口,将消息托管给全局
 			//如果是自定义消息,则还必须注册到消息管理接收消息
 			SWnd parent = m_pParent ? m_pParent->GetWnd() : NULL;
@@ -1070,8 +1096,8 @@ int SWidget::DoModal()
 				::EnableWindow(parent.GetHandle(), FALSE);  //锁定父窗口
 
 				DoInit(GetWnd(), GetInstance());
-				OnRun();
-				OnRan();	//出口
+				DoRun();
+				DoRan();	//出口
 
 
 				::EnableWindow(parent.GetHandle(), TRUE);//释放父窗口
@@ -1082,19 +1108,19 @@ int SWidget::DoModal()
 			parent.SetForegroundWindow();
 
 		}
+
 	}
 	else ShowWindow();
-
+		
 	return 0;
 }
 
 //非模态显示
 void SWidget::Show()
 {
-	if (!IsCreated()){
+	if (!IsRunning()){
 		m_pThread->Start();	//开启线程
 	}
 	else ShowWindow();
 
-	return;
 }

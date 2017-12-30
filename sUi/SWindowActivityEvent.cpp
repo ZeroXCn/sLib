@@ -36,7 +36,7 @@ SWindowActivityEvent::SWindowActivityEvent()
 {
 	m_fCreate = [](ActivityParam){ return TRUE; };
 	m_fPaint = [](SGraphics){};
-	m_fEvent = [](){};
+	m_fEvent = [](){ ::Sleep(10); };
 	m_fTimer = [](ActivityParam){};
 	m_fCommand = [](ActivityParam){};
 	m_fSize = [](ActivityParam){};

@@ -21,7 +21,7 @@ SWindow::SWindow(SWidget *parent, LPTSTR name) :
 	//NOTE:这里的m_szTitle不允许出现重复,因为按标题查找可能会查到多个窗口
 	GetWindowAttribute()->lpClassName = GetWndClassEx()->lpszClassName;		//所用窗口类
 	GetWindowAttribute()->lpWindowName = name;								//窗口标题
-	GetWindowAttribute()->dwStyle = WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX;//窗口风格
+	GetWindowAttribute()->dwStyle = WS_SYSMENU | WS_CAPTION | WS_MINIMIZEBOX | WS_THICKFRAME | WS_MAXIMIZEBOX;//窗口风格
 	GetWindowAttribute()->nWidth = 800;										//窗口宽度
 	GetWindowAttribute()->nHeight = 600;									//窗口高度
 
@@ -81,12 +81,54 @@ void SWindow::SetFullScreen(BOOL bFullScreen)
 {
 	m_bFullScreen = bFullScreen;
 }
-
+BOOL SWindow::IsFullScreen()
+{
+	return m_bFullScreen;
+}
 
 void SWindow::SetColorbit(int nColorbit)
 {
 	m_nColorbit = nColorbit;
 }
+
+int SWindow::GetColorbit()
+{
+	return m_nColorbit;
+}
+
+//检测窗口全屏
+BOOL SWindow::IsWindowed()
+{
+	SRECT rcApp, rcDesk;
+	SWnd ApphWnd = GetWnd();
+	SWnd deskhWnd = ::GetDesktopWindow();
+	SWnd shellhWnd = ::GetShellWindow();
+
+	rcDesk = deskhWnd.GetWindowRect();
+	rcApp = ApphWnd.GetWindowRect();
+	if (ApphWnd != deskhWnd && ApphWnd != shellhWnd)
+	{
+		if (rcApp.left <= rcDesk.left
+			&& rcApp.top <= rcDesk.top
+			&& rcApp.right >= rcDesk.right
+			&& rcApp.bottom >= rcDesk.bottom)
+		{
+			return FALSE;
+		}
+	}
+	return TRUE;
+}
+//检测最大化
+BOOL SWindow::IsMaximized()
+{
+	return GetWnd().IsZoomed();
+}
+//检测最小化						
+BOOL SWindow::IsMinimized()
+{
+	return GetWnd().IsIconic();
+}
+
 
 ////////////////
 /* 显示鼠标 */
@@ -109,6 +151,7 @@ RECT SWindow::GetClipCursor()
 }
 void SWindow::ClipCursor(const RECT *rt)
 {
+	if (rt == NULL)rt = &GetRect();
 	::ClipCursor(rt);
 }
 void SWindow::FreeCursor()
@@ -333,7 +376,7 @@ BOOL SWindow::OnAftCreate(SWnd sWnd)
 //
 void SWindow::OnRunning()
 {
-	m_pActivityEvent->OnEvent();
 	SWidget::OnRunning();
+	m_pActivityEvent->OnEvent();
 }
 

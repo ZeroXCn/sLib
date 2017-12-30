@@ -219,8 +219,8 @@ public:
 	bool equals(tregex expression);
 public:
 	//返回强制转换后的c_str(),前提是必须确保不被修改
+	//该操作应当废弃,会引发不安全修改
 	TCHAR *str();
 };
 
-typedef SString String;
 #endif

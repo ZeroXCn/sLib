@@ -132,6 +132,15 @@
 1.更新sGraphics库,绘制的继承方法新增为void OnPaint(SGraphics);,原方法仍保留
 2.更正库名字错误,由sGraphic改为sGraphics
 
+25/10/2017:
+1.更新SByteBuffer类
+2.更新sIO库,新增流处理
+
+12/12/2017:
+1.更新sIO库
+2.更新SByteBuffer类
+
+
 目前已知BUG:
 22/08/2017:
 1.控件绘制使用SBufferDc做双缓冲无法实现透明绘制

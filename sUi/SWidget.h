@@ -8,9 +8,9 @@
 #include "../sOS/SThread.h"
 #include "../sGraphics/SDc.h"
 
-#include "tagSPOINT.h"
-#include "tagSRECT.h"
-#include "tagSSIZE.h"
+#include "../sCore/tagSPOINT.h"
+#include "../sCore/tagSRECT.h"
+#include "../sCore/tagSSIZE.h"
 
 #include "SWnd.h"
 #include "SInstance.h"
@@ -66,16 +66,17 @@ public:
 protected:
 	std::queue<SWidget *> *m_ChildInitList;	//子类初始化队列
 protected:
-	SWidget *m_pParent;				//父类控件
+	SWidget			*m_pParent;				//父类控件
 	
-	SWnd m_Wnd;						//控件句柄
-	SThread *m_pThread;				//线程
+	SWnd			m_Wnd;					//控件句柄
+	SThread			*m_pThread;				//线程
 
 	/* 以下属性只提供临时使用,Create()完成后自动释放 */
-	ATOM m_useClass;				//使用的类类型
-	WNDCLASSEX *m_pWndClassEx;		//类属性
-	WINATTRIBUTE *m_pWinAttribute;	//窗口属性
+	ATOM			m_useClass;				//使用的类类型
+	WNDCLASSEX		*m_pWndClassEx;			//类属性
+	WINATTRIBUTE	*m_pWinAttribute;		//窗口属性
 
+	BOOL			m_bIsrunning;			//是否正在运行
 public:
 	SWidget(SWidget *parent = NULL);
 	SWidget(SWidget &obj);	//深拷贝
@@ -86,6 +87,9 @@ private:
 	BOOL DoPreCreate(WNDCLASSEX *lpWndClassEx, WINATTRIBUTE *lpWinAttribute);
 	BOOL DoAftCreate(SWnd sWnd);
 	BOOL DoInit(SWnd sWnd, SInstance SInstance);
+	void DoRun();
+	void DoRan();
+	void OnMsgLoopEvent() final;
 protected:
 	//添加为需要初始化的子类
 	void AddInitChild(SWidget *parent,SWidget *child);
@@ -178,6 +182,7 @@ public:
 	void MoveRect(int x,int y,int width,int height, BOOL bReDraw = TRUE);
 	void SetRect(int x, int y, int width, int height);
 	void SetRect(int x, int y, int width, int height, UINT uFlags, SWnd hWndInsertAfter);
+	void SetRect(const SRECT rt);
 	void AdjustRect(LPRECT lprt, DWORD dwStyle, BOOL bMenu);
 
 	//取得部件客户区大小
@@ -210,8 +215,11 @@ public:
 	UINT GetClassStyle();
 
 public:
-	/* 窗口是否创建*/
+	// 窗口是否创建
 	BOOL IsCreated();
+
+	// 窗口是否正在运行
+	BOOL IsRunning();
 
 public:
 	//定时器

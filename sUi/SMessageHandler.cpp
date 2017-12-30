@@ -53,6 +53,7 @@ WNDPROC SMessageHandler::GetMessageHandlerProc()
 SMessageHandler::SMessageHandler()
 {
 	m_pWndProc = GetMessageHandlerProc();
+	m_queryMethod = QueryMethod::PEEK;
 }
 SMessageHandler::~SMessageHandler()
 {
@@ -61,6 +62,20 @@ SMessageHandler::~SMessageHandler()
 
 }
 
+//采用GET方式
+BOOL SMessageHandler::QueryMessage(LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT wMsgFilterMax)
+{
+	return ::GetMessage(lpMsg, hWnd, wMsgFilterMin, wMsgFilterMax);
+}
+
+//采用PEEK方式
+BOOL SMessageHandler::QueryMessage(LPMSG lpMsg, HWND hWnd, UINT wMsgFilterMin, UINT wMsgFilterMax, UINT wRemoveMsg)
+{
+	return ::PeekMessage(lpMsg, hWnd, wMsgFilterMin, wMsgFilterMax, wRemoveMsg);
+}
+
+
+//////////
 SMessageHandler::HandleHandlerMap *SMessageHandler::GetWndHandlerMap()
 {
 	return &s_WndHandlerMap;
@@ -158,6 +173,19 @@ void SMessageHandler::UnSubChildClass(HANDLE handle, SMessageHandler *parent)
 		parent->m_ChildWndMap.erase(handle);
 	}
 }
+
+//取得设置消息获取方式
+void SMessageHandler::SetMessageQueryMethod(QueryMethod method)
+{
+	m_queryMethod = method;
+}
+SMessageHandler::QueryMethod SMessageHandler::GetMessageQueryMethod()
+{
+	return m_queryMethod;
+
+}
+
+/////////////////////
 
 //默认处理
 LRESULT CALLBACK SMessageHandler::OnProc(MessageParam param)
@@ -261,4 +289,45 @@ LRESULT CALLBACK SMessageHandler::ChildMessageHandlerProc(HWND hWnd, UINT messag
 	::SendMessage(::GetParent(hWnd), WM_COMMAND, (WPARAM)NULL, (LPARAM)tempmsg);
 
 	return 0;
+}
+
+//////////////
+void SMessageHandler::OnMsgLoop()
+{
+	MSG msg;											//定义消息结构
+
+	/* 消息循环 */
+	while (true)
+	{
+		BOOL ret;
+		switch (m_queryMethod)
+		{
+		case QueryMethod::GET :
+			ret = GetMessage(&msg, NULL, 0, 0);
+			break;
+		case QueryMethod::PEEK:
+			ret = PeekMessage(&msg, NULL, 0, 0, PM_REMOVE);
+			break;
+		}
+
+		//接收消息
+		if (ret)	
+		{
+			if (msg.message == WM_QUIT)					//如果是退出消息，则退出循环
+				break;
+
+			TranslateMessage(&msg);						//将虚拟键消息转换为字符消息
+			DispatchMessage(&msg);						//处理消息
+		}
+		else
+		{
+			OnMsgLoopEvent();								//交由系统处理
+		}
+	}
+}
+
+//空闲消息处理
+void SMessageHandler::OnMsgLoopEvent()
+{
+
 }

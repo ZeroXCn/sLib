@@ -20,6 +20,11 @@ class SMessageHandler
 {
 
 protected:
+	enum class QueryMethod
+	{
+		GET=1,
+		PEEK=2,
+	};
 	class MessageParam
 	{
 		public:
@@ -59,17 +64,33 @@ public:
 	static LRESULT CALLBACK ChildMessageHandlerProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 protected:
 	static HandleHandlerMap s_WndHandlerMap;		//记录全局父窗口消息的map
-	HandleHandlerMap m_ChildWndMap;				//记录某个父窗口下的子消息map
+	HandleHandlerMap m_ChildWndMap;					//记录某个父窗口下的子消息map
 protected:
-	WNDPROC m_pWndProc;
-
+	WNDPROC m_pWndProc;								//消息函数				
+	QueryMethod m_queryMethod;							//获取消息的方式
 protected:
 	//对象方法
 	virtual LRESULT CALLBACK OnProc(MessageParam param);
 
-public:
+protected:
+	/* 只有继承本类才有效 */
 	SMessageHandler();
 	virtual ~SMessageHandler();
+
+protected:
+	//采用GET方式
+	BOOL QueryMessage(LPMSG lpMsg,		// 检索到的消息
+		HWND  hWnd,						// 窗口指向
+		UINT  wMsgFilterMin,			// 消息范围的下界限参数
+		UINT  wMsgFilterMax				// 上界限参数
+		);
+	//采用PEEK方式
+	BOOL QueryMessage(LPMSG lpMsg,		// 检索到的消息
+		HWND  hWnd,						// 窗口指向
+		UINT  wMsgFilterMin,			// 消息范围的下界限参数
+		UINT  wMsgFilterMax,			// 上界限参数
+		UINT  wRemoveMsg				// 消息在被检索之后要如何处理
+		);
 public:
 	//取得记录集
 	HandleHandlerMap *GetWndHandlerMap();
@@ -101,6 +122,16 @@ public:
 	//移除子窗口
 	void UnSubChildClass(HANDLE handle, SMessageHandler *parent);
 
+	//取得设置消息获取方式
+	void SetMessageQueryMethod(QueryMethod method);
+	QueryMethod GetMessageQueryMethod();
+public:
+	/* 消息接口 */
+	//进入消息循环
+	virtual void OnMsgLoop();
+
+	//空闲消息处理
+	virtual void OnMsgLoopEvent();
 };
 
 #endif

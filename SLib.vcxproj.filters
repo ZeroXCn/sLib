@@ -33,15 +33,6 @@
     <ClInclude Include="sUi\SDialog.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sPattern\SSingleton.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sPattern\SSubject.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sPattern\SObserver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sParser\extern\jsoncpp\allocator.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -111,13 +102,7 @@
     <ClInclude Include="sCore\SBigInteger.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sCore\SBaseType.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sCore\SNumber.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sCore\SByteArray.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sData\SSqlConnection.h">
@@ -130,12 +115,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sData\SSqlStatement.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sPattern\SAbstractFcatory.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sPattern\SProduct.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="sCore\SLong.h">
@@ -303,15 +282,6 @@
     <ClInclude Include="sUi\SLayered.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="sUi\tagSPOINT.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sUi\tagSRECT.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="sUi\tagSSIZE.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="sMath\SCalculator.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -375,6 +345,51 @@
     <ClInclude Include="sGraphics\SRgn.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="sCore\SBaseType.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\tagSSIZE.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\tagSPOINT.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\tagSRECT.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\tagSCOLOR.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sIO\SInputStream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sIO\SOutputStream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sCore\SByteBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sIO\SFileInputStream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sIO\SFileOutputStream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sIO\SStreamBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sIO\SAbstractStream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sPattern\SSingletonPattern.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sPattern\SFactoryPattern.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="sPattern\SObserverPattern.hpp">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sUi\SMessageHandler.cpp">
@@ -393,15 +408,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sUi\SDialog.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sPattern\SSingleton.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sPattern\SSubject.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sPattern\SObserver.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sParser\extern\tinyxml2\tinyxml2.cpp">
@@ -435,15 +441,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sCore\SCharacter.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sCore\SByteArray.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sPattern\SAbstractFcatory.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sPattern\SProduct.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sCore\SLong.cpp">
@@ -581,15 +578,6 @@
     <ClCompile Include="sUi\SLayered.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="sUi\tagSPOINT.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sUi\tagSRECT.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="sUi\tagSSIZE.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="sMath\SCalculator.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -636,6 +624,36 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="sGraphics\SGraphics2D.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\tagSPOINT.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\tagSRECT.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\tagSSIZE.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\tagSCOLOR.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sCore\SByteBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sIO\SInputStream.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sIO\SOutputStream.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sIO\SStreamBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sIO\SFileInputStream.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="sIO\SFileOutputStream.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

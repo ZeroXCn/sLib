@@ -8,7 +8,7 @@
 #include <Windows.h>
 namespace SFileInfo
 {
-	//获取当前进程已加载模块的文件的完整路径
+	//获取当前进程已加载模块的文件的完整路径(exe文件路径)
 	static SString GetModuleFileName()
 	{
 		TCHAR exeFullPath[MAX_PATH];

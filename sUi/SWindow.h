@@ -52,17 +52,24 @@ public:
 
 
 	void SetAttribute(
-		LPTSTR szTitle,					//设置窗口标题
+		LPTSTR szTitle,						//设置窗口标题
 		int nWidth = 800,					//设置窗口宽度，默认为800像素
 		int nHeight = 600);					//设置窗口高度，默认为600像素
 public:
 
 	/* 设置全屏模式 */
 	void SetFullScreen(BOOL bFullScreen);
+	BOOL IsFullScreen();
+	
 
 	/* 设置色彩模式 */
 	void SetColorbit(int nColorbit);
+	int GetColorbit();
 
+	/* 是否最大化,最小化,全屏 */
+	BOOL IsWindowed();						//检测窗口全屏
+	BOOL IsMaximized();						//检测最大化
+	BOOL IsMinimized();						//检测最小化
 public:
 	/* 显示鼠标 */
 	int ShowCursor(BOOL bShow=TRUE);
@@ -74,12 +81,12 @@ public:
 
 	/* 限制释放鼠标移动范围 */
 	RECT GetClipCursor();
-	void ClipCursor(const RECT *rt);
+	void ClipCursor(const RECT *rt=NULL);
 	void FreeCursor();
 
 	//重绘消息
 	void RePaint();
-protected:
+public:
 
 	//设置窗口活动
 	void SetWindowInputEvent(SWindowInputEvent *pEvent);

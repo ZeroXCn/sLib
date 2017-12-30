@@ -85,7 +85,7 @@ public:
 };
 
 
-typedef SStringList stringList;
-typedef SStringList StringList;
+//typedef SStringList stringList;
+//typedef SStringList StringList;
 
 #endif

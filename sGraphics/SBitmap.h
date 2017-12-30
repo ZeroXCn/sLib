@@ -39,6 +39,12 @@ public:
 	//从文件中加载位图
 	BOOL Load(LPTSTR lpFileName, HINSTANCE hInstance = NULL);
 
+	//从内存中加载
+	BOOL Load(void *pMemory, int nLength);
+
+	//从位图中保存文件
+	BOOL Save(LPTSTR lpFileName);
+
 public:
 	//取得,设置位宽
 	int GetWidth();

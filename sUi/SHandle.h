@@ -24,6 +24,10 @@ public:
 
 	//ÉèÖÃ¾ä±ú
 	void SetHandle(T handle);
+public:
+	//ÔËËã·ûÖØÔØ
+	virtual BOOL operator !=(SHandle<T> &handle);
+	virtual BOOL operator ==(SHandle<T> &handle);
 };
 
 template<class T>
@@ -48,6 +52,19 @@ template<class T>
 void SHandle<T>::SetHandle(T handle)
 {
 	m_handle = handle;
+}
+
+//////
+template<class T>
+BOOL SHandle<T>::operator !=(SHandle<T> &handle)
+{
+	return (this->GetHandle() != handle.GetHandle()) ? TRUE : FALSE;
+}
+
+template<class T>
+BOOL SHandle<T>::operator ==(SHandle<T> &handle)
+{
+	return (this->GetHandle() == handle.GetHandle()) ? TRUE : FALSE;
 }
 
 #endif

@@ -148,6 +148,8 @@ public:
 	UINT_PTR SetTimer(UINT_PTR nIDEvent, UINT nElapse, TIMERPROC lpTimerFunc);//时器ID,时间间隔,回调函数
 	BOOL KillTimer(UINT_PTR nIDEvent);
 
-
+	//是否是最大化/最下化的窗口
+	BOOL IsZoomed();
+	BOOL IsIconic();
 };
 #endif

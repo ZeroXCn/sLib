@@ -267,3 +267,15 @@ BOOL SWnd::KillTimer(UINT_PTR nIDEvent)
 {
 	return ::KillTimer(GetHandle(), nIDEvent);
 }
+
+
+//是否是最大化/最下化的窗口
+BOOL SWnd::IsZoomed()
+{
+	return ::IsZoomed(GetHandle());
+
+}
+BOOL SWnd::IsIconic()
+{
+	return ::IsIconic(GetHandle());
+}

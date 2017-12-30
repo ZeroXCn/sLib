@@ -69,12 +69,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="sCore\SAbstractClock.h" />
+    <ClInclude Include="sCore\SBaseType.h" />
     <ClInclude Include="sCore\SRefPtr.h" />
     <ClInclude Include="sCore\SSharedPtr.h" />
+    <ClInclude Include="sCore\tagSCOLOR.h" />
     <ClInclude Include="sGraphics\SGdiHandle.h" />
     <ClInclude Include="sGraphics\SGdiObj.h" />
     <ClInclude Include="sGraphics\SGraphics.h" />
     <ClInclude Include="sGraphics\SGraphics2D.h" />
+    <ClInclude Include="sIO\SFileInputStream.h" />
+    <ClInclude Include="sIO\SFileOutputStream.h" />
+    <ClInclude Include="sIO\SInputStream.h" />
+    <ClInclude Include="sIO\SOutputStream.h" />
+    <ClInclude Include="sIO\SAbstractStream.h" />
+    <ClInclude Include="sIO\SStreamBuffer.h" />
     <ClInclude Include="sOS\SAsyncTask.h" />
     <ClInclude Include="sCore\SBoolean.h" />
     <ClInclude Include="sCore\SCharacter.h" />
@@ -108,8 +116,7 @@
     <ClInclude Include="sHelper\SCodeHelper.hpp" />
     <ClInclude Include="sHelper\SDllHelper.hpp" />
     <ClInclude Include="sCore\SAny.hpp" />
-    <ClInclude Include="sCore\SBaseType.h" />
-    <ClInclude Include="sCore\SByteArray.h" />
+    <ClInclude Include="sCore\SByteBuffer.h" />
     <ClInclude Include="sCore\SLong.h" />
     <ClInclude Include="sCore\SNumber.h" />
     <ClInclude Include="sCore\SOptional.hpp" />
@@ -138,6 +145,9 @@
     <ClInclude Include="sMath\SRect.h" />
     <ClInclude Include="sMath\SVector2.h" />
     <ClInclude Include="sParser\extern\jsoncpp\json_tool.h" />
+    <ClInclude Include="sPattern\SFactoryPattern.hpp" />
+    <ClInclude Include="sPattern\SObserverPattern.hpp" />
+    <ClInclude Include="sPattern\SSingletonPattern.hpp" />
     <ClInclude Include="sUi\SCursor.h" />
     <ClInclude Include="sGraphics\SDc.h" />
     <ClInclude Include="sGraphics\SFont.h" />
@@ -174,11 +184,6 @@
     </ClInclude>
     <ClInclude Include="sParser\SText.h" />
     <ClInclude Include="sParser\SXml.h" />
-    <ClInclude Include="sPattern\SAbstractFcatory.h" />
-    <ClInclude Include="sPattern\SObserver.h" />
-    <ClInclude Include="sPattern\SProduct.h" />
-    <ClInclude Include="sPattern\SSingleton.h" />
-    <ClInclude Include="sPattern\SSubject.h" />
     <ClInclude Include="sUi\SApplication.h" />
     <ClInclude Include="sUi\SControl.h" />
     <ClInclude Include="sUi\SDialog.h" />
@@ -191,9 +196,9 @@
     <ClInclude Include="sUi\SMenuBar.h" />
     <ClInclude Include="sUi\SMessageBox.h" />
     <ClInclude Include="sUi\SMessageHandler.h" />
-    <ClInclude Include="sUi\tagSPOINT.h" />
-    <ClInclude Include="sUi\tagSRECT.h" />
-    <ClInclude Include="sUi\tagSSIZE.h" />
+    <ClInclude Include="sCore\tagSPOINT.h" />
+    <ClInclude Include="sCore\tagSRECT.h" />
+    <ClInclude Include="sCore\tagSSIZE.h" />
     <ClInclude Include="sUi\SLayered.h" />
     <ClInclude Include="sUi\SWidget.h" />
     <ClInclude Include="sUi\SWindow.h" />
@@ -203,7 +208,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="sCore\SBoolean.cpp" />
-    <ClCompile Include="sCore\SByteArray.cpp" />
+    <ClCompile Include="sCore\SByteBuffer.cpp" />
     <ClCompile Include="sCore\SCharacter.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExcludedFromBuild>
     </ClCompile>
@@ -220,9 +225,15 @@
     <ClCompile Include="sCore\SMediaClock.cpp" />
     <ClCompile Include="sCore\SNumber.cpp" />
     <ClCompile Include="sCore\SObject.cpp" />
+    <ClCompile Include="sCore\tagSCOLOR.cpp" />
     <ClCompile Include="sGraphics\SGdiObj.cpp" />
     <ClCompile Include="sGraphics\SGraphics.cpp" />
     <ClCompile Include="sGraphics\SGraphics2D.cpp" />
+    <ClCompile Include="sIO\SFileInputStream.cpp" />
+    <ClCompile Include="sIO\SFileOutputStream.cpp" />
+    <ClCompile Include="sIO\SInputStream.cpp" />
+    <ClCompile Include="sIO\SOutputStream.cpp" />
+    <ClCompile Include="sIO\SStreamBuffer.cpp" />
     <ClCompile Include="sOS\SRunnable.cpp" />
     <ClCompile Include="sCore\SString.cpp" />
     <ClCompile Include="sCore\SStringBuilder.cpp" />
@@ -263,11 +274,6 @@
     <ClCompile Include="sParser\SInf.cpp" />
     <ClCompile Include="sParser\SRegistry.cpp" />
     <ClCompile Include="sParser\SText.cpp" />
-    <ClCompile Include="sPattern\SAbstractFcatory.cpp" />
-    <ClCompile Include="sPattern\SObserver.cpp" />
-    <ClCompile Include="sPattern\SProduct.cpp" />
-    <ClCompile Include="sPattern\SSingleton.cpp" />
-    <ClCompile Include="sPattern\SSubject.cpp" />
     <ClCompile Include="sUi\SApplication.cpp" />
     <ClCompile Include="sUi\SControl.cpp" />
     <ClCompile Include="sUi\SDialog.cpp" />
@@ -280,9 +286,9 @@
     <ClCompile Include="sUi\SMenuBar.cpp" />
     <ClCompile Include="sUi\SMessageBox.cpp" />
     <ClCompile Include="sUi\SMessageHandler.cpp" />
-    <ClCompile Include="sUi\tagSPOINT.cpp" />
-    <ClCompile Include="sUi\tagSRECT.cpp" />
-    <ClCompile Include="sUi\tagSSIZE.cpp" />
+    <ClCompile Include="sCore\tagSPOINT.cpp" />
+    <ClCompile Include="sCore\tagSRECT.cpp" />
+    <ClCompile Include="sCore\tagSSIZE.cpp" />
     <ClCompile Include="sUi\SWidget.cpp" />
     <ClCompile Include="sUi\SWindow.cpp" />
     <ClCompile Include="sUi\SWindowActivityEvent.cpp" />
